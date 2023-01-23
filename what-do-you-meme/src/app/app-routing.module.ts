@@ -1,12 +1,16 @@
-import { NgModule } from '@angular/core';
-import { RouterModule, Routes } from '@angular/router';
-import {UserGuestGuard} from "./guards/user-guest.guard";
-import {UserAuthGuard} from "./guards/user-auth.guard";
+import {inject, NgModule} from '@angular/core';
+import {Route, Router, RouterModule, Routes, UrlSegment} from '@angular/router';
+import {UserGuestGuard} from "./user/guards/user-guest.guard";
+import {UserAuthGuard} from "./user/guards/user-auth.guard";
+import {StoreModule} from "@ngrx/store";
+import {DEFAULT_ROUTER_FEATURENAME, routerReducer} from "@ngrx/router-store";
+import {UserPermissionsService} from "./utils/user-permissions.service";
+import {map} from "rxjs";
 
 const routes: Routes = [
   {
     path: 'user/auth',
-    loadChildren: () => import('./user-auth/user-auth.module')
+    loadChildren: () => import('./auth/user-auth.module')
       .then(module => module.UserAuthModule),
     canLoad: [UserGuestGuard],
     canActivate: [UserGuestGuard],
@@ -15,7 +19,12 @@ const routes: Routes = [
     path: 'user',
     loadChildren: () => import('./user/user.module')
       .then(module => module.UserModule),
-    canLoad: [UserAuthGuard],
+    canMatch: [(_route: Route, _segments: UrlSegment[]) => {
+      const router = inject(Router);
+      return inject(UserPermissionsService).isUser$.pipe(
+        map(isUser => isUser || router.createUrlTree(['']))
+      );
+    }],
     canActivate: [UserAuthGuard],
   },
   { path: 'game', loadChildren: () => import('./game/game.module').then(module => module.GameModule)},
@@ -25,7 +34,7 @@ const routes: Routes = [
 ];
 
 @NgModule({
-  imports: [RouterModule.forRoot(routes)],
+  imports: [RouterModule.forRoot(routes), StoreModule.forFeature(DEFAULT_ROUTER_FEATURENAME, routerReducer)],
   exports: [RouterModule],
   providers: [UserGuestGuard, UserAuthGuard]
 })
