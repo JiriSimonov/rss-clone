@@ -1,0 +1,23 @@
+.footer {
+  background-color: #000;
+
+  &__wrapper {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    color: #fff;
+  }
+
+  &__link {
+    text-decoration: none;
+    color: #fff;
+  }
+}
+
+.social {
+  display: flex;
+  gap: 20px;
+  margin: 0;
+  padding: 0;
+  list-style: none;
+}

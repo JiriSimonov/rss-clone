@@ -1,10 +1,10 @@
 import {NgModule} from '@angular/core';
 import {CommonModule} from '@angular/common';
 import {UserAuthPageComponent} from './pages/user-auth-page/user-auth-page.component';
-import {RouterModule} from "@angular/router";
-import { AuthFormComponentUi } from './components/auth-form-ui/auth-form.component-ui';
+import {AuthFormComponentUi} from './components/auth-form-ui/auth-form.component-ui';
 import {ReactiveFormsModule} from "@angular/forms";
 import {AuthFormComponent} from "./components/auth-form/auth-form.component";
+import {UserAuthRoutingModule} from "./user-auth-routing.module";
 
 
 @NgModule({
@@ -15,16 +15,7 @@ import {AuthFormComponent} from "./components/auth-form/auth-form.component";
   ],
   imports: [
     CommonModule,
-    RouterModule.forChild([{
-      path: '',
-      pathMatch: 'full',
-      redirectTo: 'login',
-    },
-      {
-        path: 'login',
-        component: UserAuthPageComponent,
-      },
-    ]),
+    UserAuthRoutingModule,
     ReactiveFormsModule
   ]
 })

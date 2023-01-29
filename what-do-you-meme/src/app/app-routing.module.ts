@@ -12,7 +12,6 @@ const routes: Routes = [
     path: 'user/auth',
     loadChildren: () => import('./auth/user-auth.module')
       .then(module => module.UserAuthModule),
-    canLoad: [UserGuestGuard],
     canActivate: [UserGuestGuard],
   },
   {
@@ -27,10 +26,10 @@ const routes: Routes = [
     }],
     canActivate: [UserAuthGuard],
   },
-  { path: 'game', loadChildren: () => import('./game/game.module').then(module => module.GameModule)},
-  { path: 'lobbies', loadChildren: () => import('./lobbies/lobbies.module').then(module => module.LobbiesModule) },
-  { path: 'not-found', loadChildren: () => import('./not-found/not-found.module').then(module => module.NotFoundModule)},
-  { path: '**', redirectTo: 'not-found'},
+  {path: 'game', loadChildren: () => import('./game/game.module').then(module => module.GameModule)},
+  {path: 'lobbies', loadChildren: () => import('./lobbies/lobbies.module').then(module => module.LobbiesModule)},
+  {path: 'not-found', loadChildren: () => import('./not-found/not-found.module').then(module => module.NotFoundModule)},
+  {path: '**', redirectTo: 'not-found'},
 ];
 
 @NgModule({
@@ -38,4 +37,5 @@ const routes: Routes = [
   exports: [RouterModule],
   providers: [UserGuestGuard, UserAuthGuard]
 })
-export class AppRoutingModule { }
+export class AppRoutingModule {
+}

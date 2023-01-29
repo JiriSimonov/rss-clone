@@ -12,7 +12,7 @@ import {RouterModule} from "@angular/router";
   imports: [
     CommonModule,
     RouterModule.forChild([{
-      path: 'game',
+      path: '',
       pathMatch: 'full',
       component: GamePageComponent,
     }])

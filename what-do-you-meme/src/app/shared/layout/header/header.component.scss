@@ -1,0 +1,10 @@
+.header {
+  padding: 20px 0;
+  &__wrapper {
+    display: flex;
+  }
+
+  &__btn {
+    margin-left: auto;
+  }
+}

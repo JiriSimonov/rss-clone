@@ -7,6 +7,7 @@ import { StoreDevtoolsModule } from '@ngrx/store-devtools';
 import { StoreRouterConnectingModule } from '@ngrx/router-store';
 import {AuthStoreModule} from "./auth/store/auth-store.module";
 import { EffectsModule } from '@ngrx/effects';
+import {SharedModule} from "./shared/shared.module";
 
 @NgModule({
   declarations: [
@@ -19,6 +20,7 @@ import { EffectsModule } from '@ngrx/effects';
     StoreDevtoolsModule.instrument({ maxAge: 25, logOnly: !isDevMode() }),
     StoreRouterConnectingModule.forRoot(),
     AuthStoreModule,
+    SharedModule,
     EffectsModule.forRoot([]),
   ],
   providers: [],
