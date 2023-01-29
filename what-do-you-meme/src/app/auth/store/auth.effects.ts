@@ -11,7 +11,7 @@ export class AdminAuthEffects {
   login$ = createEffect(() => this.actions$.pipe(
     ofType(login),
     switchMap(action => this.authService.login({
-      login: action.login,
+      username: action.login,
       password: action.password
     }).pipe(
       map(loginSuccessData => loginSuccess(loginSuccessData)),
