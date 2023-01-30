@@ -18,18 +18,27 @@ const routes: Routes = [
     path: 'auth',
     loadChildren: () => import('./auth/user-auth.module')
       .then(module => module.UserAuthModule),
-    canActivate: [UserGuestGuard],
   },
   {
     path: 'user',
     loadChildren: () => import('./user/user.module')
       .then(module => module.UserModule),
     canMatch: canMatchGuards,
-    canActivate: [UserAuthGuard],
   },
-  {path: 'game', loadChildren: () => import('./game/game.module').then(module => module.GameModule), canMatch: canMatchGuards},
-  {path: 'lobbies', loadChildren: () => import('./lobbies/lobbies.module').then(module => module.LobbiesModule), canMatch: canMatchGuards},
-  {path: 'not-found', loadChildren: () => import('./not-found/not-found.module').then(module => module.NotFoundModule)},
+  {
+    path: 'game',
+    loadChildren: () => import('./game/game.module').then(module => module.GameModule),
+    canMatch: canMatchGuards
+  },
+  {
+    path: 'lobbies',
+    loadChildren: () => import('./lobbies/lobbies.module').then(module => module.LobbiesModule),
+    canMatch: canMatchGuards
+  },
+  {
+    path: 'not-found',
+    loadChildren: () => import('./not-found/not-found.module').then(module => module.NotFoundModule)
+  },
   {path: '**', redirectTo: 'not-found'},
 ];
 

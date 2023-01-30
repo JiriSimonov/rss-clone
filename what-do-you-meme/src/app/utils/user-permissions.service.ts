@@ -1,5 +1,5 @@
-import {inject, Injectable} from '@angular/core';
-import {map, of} from 'rxjs';
+import {Injectable} from '@angular/core';
+import {map} from 'rxjs';
 import {Store} from "@ngrx/store";
 import {getAuthData} from "../auth/store/auth.selectors";
 
@@ -9,5 +9,6 @@ import {getAuthData} from "../auth/store/auth.selectors";
 export class UserPermissionsService {
   isUser$ = this.store.select(getAuthData).pipe(map(authData => !!authData?.accessToken));
 
-  constructor(private store: Store) {}
+  constructor(private store: Store) {
+  }
 }

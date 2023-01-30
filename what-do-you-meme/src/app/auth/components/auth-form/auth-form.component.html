@@ -6,5 +6,6 @@
     <input type="password" formControlName="password">
   </label>
   <div class="" *ngIf="loginControl?.invalid && loginControl?.dirty">Error</div>
-  <button type="submit" [disabled]="authForm.invalid">Submit</button>
+  <button type="submit" [disabled]="authForm.invalid || disabled">Submit</button>
+  <a routerLink="/auth/signup">Забыли пароль?</a>
 </form>

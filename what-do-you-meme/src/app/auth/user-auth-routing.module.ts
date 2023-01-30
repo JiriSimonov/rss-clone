@@ -1,5 +1,6 @@
 import {NgModule} from '@angular/core';
 import {RouterModule, Routes} from '@angular/router';
+import { SignUpComponent } from './pages/sign-up/sign-up.component';
 import {UserAuthPageComponent} from "./pages/user-auth-page/user-auth-page.component";
 
 const routes: Routes = [
@@ -8,6 +9,10 @@ const routes: Routes = [
     pathMatch: 'full',
     component: UserAuthPageComponent,
   },
+  {
+    path: 'signup',
+    component: SignUpComponent,
+  }
 ];
 
 @NgModule({

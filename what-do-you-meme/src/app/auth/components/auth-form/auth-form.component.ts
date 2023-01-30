@@ -1,4 +1,4 @@
-import {Component, OnInit} from '@angular/core';
+import {Component, OnInit, Input} from '@angular/core';
 import {Observable} from "rxjs";
 import {select, Store} from "@ngrx/store";
 import {getLoaded, getLoading, getServerError} from "../../store/auth.selectors";
@@ -17,6 +17,8 @@ export class AuthFormComponent implements OnInit {
   serverError$: Observable<string> = this.store$.pipe(select(getServerError));
   serverError = '';
 
+  @Input() disabled!: boolean;
+
   constructor(private store$: Store) {
   }
 
@@ -34,7 +36,6 @@ export class AuthFormComponent implements OnInit {
     console.log('OnLogin', loginPayload);
     this.store$.dispatch(login(loginPayload))
     this.serverError += 'F';
-    console.warn()
   }
 
   get loginControl() {
