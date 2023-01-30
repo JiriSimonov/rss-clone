@@ -1,9 +1,9 @@
 <form (ngSubmit)="onSubmit()" [formGroup]="authForm" *ngIf="loaded$ | async">
   <label>
-    <input type="text" formControlName="login">
+    <input type="text" value="atuny0" formControlName="login">
   </label>
   <label>
-    <input type="password" formControlName="password">
+    <input type="password" value="9uQFF1Lh" formControlName="password">
   </label>
   <div class="" *ngIf="loginControl?.invalid && loginControl?.dirty">Error</div>
   <button type="submit" [disabled]="authForm.invalid || disabled">Submit</button>

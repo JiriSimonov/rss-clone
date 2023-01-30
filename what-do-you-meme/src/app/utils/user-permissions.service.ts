@@ -1,13 +1,15 @@
+import {isAuth} from './../auth/store/auth.selectors';
 import {Injectable} from '@angular/core';
 import {map} from 'rxjs';
 import {Store} from "@ngrx/store";
-import {getAuthData} from "../auth/store/auth.selectors";
 
 @Injectable({
   providedIn: 'root'
 })
 export class UserPermissionsService {
-  isUser$ = this.store.select(getAuthData).pipe(map(authData => !!authData?.accessToken));
+  isUser$ = this.store.select(isAuth).pipe(map(auth => {
+    return auth;
+  }));
 
   constructor(private store: Store) {
   }

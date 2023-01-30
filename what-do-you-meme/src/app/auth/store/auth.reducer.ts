@@ -4,7 +4,7 @@ import {login, loginFailed, loginSuccess} from "./auth.actions";
 export const USER_AUTH_FEATURENAME = 'auth';
 
 export interface AuthData {
-  accessToken: string;
+  token: string;
 }
 
 export interface AuthState {

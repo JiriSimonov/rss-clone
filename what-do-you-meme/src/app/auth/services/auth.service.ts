@@ -9,7 +9,7 @@ export class AuthService {
   constructor(private httpClient: HttpClient) { }
 
   login(body: {username: string, password: string}) {
-    return this.httpClient.post<{accessToken: string}>('https://dummyjson.com/auth/login', body).pipe(
+    return this.httpClient.post<{token: string}>('https://dummyjson.com/auth/login', body).pipe(
       map(res => {
         console.log(res);
         return res;
