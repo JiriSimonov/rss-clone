@@ -5,6 +5,7 @@ export const USER_AUTH_FEATURENAME = 'auth';
 
 export interface AuthData {
   token: string;
+  username: string;
 }
 
 export interface AuthState {

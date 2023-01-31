@@ -4,6 +4,7 @@ import {select, Store} from "@ngrx/store";
 import {getLoaded, getLoading, getServerError} from "../../store/auth.selectors";
 import {login} from "../../store/auth.actions";
 import {FormControl, FormGroup, Validators} from "@angular/forms";
+import { Router } from '@angular/router';
 
 @Component({
   selector: 'app-auth-form',
@@ -33,9 +34,8 @@ export class AuthFormComponent implements OnInit {
 
   onSubmit() {
     const loginPayload = this.authForm.value;
+    this.store$.dispatch(login(loginPayload));
     console.log('OnLogin', loginPayload);
-    this.store$.dispatch(login(loginPayload))
-    this.serverError += 'F';
   }
 
   get loginControl() {

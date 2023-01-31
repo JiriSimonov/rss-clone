@@ -1,10 +1,11 @@
 <header class="header">
   <div class="container">
     <div class="header__wrapper">
-      <div class="header__logo" [routerLink]="''">Logo</div>
+      <div class="header__logo" routerLink="lobbies">Logo</div>
       <div class=""  routerLink="game">game</div>
       <div class=""  routerLink="lobbies">lobbies</div>
       <button class="header__btn" [routerLink]="'/user/dashboard'">User</button>
+      <app-user-profile></app-user-profile>
     </div>
   </div>
 </header>

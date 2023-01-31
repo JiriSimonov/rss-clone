@@ -1,4 +1,4 @@
-<form (ngSubmit)="onSubmit()" [formGroup]="authForm" *ngIf="loaded$ | async">
+<form (ngSubmit)="onSubmit()" [formGroup]="authForm" *ngIf="loaded$ | async as loaded">
   <label>
     <input type="text" formControlName="login" />
   </label>
@@ -6,7 +6,7 @@
     <input type="password" formControlName="password" />
   </label>
   <div class="" *ngIf="loginControl?.invalid && loginControl?.dirty">Error</div>
-  <button type="submit" [disabled]="authForm.invalid || disabled">
+  <button type="submit" [disabled]="authForm.invalid || disabled || (loading$ | async)">
     Submit
   </button>
   <a routerLink="/auth/signup">Забыли пароль?</a>

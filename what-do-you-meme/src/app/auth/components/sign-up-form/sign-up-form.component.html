@@ -1,4 +1,4 @@
-<form action="" (submit)="onSubmit()" [formGroup]="signUpForm">
+<form (ngSubmit)="onSubmit()" [formGroup]="signUpForm">
   <label>
     Введите логин:
     <input type="text" formControlName="login" />

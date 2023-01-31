@@ -5,14 +5,12 @@ import { AppComponent } from './app.component';
 import { StoreModule } from '@ngrx/store';
 import { StoreDevtoolsModule } from '@ngrx/store-devtools';
 import { StoreRouterConnectingModule } from '@ngrx/router-store';
-import {AuthStoreModule} from "./auth/store/auth-store.module";
+import { AuthStoreModule } from './auth/store/auth-store.module';
 import { EffectsModule } from '@ngrx/effects';
-import {SharedModule} from "./shared/shared.module";
+import { SharedModule } from './shared/shared.module';
 
 @NgModule({
-  declarations: [
-    AppComponent,
-  ],
+  declarations: [AppComponent],
   imports: [
     BrowserModule,
     AppRoutingModule,
@@ -24,6 +22,7 @@ import {SharedModule} from "./shared/shared.module";
     EffectsModule.forRoot([]),
   ],
   providers: [],
-  bootstrap: [AppComponent]
+  exports: [],
+  bootstrap: [AppComponent],
 })
-export class AppModule { }
+export class AppModule {}
