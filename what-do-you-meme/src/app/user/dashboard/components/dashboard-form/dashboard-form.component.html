@@ -1,1 +1,18 @@
-<p>dashboard-form works!</p>
+<form [formGroup]="changeLoginForm">
+  <label>
+    Новый логин:
+    <input type="text" formControlName="login" />
+  </label>
+  <button type="submit">Подтвердить</button>
+</form>
+<form [formGroup]="changePasswordForm">
+  <label>
+    Введите текущий пароль:
+    <input type="password" formControlName="password"/>
+  </label>
+  <label>
+    Введите новый пароль:
+    <input type="password" formControlName="confirmPassword"/>
+  </label>
+  <button type="submit">Подтвердить</button>
+</form>
