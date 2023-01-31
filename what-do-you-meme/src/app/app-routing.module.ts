@@ -1,39 +1,31 @@
-import {inject, NgModule} from '@angular/core';
-import {Route, Router, RouterModule, Routes, UrlSegment} from '@angular/router';
-import {UserGuestGuard} from "./user/guards/user-guest.guard";
-import {UserAuthGuard} from "./user/guards/user-auth.guard";
+import {NgModule} from '@angular/core';
+import {RouterModule, Routes} from '@angular/router';
 import {StoreModule} from "@ngrx/store";
 import {DEFAULT_ROUTER_FEATURENAME, routerReducer} from "@ngrx/router-store";
-import {UserPermissionsService} from "./utils/user-permissions.service";
-import {map} from "rxjs";
+import { isGuestGuards, isUserGuards } from './guards/guards';
 
-const canMatchGuards = [(route: Route, segments: UrlSegment[]) => {
-  const router = inject(Router);
-  return inject(UserPermissionsService).isUser$.pipe(
-    map(isUser => isUser || router.createUrlTree(['auth']))
-  );
-}];
 const routes: Routes = [
   {
     path: 'auth',
     loadChildren: () => import('./auth/user-auth.module')
       .then(module => module.UserAuthModule),
+    canMatch: isGuestGuards,
   },
   {
     path: 'user',
     loadChildren: () => import('./user/user.module')
       .then(module => module.UserModule),
-    canMatch: canMatchGuards,
+    canMatch: isUserGuards,
   },
   {
     path: 'game',
     loadChildren: () => import('./game/game.module').then(module => module.GameModule),
-    canMatch: canMatchGuards
+    canMatch: isUserGuards
   },
   {
     path: 'lobbies',
     loadChildren: () => import('./lobbies/lobbies.module').then(module => module.LobbiesModule),
-    canMatch: canMatchGuards
+    canMatch: isUserGuards
   },
   {
     path: 'not-found',
@@ -45,7 +37,7 @@ const routes: Routes = [
 @NgModule({
   imports: [RouterModule.forRoot(routes), StoreModule.forFeature(DEFAULT_ROUTER_FEATURENAME, routerReducer)],
   exports: [RouterModule],
-  providers: [UserGuestGuard, UserAuthGuard]
+  providers: []
 })
 export class AppRoutingModule {
 }
