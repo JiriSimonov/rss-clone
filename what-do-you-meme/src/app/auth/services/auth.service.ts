@@ -9,11 +9,11 @@ import { map } from 'rxjs';
   providedIn: 'root',
 })
 export class AuthService {
-  public user$ = this.store.select(getAuthData);
+  public user$ = this.store$.select(getAuthData);
 
   constructor(
     private httpClient: HttpClient,
-    private store: Store,
+    private store$: Store,
     private jwtHelperService: JwtHelperService
   ) {}
 
@@ -38,5 +38,15 @@ export class AuthService {
     return this.httpClient.get<{ login: string; password: string }>(
       `https://wdym-server.up.railway.app/users/id/${id}`
     );
+  }
+
+  refresh() {
+    return this.httpClient
+      .post<AuthData>('https://dummyjson.com/auth/login', {})
+      .pipe(
+        map((res) => {
+          return { ...res, ...this.jwtHelperService.decodeToken(res.token) };
+        })
+      );
   }
 }

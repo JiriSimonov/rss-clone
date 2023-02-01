@@ -9,6 +9,7 @@ export interface AuthData {
   id: number;
   iat: number;
   exp: number;
+  image: string;
 }
 
 export interface AuthState {

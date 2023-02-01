@@ -1,3 +1,4 @@
+import { Store } from '@ngrx/store';
 import { Component, OnDestroy, OnInit } from '@angular/core';
 import { Subscription } from 'rxjs';
 import { AuthService } from '../../../../../auth/services/auth.service';
@@ -10,9 +11,11 @@ import { AuthService } from '../../../../../auth/services/auth.service';
 export class UserProfileComponent implements OnInit, OnDestroy {
   subs: Subscription = new Subscription();
   public readonly DEFAULT_USERNAME = 'RAK';
+  public readonly DEFAULT_AVATAR = 'assets/images/avatars/baby-yoda.webp';
   userName: string | undefined = this.DEFAULT_USERNAME;
+  path: string = this.DEFAULT_AVATAR;
 
-  constructor(private httpService: AuthService) {}
+  constructor(private httpService: AuthService, private store$: Store) {}
 
   ngOnDestroy(): void {
     this.subs.unsubscribe();
@@ -21,7 +24,10 @@ export class UserProfileComponent implements OnInit, OnDestroy {
   ngOnInit() {
     this.subs.add(
       this.httpService.user$.subscribe(
-        (data) => (this.userName = data?.username ?? this.DEFAULT_USERNAME)
+        (data) => (
+          (this.userName = data?.username ?? this.DEFAULT_USERNAME),
+          (this.path = data?.image ?? this.DEFAULT_AVATAR)
+        )
       )
     );
   }
