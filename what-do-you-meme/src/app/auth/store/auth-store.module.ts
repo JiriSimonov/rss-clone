@@ -1,7 +1,8 @@
+import { initAuth } from './auth.actions';
 import { AuthInterceptor } from './../interceptors/auth.interceptor';
 import { NgModule } from '@angular/core';
 import { CommonModule } from '@angular/common';
-import { StoreModule } from '@ngrx/store';
+import { Store, StoreModule } from '@ngrx/store';
 import { AuthReducer, USER_AUTH_FEATURENAME } from './auth.reducer';
 import { HttpClientModule, HTTP_INTERCEPTORS } from '@angular/common/http';
 import { EffectsModule } from '@ngrx/effects';
@@ -25,4 +26,8 @@ import { JwtModule } from '@auth0/angular-jwt';
     { provide: HTTP_INTERCEPTORS, useClass: AuthInterceptor, multi: true },
   ],
 })
-export class AuthStoreModule {}
+export class AuthStoreModule {
+  constructor(store$: Store) {
+    store$.dispatch(initAuth());
+  }
+}

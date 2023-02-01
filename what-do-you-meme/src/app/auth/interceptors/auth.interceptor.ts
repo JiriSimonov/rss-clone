@@ -1,4 +1,4 @@
-import { catchError } from 'rxjs/operators';
+import { catchError, mergeMap } from 'rxjs/operators';
 import { getAccessToken } from './../store/auth.selectors';
 import { select } from '@ngrx/store';
 import { Store } from '@ngrx/store';
@@ -10,7 +10,7 @@ import {
   HttpInterceptor,
   HttpErrorResponse,
 } from '@angular/common/http';
-import { EMPTY, first, flatMap, Observable } from 'rxjs';
+import { EMPTY, first, Observable } from 'rxjs';
 
 @Injectable()
 export class AuthInterceptor implements HttpInterceptor {
@@ -23,7 +23,7 @@ export class AuthInterceptor implements HttpInterceptor {
     return this.store$.pipe(
       select(getAccessToken),
       first(),
-      flatMap((token) => {
+      mergeMap((token) => {
         const authRequest = token
           ? request.clone({
               setHeaders: { Authorization: `Bearer ${token}` },
