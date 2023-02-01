@@ -6,6 +6,9 @@ export const USER_AUTH_FEATURENAME = 'auth';
 export interface AuthData {
   token: string;
   username: string;
+  id: number;
+  iat: number;
+  exp: number;
 }
 
 export interface AuthState {
@@ -27,12 +30,17 @@ export const AuthReducer = createReducer(
     ...state,
     loading: true
   })),
-  on(loginSuccess, (state, authData: AuthData) => ({
+  on(loginSuccess, (
+    state, {
+      type,
+      ...authData
+    }: {type: string} & AuthData) => ({
     ...state,
     authData,
-    loading: false,
     loaded: true,
-    serverError: ''})),
+    loading: false,
+    serverError: ''
+  })),
   on(loginFailed, (state, {serverError}) => ({
     ...state,
     authData: null,
