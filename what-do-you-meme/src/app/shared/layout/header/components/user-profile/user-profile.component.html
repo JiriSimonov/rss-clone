@@ -1,2 +1,5 @@
-<div class="" [routerLink]="'/user/dashboard'">{{ userName }}</div>
-<button [routerLink]="'/auth'" *ngIf="isNotDefaultUsername">Выйти</button>
+<div class="user" [routerLink]="'/user/dashboard'">
+  <div class="user__avatar"></div>
+  <div class="user__text">{{ userName }}</div>
+  <button class="user__logout" aria-label="Выйти" [routerLink]="'/auth'" *ngIf="isNotDefaultUsername"></button>
+</div>

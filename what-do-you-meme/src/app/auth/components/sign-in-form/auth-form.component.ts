@@ -4,7 +4,6 @@ import {select, Store} from "@ngrx/store";
 import {getLoaded, getLoading, getServerError} from "../../store/auth.selectors";
 import {login} from "../../store/auth.actions";
 import {FormControl, FormGroup, Validators} from "@angular/forms";
-import { Router } from '@angular/router';
 
 @Component({
   selector: 'app-auth-form',
@@ -26,7 +25,7 @@ export class AuthFormComponent implements OnInit {
   ngOnInit(): void {
     this.authForm = new FormGroup(
       {
-        'login': new FormControl('atuny0', [Validators.required, Validators.minLength(3)]),
+        'login': new FormControl('atuny0', [Validators.required, Validators.minLength(4)]),
         'password': new FormControl('9uQFF1Lh', [Validators.required]),
       }
     )

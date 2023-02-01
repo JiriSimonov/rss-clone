@@ -4,6 +4,7 @@ import { HeaderComponent } from './layout/header/header.component';
 import { FooterComponent } from './layout/footer/footer.component';
 import {RouterLink} from "@angular/router";
 import { UserProfileComponent } from './layout/header/components/user-profile/user-profile.component';
+import { NavigationComponent } from './layout/header/components/navigation/navigation.component';
 
 
 
@@ -11,7 +12,8 @@ import { UserProfileComponent } from './layout/header/components/user-profile/us
   declarations: [
     HeaderComponent,
     FooterComponent,
-    UserProfileComponent
+    UserProfileComponent,
+    NavigationComponent
   ],
   imports: [
     CommonModule,
