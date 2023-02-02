@@ -18,9 +18,9 @@ export class SignUpFormComponent implements OnInit {
 
   ngOnInit(): void {
     this.signUpForm = new FormGroup({
-      login: new FormControl('', [
+      username: new FormControl('', [
         Validators.required,
-        Validators.minLength(3),
+        Validators.minLength(4),
       ]),
       password: new FormControl('', [
         Validators.required,
@@ -35,7 +35,7 @@ export class SignUpFormComponent implements OnInit {
 
   get userData(): UserData {
     return {
-      login: this.signUpForm.value.login,
+      username: this.signUpForm.value.username,
       password: this.signUpForm.value.password,
     };
   }
@@ -43,13 +43,10 @@ export class SignUpFormComponent implements OnInit {
   onSubmit() {
     this.authService.signUp(this.userData).pipe(catchError((error) => error)).subscribe(() => {
       this.router.navigate(['lobbies'], {replaceUrl: true});
-      console.log('pepe');
     });
   }
 
   get isPasswordEqual(): boolean {
-    console.log('pepe');
-    
     return (
       this.signUpForm.value.password === this.signUpForm.value.confirmPassword
     );

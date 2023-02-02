@@ -1,15 +1,17 @@
-<form (ngSubmit)="onSubmit()" [formGroup]="signUpForm">
-  <label>
-    Введите логин:
-    <input type="text" formControlName="login" />
-  </label>
-  <label>
-    Введите пароль:
-    <input type="password" formControlName="password"/>
-  </label>
-  <label>
-    Повторите пароль:
-    <input type="password" formControlName="confirmPassword"/>
-  </label>
-  <button type="submit" [disabled]="!(isPasswordEqual && isFormValid)">Зарегестрироваться</button>
-</form>
+<div class="sign-up">
+  <form (ngSubmit)="onSubmit()" [formGroup]="signUpForm" class="sign-up__form">
+    <label class="sign-up__label">
+      Введите логин:
+      <input type="text" formControlName="username" class="sign-up__input" />
+    </label>
+    <label class="sign-up__label">
+      Введите пароль:
+      <input type="password" formControlName="password" class="sign-up__input"/>
+    </label>
+    <label class="sign-up__label">
+      Повторите пароль:
+      <input type="password" formControlName="confirmPassword" class="sign-up__input"/>
+    </label>
+    <button type="submit" [disabled]="!(isPasswordEqual && isFormValid)" class="sign-up__btn">Зарегестрироваться</button>
+  </form>
+</div>

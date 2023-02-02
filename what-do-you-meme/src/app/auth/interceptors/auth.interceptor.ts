@@ -30,7 +30,7 @@ export class AuthInterceptor implements HttpInterceptor {
             })
           : request;
         return next.handle(authRequest).pipe(
-          catchError((err) => {
+          catchError(err => {
             if (err instanceof HttpErrorResponse) {
               if (err.status === 401) {
                 console.log('401 ERORR');

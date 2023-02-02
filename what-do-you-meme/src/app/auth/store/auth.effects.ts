@@ -12,15 +12,9 @@ import {
   initAuth,
   logoutSuccess,
   extractLoginData,
+  logout,
 } from './auth.actions';
-import {
-  catchError,
-  delayWhen,
-  filter,
-  map,
-  switchMap,
-  tap,
-} from 'rxjs/operators';
+import { catchError, filter, map, switchMap, tap } from 'rxjs/operators';
 import { of, timer, first, fromEvent } from 'rxjs';
 import { AuthService } from '../services/auth.service';
 
@@ -32,7 +26,7 @@ export class AdminAuthEffects {
       switchMap((action) =>
         this.authService
           .login({
-            username: action.login,
+            username: action.username,
             password: action.password,
           })
           .pipe(
@@ -53,8 +47,8 @@ export class AdminAuthEffects {
   refresh$ = createEffect(() =>
     this.actions$.pipe(
       ofType(loginSuccess),
-      switchMap(({authData}) =>
-        timer(authData.exp * 1000 - 60 * 1000 - Date.now())
+      switchMap((action: AuthData) =>
+        timer(action.exp * 1000 - 60 * 1000 - Date.now())
       ),
       switchMap(() =>
         this.store$.pipe(
@@ -91,7 +85,7 @@ export class AdminAuthEffects {
         if (!authDataFromLocalStorage) {
           return logoutSuccess();
         }
-        const authData = JSON.parse(authDataFromLocalStorage);
+        const authData: AuthData = JSON.parse(authDataFromLocalStorage);
         if (authData.exp * 1000 - 10 * 1000 - Date.now() < 0) {
           return logoutSuccess();
         }
@@ -107,6 +101,16 @@ export class AdminAuthEffects {
       map(() => extractLoginData())
     )
   );
+
+  // logout$ = createEffect(() =>
+  //   this.actions$.pipe(
+    //   ofType(logout),
+  //     map(() => {
+  //       localStorage.removeItem('authData');
+  //       return logoutSuccess();
+  //     })
+  //   )
+  // );
 
   constructor(
     private actions$: Actions,

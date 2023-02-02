@@ -25,18 +25,18 @@ export class AuthFormComponent implements OnInit {
   ngOnInit(): void {
     this.authForm = new FormGroup(
       {
-        'login': new FormControl('atuny0', [Validators.required, Validators.minLength(4)]),
-        'password': new FormControl('9uQFF1Lh', [Validators.required]),
+        'username': new FormControl('', [Validators.required, Validators.minLength(4)]),
+        'password': new FormControl('', [Validators.required]),
       }
     )
   }
-
+// atuny0 9uQFF1Lh
   onSubmit() {
     const loginPayload = this.authForm.value;
     this.store$.dispatch(login(loginPayload));
   }
 
   get loginControl() {
-    return this.authForm.get('login');
+    return this.authForm.get('username');
   }
 }

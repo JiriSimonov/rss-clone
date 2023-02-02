@@ -10,6 +10,7 @@ import { map } from 'rxjs';
 })
 export class AuthService {
   public user$ = this.store$.select(getAuthData);
+  private URL = 'https://wdym-js-er-sd.onrender.com';
 
   constructor(
     private httpClient: HttpClient,
@@ -18,34 +19,38 @@ export class AuthService {
   ) {}
 
   login(body: { username: string; password: string }) {
-    return this.httpClient
-      .post<AuthData>('https://dummyjson.com/auth/login', body)
-      .pipe(
-        map((res) => {
-          return { ...res, ...this.jwtHelperService.decodeToken(res.token) };
-        })
-      );
+    return this.httpClient.post<AuthData>(`${this.URL}/auth/login`, body).pipe(
+      map((res) => {
+        return {
+          ...res,
+          ...this.jwtHelperService.decodeToken(res.access_token),
+        };
+      })
+    );
   }
 
-  signUp(body: { login: string; password: string }) {
-    return this.httpClient.post<{ login: string; password: string }>(
-      'https://wdym-js-er-sd.onrender.com/users/create',
+  signUp(body: { username: string; password: string }) {
+    return this.httpClient.post<{ username: string; password: string }>(
+      `${this.URL}/users/create`,
       body
     );
   }
 
   getUserById(id: number) {
-    return this.httpClient.get<{ login: string; password: string }>(
+    return this.httpClient.get<{ username: string; password: string }>(
       `https://wdym-server.up.railway.app/users/id/${id}`
     );
   }
 
   refresh() {
     return this.httpClient
-      .post<AuthData>('https://dummyjson.com/auth/login', {})
+      .post<AuthData>('https://wdym-js-er-sd.onrender.com/auth/login', {})
       .pipe(
         map((res) => {
-          return { ...res, ...this.jwtHelperService.decodeToken(res.token) };
+          return {
+            ...res,
+            ...this.jwtHelperService.decodeToken(res.access_token),
+          };
         })
       );
   }

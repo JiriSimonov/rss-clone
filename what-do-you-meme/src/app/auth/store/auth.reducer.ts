@@ -9,7 +9,7 @@ import {
 export const USER_AUTH_FEATURENAME = 'auth';
 
 export interface AuthData {
-  token: string;
+  access_token: string;
   username: string;
   id: number;
   iat: number;
@@ -36,13 +36,16 @@ export const AuthReducer = createReducer(
     ...state,
     loading: true,
   })),
-  on(loginSuccess, (state, { authData }) => ({
-    ...state,
-    authData,
-    loaded: true,
-    loading: false,
-    serverError: '',
-  })),
+  on(
+    loginSuccess,
+    (state, { type, ...authData }: { type: string } & AuthData) => ({
+      ...state,
+      authData,
+      loaded: true,
+      loading: false,
+      serverError: '',
+    })
+  ),
   on(loginFailed, (state, { serverError }) => ({
     ...state,
     authData: null,

@@ -2,6 +2,7 @@ import { Store } from '@ngrx/store';
 import { Component, OnDestroy, OnInit } from '@angular/core';
 import { Subscription } from 'rxjs';
 import { AuthService } from '../../../../../auth/services/auth.service';
+import { logout } from 'src/app/auth/store/auth.actions';
 
 @Component({
   selector: 'app-user-profile',
@@ -33,7 +34,7 @@ export class UserProfileComponent implements OnInit, OnDestroy {
   }
 
   signOut() {
-    //посылать запрос на выход и редиректить
+    this.store$.dispatch(logout());
   }
 
   get isNotDefaultUsername() {
