@@ -7,10 +7,10 @@ import {Store} from "@ngrx/store";
   providedIn: 'root'
 })
 export class UserPermissionsService {
-  isUser$ = this.store.select(isAuth).pipe(map(auth => {
+  isUser$ = this.store$.select(isAuth).pipe(map(auth => {
     return auth;
   }));
 
-  constructor(private store: Store) {
+  constructor(private store$: Store) {
   }
 }

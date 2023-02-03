@@ -1,9 +1,16 @@
 import { Router } from '@angular/router';
-import { catchError } from 'rxjs/operators';
+import { catchError, tap } from 'rxjs/operators';
 import { UserData } from './../../models/user-data.model';
-import { FormGroup, FormControl, Validators } from '@angular/forms';
-import { ChangeDetectionStrategy, Component, OnInit } from '@angular/core';
+import { FormGroup, FormControl, Validators, AbstractControl } from '@angular/forms';
+import {
+  ChangeDetectionStrategy,
+  Component,
+  OnInit,
+  ChangeDetectorRef,
+} from '@angular/core';
 import { AuthService } from '../../services/auth.service';
+import { EMPTY } from 'rxjs';
+import { isUniqueUsernameValidator } from './username.validator';
 
 @Component({
   selector: 'app-sign-up-form',
@@ -13,43 +20,57 @@ import { AuthService } from '../../services/auth.service';
 })
 export class SignUpFormComponent implements OnInit {
   signUpForm!: FormGroup;
+  errors: string[] = [];
 
-  constructor(private authService: AuthService, private router: Router) {}
+  constructor(
+    private authService: AuthService,
+    private router: Router,
+    private cdr: ChangeDetectorRef
+  ) {}
 
   ngOnInit(): void {
     this.signUpForm = new FormGroup({
-      login: new FormControl('', [
+      username: new FormControl('', [
         Validators.required,
-        Validators.minLength(3),
-      ]),
+        Validators.minLength(4),
+        Validators.maxLength(20),
+      ], [isUniqueUsernameValidator.bind(this.authService)]),
       password: new FormControl('', [
         Validators.required,
         Validators.minLength(8),
+        Validators.maxLength(20),
       ]),
       confirmPassword: new FormControl('', [
         Validators.required,
         Validators.minLength(8),
+        Validators.maxLength(20),
       ]),
     });
   }
 
   get userData(): UserData {
     return {
-      login: this.signUpForm.value.login,
+      username: this.signUpForm.value.username,
       password: this.signUpForm.value.password,
     };
   }
 
   onSubmit() {
-    this.authService.signUp(this.userData).pipe(catchError((error) => error)).subscribe(() => {
-      this.router.navigate(['lobbies'], {replaceUrl: true});
-      console.log('pepe');
-    });
+    this.authService
+      .signUp(this.userData)
+      .pipe(
+        catchError((error) => {
+          this.errors.push(error.message);
+          this.cdr.detectChanges();
+          return EMPTY;
+        })
+      )
+      .subscribe(() => {
+        this.router.navigate(['lobbies'], { replaceUrl: true });
+      });
   }
 
   get isPasswordEqual(): boolean {
-    console.log('pepe');
-    
     return (
       this.signUpForm.value.password === this.signUpForm.value.confirmPassword
     );
@@ -57,5 +78,17 @@ export class SignUpFormComponent implements OnInit {
 
   get isFormValid(): boolean {
     return this.signUpForm.valid && this.signUpForm.dirty;
+  }
+
+  get username() {
+    return this.signUpForm.get('username');
+  }
+
+  get passwordControl() {
+    return this.signUpForm.get('password');
+  }
+
+  get passwordConfirmControl() {
+    return this.signUpForm.get('confirmPassword');
   }
 }

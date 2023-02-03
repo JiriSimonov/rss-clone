@@ -1,15 +1,18 @@
-import {Component, OnInit, Input} from '@angular/core';
-import {Observable} from "rxjs";
-import {select, Store} from "@ngrx/store";
-import {getLoaded, getLoading, getServerError} from "../../store/auth.selectors";
-import {login} from "../../store/auth.actions";
-import {FormControl, FormGroup, Validators} from "@angular/forms";
-import { Router } from '@angular/router';
+import { Component, OnInit, Input } from '@angular/core';
+import { Observable } from 'rxjs';
+import { select, Store } from '@ngrx/store';
+import {
+  getLoaded,
+  getLoading,
+  getServerError,
+} from '../../store/auth.selectors';
+import { login } from '../../store/auth.actions';
+import { FormControl, FormGroup, Validators } from '@angular/forms';
 
 @Component({
   selector: 'app-auth-form',
   templateUrl: './auth-form.component.html',
-  styleUrls: ['./auth-form.component.scss']
+  styleUrls: ['./auth-form.component.scss'],
 })
 export class AuthFormComponent implements OnInit {
   authForm!: FormGroup;
@@ -20,25 +23,29 @@ export class AuthFormComponent implements OnInit {
 
   @Input() disabled!: boolean;
 
-  constructor(private store$: Store) {
-  }
+  constructor(private store$: Store) {}
 
   ngOnInit(): void {
-    this.authForm = new FormGroup(
-      {
-        'login': new FormControl('atuny0', [Validators.required, Validators.minLength(3)]),
-        'password': new FormControl('9uQFF1Lh', [Validators.required]),
-      }
-    )
+    this.authForm = new FormGroup({
+      username: new FormControl('', [
+        Validators.required,
+        Validators.minLength(4),
+        Validators.maxLength(24),
+      ]),
+      password: new FormControl('', [
+        Validators.required,
+        Validators.minLength(8),
+        Validators.maxLength(70),
+      ]),
+    });
   }
 
   onSubmit() {
     const loginPayload = this.authForm.value;
     this.store$.dispatch(login(loginPayload));
-    console.log('OnLogin', loginPayload);
   }
 
   get loginControl() {
-    return this.authForm.get('login');
+    return this.authForm.get('username');
   }
 }
