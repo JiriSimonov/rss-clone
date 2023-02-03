@@ -1,3 +1,4 @@
+import { loginFailed } from './../store/auth.actions';
 import { catchError, mergeMap } from 'rxjs/operators';
 import { getAccessToken } from './../store/auth.selectors';
 import { select } from '@ngrx/store';
@@ -30,10 +31,12 @@ export class AuthInterceptor implements HttpInterceptor {
             })
           : request;
         return next.handle(authRequest).pipe(
-          catchError(err => {
+          catchError((err) => {
             if (err instanceof HttpErrorResponse) {
               if (err.status === 401) {
-                console.log('401 ERORR');
+                this.store$.dispatch(
+                  loginFailed({ serverError: err.message })
+                );
                 return EMPTY;
               }
             }
