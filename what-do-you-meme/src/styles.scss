@@ -1,12 +1,43 @@
-/* You can add global styles to this file, and also import other style files */
+*,
+::after,
+::before {
+  box-sizing: border-box;
+}
+
+*:focus {
+  outline: none;
+}
+
 body {
   margin: 0;
   padding: 0;
+  font-size: 16px;
+}
+
+h1,
+h2,
+h3,
+h4,
+h5,
+h6 {
+  margin: 0;
+}
+
+ul,
+ol {
+  margin: 0;
+  padding: 0;
+  list-style: none;
+}
+
+button {
+  cursor: pointer;
+  border: none;
 }
 
 .container {
   margin: 0 auto;
   padding: 0 30px;
   width: 100%;
-  max-width: 1540px;
+  max-width: 1600px;
 }
