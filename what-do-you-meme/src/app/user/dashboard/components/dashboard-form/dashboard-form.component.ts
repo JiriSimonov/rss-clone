@@ -1,16 +1,28 @@
+import { getAuthData } from './../../../../auth/store/auth.selectors';
+import { Router } from '@angular/router';
+import { logoutSuccess } from './../../../../auth/store/auth.actions';
+import { AuthService } from './../../../../auth/services/auth.service';
+import { Store } from '@ngrx/store';
 import { Component, OnInit } from '@angular/core';
 import { FormControl, FormGroup, Validators } from '@angular/forms';
+import { catchError, EMPTY } from 'rxjs';
+import { HttpErrorResponse } from '@angular/common/http';
 
 @Component({
   selector: 'app-dashboard-form',
   templateUrl: './dashboard-form.component.html',
-  styleUrls: ['./dashboard-form.component.scss']
+  styleUrls: ['./dashboard-form.component.scss'],
 })
 export class DashboardFormComponent implements OnInit {
   changeLoginForm!: FormGroup;
   changePasswordForm!: FormGroup;
+  // private userSub: number | undefined;
 
-  constructor() {}
+  constructor(
+    private store$: Store,
+    private authService: AuthService,
+    private router: Router
+  ) {}
 
   ngOnInit(): void {
     this.changeLoginForm = new FormGroup({
@@ -29,5 +41,67 @@ export class DashboardFormComponent implements OnInit {
         Validators.minLength(8),
       ]),
     });
+  }
+
+  get loginInputControl() {
+    return this.changeLoginForm.get('login');
+  }
+
+  get passwordControl() {
+    return this.changePasswordForm.get('password');
+  }
+
+  get confirmPasswordControl() {
+    return this.changePasswordForm.get('confirmPassword');
+  }
+
+  getUserSub() {
+    let userSub;
+    this.authService.user$.subscribe((data) => (userSub = data?.sub));
+    return userSub ? userSub : 6;
+  }
+
+  onSubmitChangeLogin() {
+    this.getUserSub();
+    this.authService
+      .setNewUsername(this.getUserSub(), this.loginInputControl?.value)
+      .pipe(
+        catchError((err) => {
+          if (err instanceof HttpErrorResponse) {
+            if (err.status === 404) {
+              console.log('404 NOT FOUND');
+              return EMPTY;
+            }
+          }
+          throw err;
+        })
+      )
+      .subscribe(() => {
+        this.store$.dispatch(logoutSuccess());
+        localStorage.clear();
+        this.router.navigate(['auth'], { replaceUrl: true });
+      });
+  }
+
+  onSubmitChangePassword() {
+    this.getUserSub();
+    this.authService
+      .setNewPassword(this.getUserSub(), this.confirmPasswordControl?.value)
+      .pipe(
+        catchError((err) => {
+          if (err instanceof HttpErrorResponse) {
+            if (err.status === 404) {
+              console.log('404 NOT FOUND');
+              return EMPTY;
+            }
+          }
+          throw err;
+        })
+      )
+      .subscribe(() => {
+        this.store$.dispatch(logoutSuccess());
+        localStorage.clear();
+        this.router.navigate(['auth'], { replaceUrl: true });
+      });
   }
 }

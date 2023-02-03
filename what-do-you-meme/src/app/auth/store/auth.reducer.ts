@@ -11,7 +11,7 @@ export const USER_AUTH_FEATURENAME = 'auth';
 export interface AuthData {
   access_token: string;
   username: string;
-  id: number;
+  sub: number;
   iat: number;
   exp: number;
   image: string;

@@ -43,7 +43,7 @@ export class AuthService {
   }
 
   refresh() {
-    return this.httpClient.post<AuthData>(`${this.URL}/refresh`, {}).pipe(
+    return this.httpClient.post<AuthData>(`${this.URL}/auth/refresh`, {}).pipe(
       map((res) => {
         return {
           ...res,
@@ -55,5 +55,13 @@ export class AuthService {
 
   isUniqueUsername(username: string) {
     return this.httpClient.get(`${this.URL}/users/user/${username}`)
+  }
+
+  setNewUsername(id: number, newLogin: string) {
+    return this.httpClient.put<AuthData>(`${this.URL}/users/id/${id}`, { username: newLogin });
+  }
+
+  setNewPassword(id: number, newPassword: string) {
+    return this.httpClient.put<AuthData>(`${this.URL}/users/id/${id}`, { password: newPassword });
   }
 }

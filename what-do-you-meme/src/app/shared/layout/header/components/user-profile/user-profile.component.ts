@@ -27,8 +27,7 @@ export class UserProfileComponent implements OnInit, OnDestroy {
       this.httpService.user$.subscribe(
         (data) => (
           (this.userName = data?.username ?? this.DEFAULT_USERNAME),
-          (this.path = data?.image ?? this.DEFAULT_AVATAR),
-          (console.log(data?.image))
+          (this.path = data?.image ?? this.DEFAULT_AVATAR)
         )
       )
     );

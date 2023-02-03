@@ -1,18 +1,21 @@
-<form [formGroup]="changeLoginForm">
-  <label>
-    Новый логин:
-    <input type="text" formControlName="login" />
-  </label>
-  <button type="submit">Подтвердить</button>
-</form>
-<form [formGroup]="changePasswordForm">
-  <label>
-    Введите текущий пароль:
-    <input type="password" formControlName="password"/>
-  </label>
-  <label>
-    Введите новый пароль:
-    <input type="password" formControlName="confirmPassword"/>
-  </label>
-  <button type="submit">Подтвердить</button>
-</form>
+<div class="dashboard">
+  <form class="dashboard__form" [formGroup]="changeLoginForm">
+    <label class="dashboard__label">
+      Новый логин:
+      <input type="text" class="dashboard__input" formControlName="login" />
+    </label>
+    <button class="dashboard__btn" type="submit" (click)="onSubmitChangeLogin()">Подтвердить</button>
+  </form>
+  <form class="dashboard__form" [formGroup]="changePasswordForm">
+    <label class="dashboard__label">
+      Введите текущий пароль:
+      <input type="password" class="dashboard__input" formControlName="password"/>
+    </label>
+    <label class="dashboard__label">
+      Введите новый пароль:
+      <input type="password" class="dashboard__input" formControlName="confirmPassword"/>
+    </label>
+    <button class="dashboard__btn" type="submit" (click)="onSubmitChangePassword()" [disabled]="changePasswordForm.invalid">Подтвердить</button>
+  </form>
+  
+</div>
