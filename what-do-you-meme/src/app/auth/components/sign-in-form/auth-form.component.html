@@ -1,0 +1,26 @@
+<div class="sign-in">
+  <form
+  class="sign-in__form"
+  (ngSubmit)="onSubmit()"
+  [formGroup]="authForm"
+  *ngIf="loaded$ | async as loaded"
+>
+  <label class="sign-in__label">
+    Введите логин:
+    <input class="sign-in__input" type="text" formControlName="username" />
+  </label>
+  <label class="sign-in__label">
+    Введите пароль:
+    <input class="sign-in__input" type="password" formControlName="password" />
+  </label>
+  <div class="" *ngIf="loginControl?.invalid && loginControl?.dirty">Error</div>
+  <button
+    class="sign-in__btn"
+    type="submit"
+    [disabled]="authForm.invalid || disabled || (loading$ | async)"
+  >
+    Войти
+  </button>
+  <a class="sign-in__link" routerLink="/auth/signup">Зарегестрироваться</a>
+</form>
+</div>

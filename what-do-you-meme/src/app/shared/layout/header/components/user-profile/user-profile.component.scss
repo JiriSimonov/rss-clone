@@ -1,0 +1,39 @@
+.user {
+  position: relative;
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+  align-items: center;
+  gap: 5px;
+  cursor: pointer;
+
+  &__avatar {
+    border-radius: 50%;
+    width: 50px;
+    aspect-ratio: 1/1;
+    background-size: cover;
+    background-repeat: no-repeat;
+    background-position: center;
+    overflow: hidden;
+  }
+
+  &__text {
+    text-align: center;
+    color: #fff;
+    font-size: 18px;
+    user-select: none;
+  }
+  &__logout {
+    position: absolute;
+    top: 0;
+    border: none;
+    right: -20px;
+    width: 20px;
+    aspect-ratio: 1/1;
+    background-color: transparent;
+    background-image: url("../../../../../../assets/icons/logout.svg");
+    background-repeat: no-repeat;
+    background-position: center;
+    cursor: pointer;
+  }
+}

@@ -1,0 +1,24 @@
+.lobbie-info-container {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  border: 1px solid #bababa;
+  border-radius: 5px;
+  padding: 10px 20px;
+}
+
+.lobbie__button-join {
+  padding: 5px 10px;
+  background-color: #bababa;
+  border: 1px solid #111;
+  border-radius: 8px;
+}
+
+.lobbie__users-number {
+  font-weight: bold;
+}
+
+.lobbie__rounds {
+  font-weight: bold;
+}
+
