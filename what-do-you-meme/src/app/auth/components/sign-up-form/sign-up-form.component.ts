@@ -40,7 +40,7 @@ export class SignUpFormComponent implements OnInit {
         [
           Validators.required,
           Validators.minLength(4),
-          Validators.maxLength(20),
+          Validators.maxLength(12),
         ],
         []
       ),
@@ -89,7 +89,7 @@ export class SignUpFormComponent implements OnInit {
     return this.signUpForm.valid && this.signUpForm.dirty;
   }
 
-  get username() {
+  get usernameControl() {
     return this.signUpForm.get('username');
   }
 

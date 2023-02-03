@@ -43,7 +43,7 @@ export class DashboardFormComponent implements OnInit {
     });
   }
 
-  get loginInputControl() {
+  get usernameControl() {
     return this.changeLoginForm.get('login');
   }
 
@@ -64,7 +64,7 @@ export class DashboardFormComponent implements OnInit {
   onSubmitChangeLogin() {
     this.getUserSub();
     this.authService
-      .setNewUsername(this.getUserSub(), this.loginInputControl?.value)
+      .setNewUsername(this.getUserSub(), this.usernameControl?.value)
       .pipe(
         catchError((err) => {
           if (err instanceof HttpErrorResponse) {

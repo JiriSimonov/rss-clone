@@ -3,8 +3,10 @@
     <label class="form__label">
       Новый логин:
       <input type="text" class="form__input" formControlName="login" />
+      <span class="form__error" *ngIf="usernameControl?.errors?.['minlength']">Минимальная длина 4 символа</span>
+      <span class="form__error" *ngIf="usernameControl?.errors?.['maxlength']">Максимальная длина 12 символов</span>
     </label>
-    <button class="form__btn" type="submit" (click)="onSubmitChangeLogin()">
+    <button class="form__btn" type="submit" (click)="onSubmitChangeLogin()" [disabled]="changeLoginForm.invalid">
       Подтвердить
     </button>
   </form>

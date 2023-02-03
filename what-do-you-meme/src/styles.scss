@@ -79,6 +79,11 @@ button {
       cursor: pointer;
       outline: none;
     }
+
+    &:disabled {
+      opacity: .5;
+      pointer-events: none;
+    }
   }
 
   &__label {
