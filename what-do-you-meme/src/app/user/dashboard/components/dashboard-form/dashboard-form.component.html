@@ -1,21 +1,33 @@
-<div class="dashboard">
-  <form class="dashboard__form" [formGroup]="changeLoginForm">
-    <label class="dashboard__label">
+<div class="form">
+  <form class="form__form form__form_top" [formGroup]="changeLoginForm">
+    <label class="form__label">
       Новый логин:
-      <input type="text" class="dashboard__input" formControlName="login" />
+      <input type="text" class="form__input" formControlName="login" />
     </label>
-    <button class="dashboard__btn" type="submit" (click)="onSubmitChangeLogin()">Подтвердить</button>
+    <button class="form__btn" type="submit" (click)="onSubmitChangeLogin()">
+      Подтвердить
+    </button>
   </form>
-  <form class="dashboard__form" [formGroup]="changePasswordForm">
-    <label class="dashboard__label">
+  <form class="form__form" [formGroup]="changePasswordForm">
+    <label class="form__label">
       Введите текущий пароль:
-      <input type="password" class="dashboard__input" formControlName="password"/>
+      <input type="password" class="form__input" formControlName="password" />
     </label>
-    <label class="dashboard__label">
+    <label class="form__label">
       Введите новый пароль:
-      <input type="password" class="dashboard__input" formControlName="confirmPassword"/>
+      <input
+        type="password"
+        class="form__input"
+        formControlName="confirmPassword"
+      />
     </label>
-    <button class="dashboard__btn" type="submit" (click)="onSubmitChangePassword()" [disabled]="changePasswordForm.invalid">Подтвердить</button>
+    <button
+      class="form__btn"
+      type="submit"
+      (click)="onSubmitChangePassword()"
+      [disabled]="changePasswordForm.invalid"
+    >
+      Подтвердить
+    </button>
   </form>
-  
 </div>
