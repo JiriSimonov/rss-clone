@@ -10,7 +10,7 @@ import { map } from 'rxjs';
 })
 export class AuthService {
   public user$ = this.store$.select(getAuthData);
-  private URL = 'https://wdym-js-er-sd-api-pr-2.onrender.com';
+  private URL = 'https://wdym-js-er-sd.onrender.com';
 
   constructor(
     private httpClient: HttpClient,
@@ -31,7 +31,7 @@ export class AuthService {
 
   signUp(body: { username: string; password: string }) {
     return this.httpClient.post<{ username: string; password: string }>(
-      `${this.URL}/users/create`,
+      `${this.URL}/users`,
       body
     );
   }

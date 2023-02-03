@@ -1,7 +1,12 @@
 import { Router } from '@angular/router';
 import { catchError, tap } from 'rxjs/operators';
 import { UserData } from './../../models/user-data.model';
-import { FormGroup, FormControl, Validators, AbstractControl } from '@angular/forms';
+import {
+  FormGroup,
+  FormControl,
+  Validators,
+  AbstractControl,
+} from '@angular/forms';
 import {
   ChangeDetectionStrategy,
   Component,
@@ -30,11 +35,15 @@ export class SignUpFormComponent implements OnInit {
 
   ngOnInit(): void {
     this.signUpForm = new FormGroup({
-      username: new FormControl('', [
-        Validators.required,
-        Validators.minLength(4),
-        Validators.maxLength(20),
-      ], [isUniqueUsernameValidator.bind(this.authService)]),
+      username: new FormControl(
+        '',
+        [
+          Validators.required,
+          Validators.minLength(4),
+          Validators.maxLength(20),
+        ],
+        []
+      ),
       password: new FormControl('', [
         Validators.required,
         Validators.minLength(8),
