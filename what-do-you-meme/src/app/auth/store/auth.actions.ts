@@ -14,6 +14,6 @@ export const loginFailed = createAction(
   props<{ serverError: string }>()
 );
 export const initAuth = createAction('[Auth] initAuth');
-export const logoutSuccess = createAction('[Auth] logout');
 export const extractLoginData = createAction('[Auth] extractLoginData');
+export const logoutSuccess = createAction('[Auth] logout');
 export const logout = createAction('[Auth] logout');

@@ -1,5 +1,5 @@
 <div class="sign-up">
-  <form (ngSubmit)="onSubmit()" [formGroup]="signUpForm" class="sign-up__form">
+  <form (ngSubmit)="onSubmit()" [formGroup]="signUpForm" class="sign-up__form" novalidate>
     <label class="sign-up__label">
       Введите логин:
       <input type="text" formControlName="username" class="sign-up__input" />
@@ -11,6 +11,7 @@
     <label class="sign-up__label">
       Повторите пароль:
       <input type="password" formControlName="confirmPassword" class="sign-up__input"/>
+      <span class="sign-up__error" *ngIf="(!isPasswordEqual && passwordControl?.dirty && passwordConfirmControl?.dirty)">Пароли не совпадают!</span>
     </label>
     <button type="submit" [disabled]="!(isPasswordEqual && isFormValid)" class="sign-up__btn">Зарегестрироваться</button>
   </form>

@@ -67,4 +67,12 @@
       text-decoration: underline;
     }
   }
+
+  &__error {
+    color: #bf437a;
+  }
+}
+
+.ng-valid {
+  border-color: #008c8c;
 }

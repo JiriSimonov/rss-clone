@@ -2,7 +2,7 @@ import { Store } from '@ngrx/store';
 import { Component, OnDestroy, OnInit } from '@angular/core';
 import { Subscription } from 'rxjs';
 import { AuthService } from '../../../../../auth/services/auth.service';
-import { logout } from 'src/app/auth/store/auth.actions';
+import { logout, logoutSuccess } from 'src/app/auth/store/auth.actions';
 
 @Component({
   selector: 'app-user-profile',
@@ -27,14 +27,16 @@ export class UserProfileComponent implements OnInit, OnDestroy {
       this.httpService.user$.subscribe(
         (data) => (
           (this.userName = data?.username ?? this.DEFAULT_USERNAME),
-          (this.path = data?.image ?? this.DEFAULT_AVATAR)
+          (this.path = data?.image ?? this.DEFAULT_AVATAR),
+          (console.log(data?.image))
         )
       )
     );
   }
 
   signOut() {
-    this.store$.dispatch(logout());
+    this.store$.dispatch(logoutSuccess());
+    localStorage.clear();
   }
 
   get isNotDefaultUsername() {

@@ -10,7 +10,7 @@ import { map } from 'rxjs';
 })
 export class AuthService {
   public user$ = this.store$.select(getAuthData);
-  private URL = 'https://wdym-js-er-sd.onrender.com';
+  private URL = 'https://wdym-js-er-sd-api-pr-2.onrender.com';
 
   constructor(
     private httpClient: HttpClient,
@@ -43,15 +43,17 @@ export class AuthService {
   }
 
   refresh() {
-    return this.httpClient
-      .post<AuthData>('https://wdym-js-er-sd.onrender.com/auth/login', {})
-      .pipe(
-        map((res) => {
-          return {
-            ...res,
-            ...this.jwtHelperService.decodeToken(res.access_token),
-          };
-        })
-      );
+    return this.httpClient.post<AuthData>(`${this.URL}/refresh`, {}).pipe(
+      map((res) => {
+        return {
+          ...res,
+          ...this.jwtHelperService.decodeToken(res.access_token),
+        };
+      })
+    );
+  }
+
+  isUniqueUsername(username: string) {
+    return this.httpClient.get(`${this.URL}/users/user/${username}`)
   }
 }

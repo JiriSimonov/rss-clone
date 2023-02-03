@@ -104,7 +104,7 @@ export class AdminAuthEffects {
 
   // logout$ = createEffect(() =>
   //   this.actions$.pipe(
-    //   ofType(logout),
+  //     ofType(logout),
   //     map(() => {
   //       localStorage.removeItem('authData');
   //       return logoutSuccess();
