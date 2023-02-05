@@ -12,17 +12,16 @@ export class LobbiesPageComponent implements OnInit {
 
   constructor(public lobbiesService: LobbyService) { }
 
-  async ngOnInit() {
-    this.lobbiesService.getAllLobbies().subscribe();
-    console.log(this.lobbiesService.lobbies);
+  ngOnInit() {
+    this.lobbiesService.allLobbies.subscribe();
   }
 
   toggleModal() {
     this.isOpened = !this.isOpened;
   }
 
-  createLobby(params: any) {
-    const body = {...params, joinedUsers: 1 }
+  createLobby(params: LobbyOptions) {
+    const body = { ...params, joinedUsers: 1 }
     this.lobbiesService.createNewLobby(body).subscribe();
   }
 }

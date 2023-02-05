@@ -19,7 +19,7 @@ const routes: Routes = [
     canMatch: isUserGuards,
   },
   {
-    path: 'game',
+    path: 'game/:id',
     loadChildren: () =>
       import('./game/game.module').then((module) => module.GameModule),
     canMatch: isUserGuards,

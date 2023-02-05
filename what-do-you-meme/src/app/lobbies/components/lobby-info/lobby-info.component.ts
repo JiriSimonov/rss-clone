@@ -1,4 +1,4 @@
-import { Component, Input } from '@angular/core';
+import { Component, Input, OnInit } from '@angular/core';
 import { LobbyInfo } from '../../models/lobbie-info.model';
 
 @Component({
@@ -6,8 +6,15 @@ import { LobbyInfo } from '../../models/lobbie-info.model';
   templateUrl: './lobby-info.component.html',
   styleUrls: ['./lobby-info.component.scss']
 })
-export class LobbyInfoComponent {
-  @Input() lobby: LobbyInfo = {totalUsers: 2, rounds: 3, joinedUsers: 1};
+export class LobbyInfoComponent implements OnInit {
+  @Input() lobby?: LobbyInfo;
 
-  constructor() {}
+  gameLink?: string;
+
+  constructor() {
+  }
+
+  ngOnInit(): void {
+    this.gameLink = `/game/${this.lobby?.id}`;
+  }
 }

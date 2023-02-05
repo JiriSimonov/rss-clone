@@ -3,11 +3,11 @@
     <div class="modal-create__container">
       <div class="modal-create__form modal-create__players">
         <h2 class="modal-create__form-title">Количество игрoков - {{playersNumber}}</h2>
-        <input class="modal-create__form-input" type="range" min="2" max="12" [(ngModel)]="playersNumber">
+        <input class="modal-create__form-input" type="range" min="2" max="8" [(ngModel)]="playersNumber">
       </div>
       <div class="modal-create__form modal-create__rounds">
         <h2 class="modal-create__form-title">Количество раундов - {{roundsNumber}}</h2>
-        <input class="modal-create__form-input" type="range" min="1" max="8" [(ngModel)]="roundsNumber">
+        <input class="modal-create__form-input" type="range" min="1" max="12" [(ngModel)]="roundsNumber">
       </div>
       <button class="modal-create__create-btn" (click)='createLobby({totalUsers: playersNumber, rounds: roundsNumber})'>Создать</button>
     </div>

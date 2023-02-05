@@ -1,4 +1,5 @@
 import { Component } from '@angular/core';
+import { ActivatedRoute } from '@angular/router';
 
 @Component({
   selector: 'app-game-page',
@@ -6,5 +7,9 @@ import { Component } from '@angular/core';
   styleUrls: ['./game-page.component.scss']
 })
 export class GamePageComponent {
+  id: string;
 
+  constructor(private activateRoute: ActivatedRoute) {
+    this.id = this.activateRoute.snapshot.params['id'];
+  }
 }
