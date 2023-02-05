@@ -1,7 +1,7 @@
 import { NgModule } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { GamePageComponent } from './pages/game-page/game-page.component';
-import {RouterModule} from "@angular/router";
+import { GameRoutingModule } from './game-routing.module';
 
 
 
@@ -11,11 +11,7 @@ import {RouterModule} from "@angular/router";
   ],
   imports: [
     CommonModule,
-    RouterModule.forChild([{
-      path: '',
-      pathMatch: 'full',
-      component: GamePageComponent,
-    }])
+    GameRoutingModule,
   ]
 })
 export class GameModule { }

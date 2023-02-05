@@ -3,7 +3,6 @@ import { RouterModule, Routes } from '@angular/router';
 import { StoreModule } from '@ngrx/store';
 import { DEFAULT_ROUTER_FEATURENAME, routerReducer } from '@ngrx/router-store';
 import { isGuestGuards, isUserGuards } from './guards/guards';
-import { IsValidIdGuard } from './lobbies/guards/is-valid-id.guard';
 
 const routes: Routes = [
   { path: '', pathMatch: 'full', redirectTo: 'lobbies' },
@@ -20,10 +19,10 @@ const routes: Routes = [
     canMatch: isUserGuards,
   },
   {
-    path: 'game/:id',
+    path: 'game',
     loadChildren: () =>
       import('./game/game.module').then((module) => module.GameModule),
-    canMatch: [...isUserGuards, IsValidIdGuard],
+    canMatch: isUserGuards,
   },
   {
     path: 'lobbies',
