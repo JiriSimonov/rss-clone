@@ -1,3 +1,4 @@
+import { Router } from '@angular/router';
 import { Store } from '@ngrx/store';
 import { Component, OnDestroy, OnInit } from '@angular/core';
 import { Subscription } from 'rxjs';
@@ -16,7 +17,7 @@ export class UserProfileComponent implements OnInit, OnDestroy {
   userName: string | undefined = this.DEFAULT_USERNAME;
   path: string = this.DEFAULT_AVATAR;
 
-  constructor(private httpService: AuthService, private store$: Store) {}
+  constructor(private httpService: AuthService, private store$: Store, private router: Router) {}
 
   ngOnDestroy(): void {
     this.subs.unsubscribe();
@@ -27,8 +28,7 @@ export class UserProfileComponent implements OnInit, OnDestroy {
       this.httpService.user$.subscribe(
         (data) => (
           (this.userName = data?.username ?? this.DEFAULT_USERNAME),
-          (this.path = data?.image ?? this.DEFAULT_AVATAR),
-          (console.log(data?.image))
+          (this.path = data?.image ?? this.DEFAULT_AVATAR)
         )
       )
     );
@@ -37,6 +37,7 @@ export class UserProfileComponent implements OnInit, OnDestroy {
   signOut() {
     this.store$.dispatch(logoutSuccess());
     localStorage.clear();
+    this.router.navigate(['auth'], { replaceUrl: true })
   }
 
   get isNotDefaultUsername() {

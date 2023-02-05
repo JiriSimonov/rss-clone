@@ -1,18 +1,35 @@
-<form [formGroup]="changeLoginForm">
-  <label>
-    Новый логин:
-    <input type="text" formControlName="login" />
-  </label>
-  <button type="submit">Подтвердить</button>
-</form>
-<form [formGroup]="changePasswordForm">
-  <label>
-    Введите текущий пароль:
-    <input type="password" formControlName="password"/>
-  </label>
-  <label>
-    Введите новый пароль:
-    <input type="password" formControlName="confirmPassword"/>
-  </label>
-  <button type="submit">Подтвердить</button>
-</form>
+<div class="form">
+  <form class="form__form form__form_top" [formGroup]="changeLoginForm">
+    <label class="form__label">
+      Новый логин:
+      <input type="text" class="form__input" formControlName="login" />
+      <span class="form__error" *ngIf="usernameControl?.errors?.['minlength']">Минимальная длина 4 символа</span>
+      <span class="form__error" *ngIf="usernameControl?.errors?.['maxlength']">Максимальная длина 12 символов</span>
+    </label>
+    <button class="form__btn" type="submit" (click)="onSubmitChangeLogin()" [disabled]="changeLoginForm.invalid">
+      Подтвердить
+    </button>
+  </form>
+  <form class="form__form" [formGroup]="changePasswordForm">
+    <label class="form__label">
+      Введите текущий пароль:
+      <input type="password" class="form__input" formControlName="password" />
+    </label>
+    <label class="form__label">
+      Введите новый пароль:
+      <input
+        type="password"
+        class="form__input"
+        formControlName="confirmPassword"
+      />
+    </label>
+    <button
+      class="form__btn"
+      type="submit"
+      (click)="onSubmitChangePassword()"
+      [disabled]="changePasswordForm.invalid"
+    >
+      Подтвердить
+    </button>
+  </form>
+</div>
