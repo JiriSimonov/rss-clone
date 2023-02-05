@@ -7,6 +7,7 @@ import { FormControl, FormGroup, Validators } from '@angular/forms';
 import { catchError, EMPTY } from 'rxjs';
 import { HttpErrorResponse } from '@angular/common/http';
 import { UsernameValidator } from 'src/app/shared/validators/username.validator';
+import { UserData } from 'src/app/auth/models/user-data.model';
 
 @Component({
   selector: 'app-dashboard-form',
@@ -14,8 +15,7 @@ import { UsernameValidator } from 'src/app/shared/validators/username.validator'
   styleUrls: ['./dashboard-form.component.scss'],
 })
 export class DashboardFormComponent implements OnInit {
-  changeLoginForm!: FormGroup;
-  changePasswordForm!: FormGroup;
+  changeUserDataForm!: FormGroup;
 
   constructor(
     private store$: Store,
@@ -24,23 +24,20 @@ export class DashboardFormComponent implements OnInit {
   ) {}
 
   ngOnInit(): void {
-    this.changeLoginForm = new FormGroup({
+    this.changeUserDataForm = new FormGroup({
       login: new FormControl(
         '',
-        [Validators.required, Validators.minLength(4), Validators.maxLength(12)],
+        [Validators.minLength(4), Validators.maxLength(12)],
         [UsernameValidator.isUniqueUsername(this.authService)]
       ),
-    }); 
-    this.changePasswordForm = new FormGroup({
       password: new FormControl('', [
-        Validators.required,
         Validators.minLength(8),
-        Validators.maxLength(20)
+        Validators.maxLength(20),
+        Validators.required,
       ]),
       confirmPassword: new FormControl('', [
-        Validators.required,
         Validators.minLength(8),
-        Validators.maxLength(20)
+        Validators.maxLength(20),
       ]),
     });
   }
@@ -67,49 +64,27 @@ export class DashboardFormComponent implements OnInit {
   }
 
   get usernameControl() {
-    return this.changeLoginForm.get('login');
+    return this.changeUserDataForm.get('login');
   }
 
   get passwordControl() {
-    return this.changePasswordForm.get('password');
+    return this.changeUserDataForm.get('password');
   }
 
   get confirmPasswordControl() {
-    return this.changePasswordForm.get('confirmPassword');
+    return this.changeUserDataForm.get('confirmPassword');
   }
 
-  getUserSub() {
-    let userSub;
-    this.authService.user$.subscribe((data) => (userSub = data?.sub));
-    return userSub ? userSub : 6;
-  }
-
-  onSubmitChangeLogin() {
-    this.getUserSub();
+  changeUserData() {
+    const userData: Partial<UserData> = {};
+    if (this.usernameControl!.value) {
+      userData.username = this.usernameControl!.value;
+    }
+    if (this.confirmPasswordControl!.value) {
+      userData.password = this.confirmPasswordControl!.value;
+    }
     this.authService
-      .setNewUsername(this.getUserSub(), this.usernameControl?.value)
-      .pipe(
-        catchError((err) => {
-          if (err instanceof HttpErrorResponse) {
-            if (err.status === 404) {
-              console.log('404 NOT FOUND');
-              return EMPTY;
-            }
-          }
-          throw err;
-        })
-      )
-      .subscribe(() => {
-        this.store$.dispatch(logoutSuccess());
-        localStorage.clear();
-        this.router.navigate(['auth'], { replaceUrl: true });
-      });
-  }
-
-  onSubmitChangePassword() {
-    this.getUserSub();
-    this.authService
-      .setNewPassword(this.getUserSub(), this.confirmPasswordControl?.value)
+      .changeUserData(userData)
       .pipe(
         catchError((err) => {
           if (err instanceof HttpErrorResponse) {

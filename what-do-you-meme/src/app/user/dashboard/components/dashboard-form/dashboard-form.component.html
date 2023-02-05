@@ -1,5 +1,5 @@
 <div class="form">
-  <form class="form__form form__form_top" [formGroup]="changeLoginForm">
+  <form class="form__form form__form_top" [formGroup]="changeUserDataForm">
     <label class="form__label">
       Новый логин:
       <input type="text" class="form__input" formControlName="login" />
@@ -13,16 +13,6 @@
         >Такой пользователь уже существует</span
       >
     </label>
-    <button
-      class="form__btn"
-      type="submit"
-      (click)="onSubmitChangeLogin()"
-      [disabled]="changeLoginForm.invalid || changeLoginForm.pending"
-    >
-      Подтвердить
-    </button>
-  </form>
-  <form class="form__form" [formGroup]="changePasswordForm">
     <label class="form__label">
       Введите текущий пароль:
       <input type="password" class="form__input" formControlName="password" />
@@ -44,13 +34,13 @@
     <button
       class="form__btn"
       type="submit"
-      (click)="onSubmitChangePassword()"
-      [disabled]="changePasswordForm.invalid"
+      (click)="changeUserData()"
+      [disabled]="changeUserDataForm.invalid || changeUserDataForm.pending || !changeUserDataForm.touched || confirmPasswordControl?.errors?.['minlength'] || usernameControl?.errors?.['minlength']"
     >
       Подтвердить
     </button>
-  </form>
   <button class="form__delete" (click)="deleteUser()">
     Удалить свой аккаунт
   </button>
+  </form>
 </div>
