@@ -56,11 +56,15 @@ export class AuthService {
   } // заменить как будет реализовано на бэке
 
   setNewUsername(id: number, newLogin: string) {
-    return this.httpClient.put<AuthData>(`${this.URL}/users/id/${id}`, { username: newLogin });
+    return this.httpClient.put<AuthData>(`${this.URL}/users/id/${id}`, {
+      username: newLogin,
+    });
   }
 
   setNewPassword(id: number, newPassword: string) {
-    return this.httpClient.put<AuthData>(`${this.URL}/users/id/${id}`, { password: newPassword });
+    return this.httpClient.put<AuthData>(`${this.URL}/users/id/${id}`, {
+      password: newPassword,
+    });
   }
 
   deleteUser(id: number) {
