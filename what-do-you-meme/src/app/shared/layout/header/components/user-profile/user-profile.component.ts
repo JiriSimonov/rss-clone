@@ -35,6 +35,7 @@ export class UserProfileComponent implements OnInit, OnDestroy {
   }
 
   signOut() {
+    this.router.navigate(['auth'], { replaceUrl: true });
     this.store$.dispatch(logoutSuccess());
     localStorage.clear();
   }

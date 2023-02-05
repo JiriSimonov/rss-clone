@@ -3,11 +3,22 @@
     <label class="form__label">
       Новый логин:
       <input type="text" class="form__input" formControlName="login" />
-      <span class="form__error" *ngIf="usernameControl?.errors?.['minlength']">Минимальная длина 4 символа</span>
-      <span class="form__error" *ngIf="usernameControl?.errors?.['maxlength']">Максимальная длина 12 символов</span>
-      <span class="form__error" *ngIf="usernameControl?.errors?.['isUserExist']">Такой пользователь уже существует</span>
+      <span class="form__error" *ngIf="usernameControl?.errors?.['minlength']"
+        >Минимальная длина 4 символа</span
+      >
+      <span class="form__error" *ngIf="usernameControl?.errors?.['maxlength']"
+        >Максимальная длина 12 символов</span
+      >
+      <span class="form__error" *ngIf="usernameControl?.errors?.['isUserExist']"
+        >Такой пользователь уже существует</span
+      >
     </label>
-    <button class="form__btn" type="submit" (click)="onSubmitChangeLogin()" [disabled]="changeLoginForm.invalid || changeLoginForm.pending">
+    <button
+      class="form__btn"
+      type="submit"
+      (click)="onSubmitChangeLogin()"
+      [disabled]="changeLoginForm.invalid || changeLoginForm.pending"
+    >
       Подтвердить
     </button>
   </form>
@@ -24,6 +35,12 @@
         formControlName="confirmPassword"
       />
     </label>
+    <span class="form__error" *ngIf="confirmPasswordControl?.errors?.['minlength']"
+      >Минимальная длина 8 символов</span
+    >
+    <span class="form__error" *ngIf="confirmPasswordControl?.errors?.['maxlength']"
+      >Максимальная длина 20 символов</span
+    >
     <button
       class="form__btn"
       type="submit"
@@ -33,5 +50,7 @@
       Подтвердить
     </button>
   </form>
-  <button class="form__delete" (click)="deleteUser()">Удалить свой аккаунт</button>
+  <button class="form__delete" (click)="deleteUser()">
+    Удалить свой аккаунт
+  </button>
 </div>

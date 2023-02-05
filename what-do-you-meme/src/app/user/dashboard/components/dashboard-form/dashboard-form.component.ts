@@ -27,7 +27,7 @@ export class DashboardFormComponent implements OnInit {
     this.changeLoginForm = new FormGroup({
       login: new FormControl(
         '',
-        [Validators.required, Validators.minLength(4)],
+        [Validators.required, Validators.minLength(4), Validators.maxLength(12)],
         [UsernameValidator.isUniqueUsername(this.authService)]
       ),
     }); 
@@ -35,17 +35,19 @@ export class DashboardFormComponent implements OnInit {
       password: new FormControl('', [
         Validators.required,
         Validators.minLength(8),
+        Validators.maxLength(20)
       ]),
       confirmPassword: new FormControl('', [
         Validators.required,
         Validators.minLength(8),
+        Validators.maxLength(20)
       ]),
     });
   }
 
   deleteUser() {
     this.authService
-      .deleteUser(this.getUserSub())
+      .deleteUser()
       .pipe(
         catchError((err) => {
           if (err instanceof HttpErrorResponse) {

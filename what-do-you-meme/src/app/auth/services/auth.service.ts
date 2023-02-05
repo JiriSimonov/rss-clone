@@ -67,7 +67,7 @@ export class AuthService {
     });
   }
 
-  deleteUser(id: number) {
-    return this.httpClient.delete(`${this.URL}/users/id/${id}`);
+  deleteUser() {
+    return this.httpClient.delete<AuthData>(`${this.URL}/users/`);
   }
 }
