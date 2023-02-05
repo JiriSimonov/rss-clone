@@ -43,7 +43,7 @@ export class AuthService {
   }
 
   refresh() {
-    return this.httpClient.post<AuthData>(`${this.URL}/refresh`, {}).pipe(
+    return this.httpClient.post<AuthData>(`${this.URL}/users/refresh`, {}).pipe(
       map((res) => {
         return {
           ...res,

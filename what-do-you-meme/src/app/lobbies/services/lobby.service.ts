@@ -12,7 +12,7 @@ export class LobbyService {
 
   constructor(private http: HttpClient) {}
 
-  getAllLobbies(): Observable<LobbyInfo[]> {
+  get allLobbies(): Observable<LobbyInfo[]> {
     return this.http.get<LobbyInfo[]>(this.url).pipe(
       tap((lobbies) => {
         this.lobbies = [...lobbies];
@@ -29,7 +29,7 @@ export class LobbyService {
   }
 
   deleteLobby(id: string): Observable<LobbyInfo> {
-    return this.http.delete<LobbyInfo>(`this.url/${id}`).pipe(tap((lobby) => {
+    return this.http.delete<LobbyInfo>(`${this.url}/${id}`).pipe(tap((lobby) => {
       return this.lobbies = this.lobbies.filter((item) => item.id !== lobby.id);
     }));
   }
