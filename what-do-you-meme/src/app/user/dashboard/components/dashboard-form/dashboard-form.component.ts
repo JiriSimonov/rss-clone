@@ -30,7 +30,7 @@ export class DashboardFormComponent implements OnInit {
         [Validators.required, Validators.minLength(4)],
         [UsernameValidator.isUniqueUsername(this.authService)]
       ),
-    });
+    }); 
     this.changePasswordForm = new FormGroup({
       password: new FormControl('', [
         Validators.required,

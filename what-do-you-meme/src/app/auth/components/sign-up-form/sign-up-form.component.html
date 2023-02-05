@@ -14,6 +14,9 @@
       <span class="form__error" *ngIf="usernameControl?.errors?.['maxlength']"
         >Максимальная длина 12 символов</span
       >
+      <span class="form__error" *ngIf="usernameControl?.errors?.['isUserExist']"
+        >Такой пользователь уже существует</span
+      >
     </label>
     <label class="form__label">
       Введите пароль:
