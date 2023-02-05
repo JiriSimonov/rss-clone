@@ -9,6 +9,10 @@
         <h2 class="modal-create__form-title">Количество раундов - {{roundsNumber}}</h2>
         <input class="modal-create__form-input" type="range" min="1" max="12" [(ngModel)]="roundsNumber">
       </div>
+      <div class="modal-create__form modal-create__name">
+        <h2 class="modal-create__form-title">Название лобби - {{name}}</h2>
+        <input class="modal-create__form-input" [(ngModel)]="name">
+      </div>
       <button class="modal-create__create-btn" (click)='createLobby({totalUsers: playersNumber, rounds: roundsNumber})'>Создать</button>
     </div>
   </div>

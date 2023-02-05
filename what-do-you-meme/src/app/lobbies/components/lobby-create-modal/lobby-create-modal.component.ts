@@ -9,6 +9,7 @@ import { LobbyOptions } from '../../models/lobbie-info.model';
 export class LobbyCreateModalComponent implements OnInit {
   playersNumber: number = 2;
   roundsNumber: number = 1;
+  name: string = 'default name';
   private element: HTMLElement;
 
   @Output() onClosed = new EventEmitter<boolean>();
@@ -30,7 +31,6 @@ export class LobbyCreateModalComponent implements OnInit {
   }
 
   createLobby(data: LobbyOptions) {
-    console.log(data);
     this.onCreated.emit(data);
   }
 }
