@@ -19,6 +19,6 @@
       <span class="form__error" *ngIf="passwordConfirmControl?.errors?.['minlength']">Минимальная длина 8 символов</span>
       <span class="form__error" *ngIf="passwordConfirmControl?.errors?.['maxlength']">Максимальная длина 20 символов</span>
     </label>
-    <button type="submit" [disabled]="!(isPasswordEqual && isFormValid)" class="form__btn">Зарегестрироваться</button>
+    <button type="submit" [disabled]="!(isPasswordEqual && isFormValid) || signUpForm.pending" class="form__btn">Зарегестрироваться</button>
   </form>
 </div>

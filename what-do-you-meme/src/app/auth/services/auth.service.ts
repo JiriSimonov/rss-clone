@@ -36,12 +36,6 @@ export class AuthService {
     );
   }
 
-  getUserById(id: number) {
-    return this.httpClient.get<{ username: string; password: string }>(
-      `https://wdym-server.up.railway.app/users/id/${id}`
-    );
-  }
-
   refresh() {
     return this.httpClient.post<AuthData>(`${this.URL}/auth/refresh`, {}).pipe(
       map((res) => {
@@ -54,8 +48,12 @@ export class AuthService {
   }
 
   isUniqueUsername(username: string) {
-    return this.httpClient.get(`${this.URL}/users/user/${username}`)
+    return this.httpClient.get(`${this.URL}/users/has?username=${username}`);
   }
+
+  isValidPassword(username: string) {
+    return this.httpClient.get(`${this.URL}/users/has?username=${username}`);
+  } // заменить как будет реализовано на бэке
 
   setNewUsername(id: number, newLogin: string) {
     return this.httpClient.put<AuthData>(`${this.URL}/users/id/${id}`, { username: newLogin });
@@ -63,5 +61,9 @@ export class AuthService {
 
   setNewPassword(id: number, newPassword: string) {
     return this.httpClient.put<AuthData>(`${this.URL}/users/id/${id}`, { password: newPassword });
+  }
+
+  deleteUser(id: number) {
+    return this.httpClient.delete(`${this.URL}/users/id/${id}`);
   }
 }

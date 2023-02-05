@@ -37,7 +37,6 @@ export class UserProfileComponent implements OnInit, OnDestroy {
   signOut() {
     this.store$.dispatch(logoutSuccess());
     localStorage.clear();
-    this.router.navigate(['auth'], { replaceUrl: true })
   }
 
   get isNotDefaultUsername() {

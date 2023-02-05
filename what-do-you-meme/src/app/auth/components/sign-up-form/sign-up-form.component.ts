@@ -15,7 +15,7 @@ import {
 } from '@angular/core';
 import { AuthService } from '../../services/auth.service';
 import { EMPTY } from 'rxjs';
-import { isUniqueUsernameValidator } from './username.validator';
+import { UsernameValidator } from 'src/app/shared/validators/username.validator';
 
 @Component({
   selector: 'app-sign-up-form',
@@ -42,7 +42,7 @@ export class SignUpFormComponent implements OnInit {
           Validators.minLength(4),
           Validators.maxLength(12),
         ],
-        []
+        [UsernameValidator.isUniqueUsername(this.authService)]
       ),
       password: new FormControl('', [
         Validators.required,

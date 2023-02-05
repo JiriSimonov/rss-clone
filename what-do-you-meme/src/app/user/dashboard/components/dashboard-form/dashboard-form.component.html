@@ -5,8 +5,9 @@
       <input type="text" class="form__input" formControlName="login" />
       <span class="form__error" *ngIf="usernameControl?.errors?.['minlength']">Минимальная длина 4 символа</span>
       <span class="form__error" *ngIf="usernameControl?.errors?.['maxlength']">Максимальная длина 12 символов</span>
+      <span class="form__error" *ngIf="usernameControl?.errors?.['isUniqueUsername']">Такой пользователь уже существует</span>
     </label>
-    <button class="form__btn" type="submit" (click)="onSubmitChangeLogin()" [disabled]="changeLoginForm.invalid">
+    <button class="form__btn" type="submit" (click)="onSubmitChangeLogin()" [disabled]="changeLoginForm.invalid || changeLoginForm.pending">
       Подтвердить
     </button>
   </form>
@@ -32,4 +33,5 @@
       Подтвердить
     </button>
   </form>
+  <button class="form__delete" (click)="deleteUser()">Удалить свой аккаунт</button>
 </div>

@@ -1,4 +1,3 @@
-import { getAuthData } from './../../../../auth/store/auth.selectors';
 import { Router } from '@angular/router';
 import { logoutSuccess } from './../../../../auth/store/auth.actions';
 import { AuthService } from './../../../../auth/services/auth.service';
@@ -7,6 +6,7 @@ import { Component, OnInit } from '@angular/core';
 import { FormControl, FormGroup, Validators } from '@angular/forms';
 import { catchError, EMPTY } from 'rxjs';
 import { HttpErrorResponse } from '@angular/common/http';
+import { UsernameValidator } from 'src/app/shared/validators/username.validator';
 
 @Component({
   selector: 'app-dashboard-form',
@@ -16,7 +16,6 @@ import { HttpErrorResponse } from '@angular/common/http';
 export class DashboardFormComponent implements OnInit {
   changeLoginForm!: FormGroup;
   changePasswordForm!: FormGroup;
-  // private userSub: number | undefined;
 
   constructor(
     private store$: Store,
@@ -26,10 +25,11 @@ export class DashboardFormComponent implements OnInit {
 
   ngOnInit(): void {
     this.changeLoginForm = new FormGroup({
-      login: new FormControl('', [
-        Validators.required,
-        Validators.minLength(3),
-      ]),
+      login: new FormControl(
+        '',
+        [Validators.required, Validators.minLength(4)],
+        [UsernameValidator.isUniqueUsername(this.authService)]
+      ),
     });
     this.changePasswordForm = new FormGroup({
       password: new FormControl('', [
@@ -41,6 +41,27 @@ export class DashboardFormComponent implements OnInit {
         Validators.minLength(8),
       ]),
     });
+  }
+
+  deleteUser() {
+    this.authService
+      .deleteUser(this.getUserSub())
+      .pipe(
+        catchError((err) => {
+          if (err instanceof HttpErrorResponse) {
+            if (err.status === 404) {
+              console.log('404 NOT FOUND');
+              return EMPTY;
+            }
+          }
+          throw err;
+        })
+      )
+      .subscribe(() => {
+        this.store$.dispatch(logoutSuccess());
+        localStorage.clear();
+        this.router.navigate(['auth'], { replaceUrl: true });
+      });
   }
 
   get usernameControl() {
