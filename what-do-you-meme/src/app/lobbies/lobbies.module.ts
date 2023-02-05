@@ -4,8 +4,7 @@ import { LobbiesPageComponent } from './pages/lobbies-page/lobbies-page.componen
 import {RouterModule} from "@angular/router";
 import { LobbyInfoComponent } from './components/lobby-info/lobby-info.component';
 import { LobbyCreateModalComponent } from './components/lobby-create-modal/lobby-create-modal.component';
-import { FormsModule } from '@angular/forms';
-
+import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 
 @NgModule({
   declarations: [
@@ -21,6 +20,7 @@ import { FormsModule } from '@angular/forms';
       component: LobbiesPageComponent,
     }]),
     FormsModule,
+    ReactiveFormsModule
   ]
 })
 export class LobbiesModule { }

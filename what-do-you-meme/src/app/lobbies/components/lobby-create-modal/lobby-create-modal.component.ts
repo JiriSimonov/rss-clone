@@ -1,4 +1,10 @@
 import { Component, ElementRef, EventEmitter, OnInit, Output } from '@angular/core';
+import {
+  FormGroup,
+  FormControl,
+  Validators
+} from '@angular/forms';
+
 import { LobbyOptions } from '../../models/lobbie-info.model';
 
 @Component({
@@ -9,14 +15,15 @@ import { LobbyOptions } from '../../models/lobbie-info.model';
 export class LobbyCreateModalComponent implements OnInit {
   playersNumber: number = 2;
   roundsNumber: number = 1;
-  name: string = 'default name';
+  lobbyName: string = 'default name';
+  modalForm!: FormGroup;
   private element: HTMLElement;
 
   @Output() onClosed = new EventEmitter<boolean>();
   @Output() onCreated = new EventEmitter<LobbyOptions>();
 
-  constructor(private el: ElementRef) {
-    this.element = this.el.nativeElement;
+  constructor(private elem: ElementRef) {
+    this.element = this.elem.nativeElement;
   }
 
   ngOnInit() {
@@ -28,9 +35,35 @@ export class LobbyCreateModalComponent implements OnInit {
         }
       }
     });
+
+    this.modalForm = new FormGroup({
+      players: new FormControl('2', [
+        Validators.required,
+      ]),
+      rounds: new FormControl('1', [
+        Validators.required,
+      ]),
+      name: new FormControl('name', [
+        Validators.required,
+        Validators.minLength(4),
+        Validators.maxLength(16),
+      ]),
+    })
   }
 
-  createLobby(data: LobbyOptions) {
+  get rounds() {
+    return this.modalForm.get('rounds');
+  }
+
+  get players() {
+    return this.modalForm.get('players');
+  }
+
+  get name() {
+    return this.modalForm.get('name');
+  }
+
+  onSubmit(data: LobbyOptions) {
     this.onCreated.emit(data);
   }
 }

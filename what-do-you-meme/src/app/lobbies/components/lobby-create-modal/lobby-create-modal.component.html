@@ -1,19 +1,23 @@
 <div class="modal-create">
   <div class="modal-create__overlay">
-    <div class="modal-create__container">
-      <div class="modal-create__form modal-create__players">
-        <h2 class="modal-create__form-title">Количество игрoков - {{playersNumber}}</h2>
-        <input class="modal-create__form-input" type="range" min="2" max="8" [(ngModel)]="playersNumber">
-      </div>
-      <div class="modal-create__form modal-create__rounds">
-        <h2 class="modal-create__form-title">Количество раундов - {{roundsNumber}}</h2>
-        <input class="modal-create__form-input" type="range" min="1" max="12" [(ngModel)]="roundsNumber">
-      </div>
-      <div class="modal-create__form modal-create__name">
-        <h2 class="modal-create__form-title">Название лобби - {{name}}</h2>
-        <input class="modal-create__form-input" [(ngModel)]="name">
-      </div>
-      <button class="modal-create__create-btn" (click)='createLobby({totalUsers: playersNumber, rounds: roundsNumber})'>Создать</button>
+    <div class="modal-create__container form">
+      <form (ngSubmit)="onSubmit({totalUsers: playersNumber, rounds: roundsNumber})"
+        [formGroup]="modalForm"
+        class="modal-create__form form__form">
+        <label class="modal-create__label form__label">
+          Количество игрoков - {{players?.value}}
+          <input class="modal-create__form-input form__input" formControlName="players" type="range" min="2" max="8">
+        </label>
+        <label class="modal-create__label form__label">
+          Количество раундов - {{rounds?.value}}
+          <input class="modal-create__form-input form__input" formControlName="rounds" type="range" min="1" max="12">
+        </label>
+        <label class="modal-create__label form__label">
+          Название лобби - {{name?.value}}
+          <input class="modal-create__form-input form__input" formControlName="name">
+        </label>
+        <button class="modal-create__btn form__btn" type="submit">Создать</button>
+      </form>
     </div>
   </div>
 </div>
