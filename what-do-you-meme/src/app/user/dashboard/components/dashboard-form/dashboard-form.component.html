@@ -17,7 +17,11 @@
       Введите текущий пароль:
       <input type="password" class="form__input" formControlName="password" />
     </label>
-    <span class="form__error" *ngIf="passwordControl?.errors?.['isPasswordValid']">Неверный пароль</span>
+    <span
+      class="form__error"
+      *ngIf="passwordControl?.errors?.['isPasswordValid']"
+      >Неверный пароль</span
+    >
     <label class="form__label">
       Введите новый пароль:
       <input
@@ -26,22 +30,32 @@
         formControlName="confirmPassword"
       />
     </label>
-    <span class="form__error" *ngIf="confirmPasswordControl?.errors?.['minlength']"
+    <span
+      class="form__error"
+      *ngIf="confirmPasswordControl?.errors?.['minlength']"
       >Минимальная длина 8 символов</span
     >
-    <span class="form__error" *ngIf="confirmPasswordControl?.errors?.['maxlength']"
+    <span
+      class="form__error"
+      *ngIf="confirmPasswordControl?.errors?.['maxlength']"
       >Максимальная длина 20 символов</span
     >
     <button
       class="form__btn"
       type="submit"
       (click)="changeUserData()"
-      [disabled]="changeUserDataForm.invalid || changeUserDataForm.pending || !changeUserDataForm.touched || confirmPasswordControl?.errors?.['minlength'] || usernameControl?.errors?.['minlength']"
+      [disabled]="
+      changeUserDataForm.invalid ||
+      changeUserDataForm.pending ||
+      !changeUserDataForm.touched ||
+      confirmPasswordControl?.errors?.['minlength'] ||
+      usernameControl?.errors?.['minlength'] ||
+      isFormValid()"
     >
       Подтвердить
     </button>
-  <button class="form__delete" (click)="deleteUser()">
-    Удалить свой аккаунт
-  </button>
+    <button class="form__delete" (click)="deleteUser()">
+      Удалить свой аккаунт
+    </button>
   </form>
 </div>

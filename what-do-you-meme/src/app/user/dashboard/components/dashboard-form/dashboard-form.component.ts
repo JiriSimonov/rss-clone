@@ -31,16 +31,36 @@ export class DashboardFormComponent implements OnInit {
         [Validators.minLength(4), Validators.maxLength(12)],
         [UsernameValidator.isUniqueUsername(this.authService)]
       ),
-      password: new FormControl('', [
-        Validators.minLength(8),
-        Validators.maxLength(20),
-        Validators.required,
-      ], [PasswordValidator.isValidPassword(this.authService)]),
+      password: new FormControl(
+        '',
+        [
+          Validators.minLength(8),
+          Validators.maxLength(20),
+          Validators.required,
+        ],
+        [PasswordValidator.isValidPassword(this.authService)]
+      ),
       confirmPassword: new FormControl('', [
         Validators.minLength(8),
         Validators.maxLength(20),
       ]),
     });
+  }
+
+  isFormValid() {
+    return !(this.usernameControl?.value !== ''  || this.confirmPasswordControl?.value !== '');
+  }
+
+  get usernameControl() {
+    return this.changeUserDataForm.get('login');
+  }
+
+  get passwordControl() {
+    return this.changeUserDataForm.get('password');
+  }
+
+  get confirmPasswordControl() {
+    return this.changeUserDataForm.get('confirmPassword');
   }
 
   deleteUser() {
@@ -62,18 +82,6 @@ export class DashboardFormComponent implements OnInit {
         localStorage.clear();
         this.router.navigate(['auth'], { replaceUrl: true });
       });
-  }
-
-  get usernameControl() {
-    return this.changeUserDataForm.get('login');
-  }
-
-  get passwordControl() {
-    return this.changeUserDataForm.get('password');
-  }
-
-  get confirmPasswordControl() {
-    return this.changeUserDataForm.get('confirmPassword');
   }
 
   changeUserData() {

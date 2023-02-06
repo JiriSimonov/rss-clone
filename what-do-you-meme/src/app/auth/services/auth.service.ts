@@ -30,7 +30,7 @@ export class AuthService {
     );
   }
 
-  signUp(body: { username: string; password: string }) {
+  signUp(body: { username: string; password: string; image: string }) {
     return this.httpClient.post<{ username: string; password: string }>(
       `${this.URL}/users`,
       body
@@ -61,6 +61,10 @@ export class AuthService {
   }
 
   changeUserData(userData: Partial<AuthData>) {
-    return this.httpClient.put<AuthData>(`${this.URL}/users/`, userData);
+    return this.httpClient.patch<AuthData>(`${this.URL}/users/`, userData);
+  }
+
+  getAvatars() {
+    return this.httpClient.get(`${this.URL}/file/avatars`);
   }
 }

@@ -1,5 +1,6 @@
+import { UserAvatarService } from './../../services/user-avatar.service';
 import { Router } from '@angular/router';
-import { catchError, tap } from 'rxjs/operators';
+import { catchError } from 'rxjs/operators';
 import { UserData } from './../../models/user-data.model';
 import {
   FormGroup,
@@ -12,6 +13,7 @@ import {
   Component,
   OnInit,
   ChangeDetectorRef,
+  Input,
 } from '@angular/core';
 import { AuthService } from '../../services/auth.service';
 import { EMPTY } from 'rxjs';
@@ -26,11 +28,11 @@ import { UsernameValidator } from 'src/app/shared/validators/username.validator'
 export class SignUpFormComponent implements OnInit {
   signUpForm!: FormGroup;
   errors: string[] = [];
-
   constructor(
     private authService: AuthService,
     private router: Router,
-    private cdr: ChangeDetectorRef
+    private cdr: ChangeDetectorRef,
+    private userAvatarService: UserAvatarService
   ) {}
 
   ngOnInit(): void {
@@ -61,6 +63,7 @@ export class SignUpFormComponent implements OnInit {
     return {
       username: this.signUpForm.value.username,
       password: this.signUpForm.value.password,
+      image: this.userAvatarService.avatarPath,
     };
   }
 
