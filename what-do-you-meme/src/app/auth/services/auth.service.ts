@@ -52,9 +52,9 @@ export class AuthService {
     return this.httpClient.get(`${this.URL}/users/has?username=${username}`);
   }
 
-  isValidPassword(username: string) {
-    return this.httpClient.get(`${this.URL}/users/has?username=${username}`);
-  } // заменить как будет реализовано на бэке
+  isValidPassword(password: string) {
+    return this.httpClient.post<AuthData>(`${this.URL}/auth/validate`, {password});
+  }
 
   deleteUser() {
     return this.httpClient.delete<AuthData>(`${this.URL}/users/`);

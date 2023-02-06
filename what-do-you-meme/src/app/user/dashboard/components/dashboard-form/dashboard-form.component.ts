@@ -8,6 +8,7 @@ import { catchError, EMPTY } from 'rxjs';
 import { HttpErrorResponse } from '@angular/common/http';
 import { UsernameValidator } from 'src/app/shared/validators/username.validator';
 import { UserData } from 'src/app/auth/models/user-data.model';
+import { PasswordValidator } from 'src/app/shared/validators/password.validator';
 
 @Component({
   selector: 'app-dashboard-form',
@@ -34,7 +35,7 @@ export class DashboardFormComponent implements OnInit {
         Validators.minLength(8),
         Validators.maxLength(20),
         Validators.required,
-      ]),
+      ], [PasswordValidator.isValidPassword(this.authService)]),
       confirmPassword: new FormControl('', [
         Validators.minLength(8),
         Validators.maxLength(20),

@@ -17,6 +17,7 @@
       Введите текущий пароль:
       <input type="password" class="form__input" formControlName="password" />
     </label>
+    <span class="form__error" *ngIf="passwordControl?.errors?.['isPasswordValid']">Неверный пароль</span>
     <label class="form__label">
       Введите новый пароль:
       <input
