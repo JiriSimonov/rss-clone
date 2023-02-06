@@ -5,6 +5,7 @@ import {RouterModule} from "@angular/router";
 import { LobbyInfoComponent } from './components/lobby-info/lobby-info.component';
 import { LobbyCreateModalComponent } from './components/lobby-create-modal/lobby-create-modal.component';
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';
+import { LobbiesRoutingModule } from './lobbies-routing.module';
 
 @NgModule({
   declarations: [
@@ -14,11 +15,7 @@ import { FormsModule, ReactiveFormsModule } from '@angular/forms';
   ],
   imports: [
     CommonModule,
-    RouterModule.forChild([{
-      path: '',
-      pathMatch: 'full',
-      component: LobbiesPageComponent,
-    }]),
+    LobbiesRoutingModule,
     FormsModule,
     ReactiveFormsModule
   ]

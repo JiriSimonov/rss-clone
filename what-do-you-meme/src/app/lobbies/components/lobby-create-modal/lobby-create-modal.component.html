@@ -1,22 +1,24 @@
 <div class="modal-create">
   <div class="modal-create__overlay">
     <div class="modal-create__container form">
-      <form (ngSubmit)="onSubmit({totalUsers: playersNumber, rounds: roundsNumber})"
+      <form (ngSubmit)="onSubmit(modalForm.value)"
         [formGroup]="modalForm"
         class="modal-create__form form__form">
         <label class="modal-create__label form__label">
-          Количество игрoков - {{players?.value}}
-          <input class="modal-create__form-input form__input" formControlName="players" type="range" min="2" max="8">
+          Количество игрoков - {{maxUsersControl?.value}}
+          <input class="modal-create__form-input form__input" formControlName="maxUsers" type="range" min="2" max="8">
         </label>
         <label class="modal-create__label form__label">
-          Количество раундов - {{rounds?.value}}
+          Количество раундов - {{roundsControl?.value}}
           <input class="modal-create__form-input form__input" formControlName="rounds" type="range" min="1" max="12">
         </label>
         <label class="modal-create__label form__label">
-          Название лобби - {{name?.value}}
+          Введите название лобби:
           <input class="modal-create__form-input form__input" formControlName="name">
+          <span class="form__error" *ngIf="nameControl?.errors?.['maxlength']">Максимальная длина - 18</span>
+          <span class="form__error" *ngIf="nameControl?.errors?.['minlength']">Mинимальная длина - 3</span>
         </label>
-        <button class="modal-create__btn form__btn" type="submit">Создать</button>
+        <button class="modal-create__btn form__btn" type="submit" [disabled]="(!modalForm.valid || alreadyCreated)">Создать</button>
       </form>
     </div>
   </div>

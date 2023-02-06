@@ -10,7 +10,7 @@ export const isValidLobbyIdGuard  = [(route: Route, segments: UrlSegment[]) => {
       return true;
     }),
     catchError(() => {
-      router.navigate(['lobbies']);
+      router.navigate(['lobbies'], { replaceUrl: true });
       return [];
     }));
 }];

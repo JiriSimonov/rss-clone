@@ -1,4 +1,5 @@
 import { Component, OnInit } from '@angular/core';
+import { ActivatedRoute } from '@angular/router';
 import { LobbyOptions } from '../../models/lobbie-info.model';
 import { LobbyService } from '../../services/lobby.service';
 
@@ -9,11 +10,14 @@ import { LobbyService } from '../../services/lobby.service';
 })
 export class LobbiesPageComponent implements OnInit {
   isOpened = false;
+  id: string = '1';
 
-  constructor(public lobbiesService: LobbyService) { }
+  constructor(public lobbiesService: LobbyService ,private activateRoute: ActivatedRoute) {
+     this.id = this.activateRoute.snapshot.params['id'];
+  }
 
   ngOnInit() {
-    this.lobbiesService.allLobbies.subscribe();
+    this.lobbiesService.getAllLobbies(+this.id).subscribe();
   }
 
   toggleModal() {

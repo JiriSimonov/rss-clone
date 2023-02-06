@@ -8,12 +8,12 @@ import { LobbyInfo } from '../models/lobbie-info.model';
 })
 export class LobbyService {
   private readonly url = 'http://localhost:3000/lobbies'
-  public lobbies:LobbyInfo[] = [];
+  public lobbies: LobbyInfo[] = [];
 
-  constructor(private http: HttpClient) {}
+  constructor(private http: HttpClient) { }
 
-  get allLobbies(): Observable<LobbyInfo[]> {
-    return this.http.get<LobbyInfo[]>(this.url).pipe(
+  getAllLobbies(page = 1, limit = 5): Observable<LobbyInfo[]> {
+    return this.http.get<LobbyInfo[]>(`${this.url}?_page=${page}&_limit=${limit}`).pipe(
       tap((lobbies) => {
         this.lobbies = [...lobbies];
       })
@@ -23,6 +23,7 @@ export class LobbyService {
   getLobbie(id: string): Observable<LobbyInfo> {
     return this.http.get<LobbyInfo>(`${this.url}/${id}`);
   }
+
 
   createNewLobby(lobby: LobbyInfo): Observable<LobbyInfo> {
     return this.http.post<LobbyInfo>(this.url, lobby).pipe(tap(lobby => this.lobbies.push(lobby)));

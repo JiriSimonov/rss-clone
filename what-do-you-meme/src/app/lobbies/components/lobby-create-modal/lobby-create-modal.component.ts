@@ -4,6 +4,7 @@ import {
   FormControl,
   Validators
 } from '@angular/forms';
+import { filter, map } from 'rxjs';
 
 import { LobbyOptions } from '../../models/lobbie-info.model';
 
@@ -13,9 +14,6 @@ import { LobbyOptions } from '../../models/lobbie-info.model';
   styleUrls: ['./lobby-create-modal.component.scss']
 })
 export class LobbyCreateModalComponent implements OnInit {
-  playersNumber: number = 2;
-  roundsNumber: number = 1;
-  lobbyName: string = 'default name';
   modalForm!: FormGroup;
   private element: HTMLElement;
 
@@ -37,7 +35,7 @@ export class LobbyCreateModalComponent implements OnInit {
     });
 
     this.modalForm = new FormGroup({
-      players: new FormControl('2', [
+      maxUsers: new FormControl('2', [
         Validators.required,
       ]),
       rounds: new FormControl('1', [
@@ -45,25 +43,30 @@ export class LobbyCreateModalComponent implements OnInit {
       ]),
       name: new FormControl('name', [
         Validators.required,
-        Validators.minLength(4),
-        Validators.maxLength(16),
+        Validators.minLength(3),
+        Validators.maxLength(18),
       ]),
-    })
+    });
   }
 
-  get rounds() {
+  get roundsControl() {
     return this.modalForm.get('rounds');
   }
 
-  get players() {
-    return this.modalForm.get('players');
+  get maxUsersControl() {
+    return this.modalForm.get('maxUsers');
   }
 
-  get name() {
+  get nameControl() {
     return this.modalForm.get('name');
   }
 
+  get alreadyCreated() {
+    return window.localStorage.getItem('createdRoom') === 'true' ? true : false;
+  }
+
   onSubmit(data: LobbyOptions) {
+    window.localStorage.setItem('createdRoom', 'true');
     this.onCreated.emit(data);
   }
 }
