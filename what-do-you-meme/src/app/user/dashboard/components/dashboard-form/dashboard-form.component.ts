@@ -9,6 +9,7 @@ import { HttpErrorResponse } from '@angular/common/http';
 import { UsernameValidator } from 'src/app/shared/validators/username.validator';
 import { UserData } from 'src/app/auth/models/user-data.model';
 import { PasswordValidator } from 'src/app/shared/validators/password.validator';
+import { UserAvatarService } from 'src/app/auth/services/user-avatar.service';
 
 @Component({
   selector: 'app-dashboard-form',
@@ -21,7 +22,8 @@ export class DashboardFormComponent implements OnInit {
   constructor(
     private store$: Store,
     private authService: AuthService,
-    private router: Router
+    private router: Router,
+    private userAvatar: UserAvatarService
   ) {}
 
   ngOnInit(): void {
@@ -48,7 +50,10 @@ export class DashboardFormComponent implements OnInit {
   }
 
   isFormValid() {
-    return !(this.usernameControl?.value !== ''  || this.confirmPasswordControl?.value !== '');
+    return !(
+      this.usernameControl?.value !== '' ||
+      this.confirmPasswordControl?.value !== ''
+    );
   }
 
   get usernameControl() {
@@ -84,6 +89,27 @@ export class DashboardFormComponent implements OnInit {
       });
   }
 
+  changeUserAvatar() {
+    this.authService
+      .changeUserData({ image: this.userAvatar.avatarPath })
+      .pipe(
+        catchError((err) => {
+          if (err instanceof HttpErrorResponse) {
+            if (err.status === 404) {
+              console.log('404 NOT FOUND');
+              return EMPTY;
+            }
+          }
+          throw err;
+        })
+      )
+      .subscribe(() => {
+        this.store$.dispatch(logoutSuccess());
+        localStorage.clear();
+        this.router.navigate(['auth'], { replaceUrl: true });
+      });
+  }
+
   changeUserData() {
     const userData: Partial<UserData> = {};
     if (this.usernameControl!.value) {
@@ -92,6 +118,7 @@ export class DashboardFormComponent implements OnInit {
     if (this.confirmPasswordControl!.value) {
       userData.password = this.confirmPasswordControl!.value;
     }
+
     this.authService
       .changeUserData(userData)
       .pipe(

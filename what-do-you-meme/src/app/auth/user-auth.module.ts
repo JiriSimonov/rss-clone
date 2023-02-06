@@ -6,7 +6,7 @@ import { AuthFormComponent } from './components/sign-in-form/auth-form.component
 import { UserAuthRoutingModule } from './user-auth-routing.module';
 import { SignUpComponent } from './pages/sign-up-page/sign-up.component';
 import { SignUpFormComponent } from './components/sign-up-form/sign-up-form.component';
-import { SetPictureComponent } from './components/set-picture/set-picture.component';
+import { SharedModule } from '../shared/shared.module';
 
 @NgModule({
   declarations: [
@@ -14,8 +14,7 @@ import { SetPictureComponent } from './components/set-picture/set-picture.compon
     AuthFormComponent,
     SignUpComponent,
     SignUpFormComponent,
-    SetPictureComponent,
   ],
-  imports: [CommonModule, UserAuthRoutingModule, ReactiveFormsModule],
+  imports: [CommonModule, UserAuthRoutingModule, ReactiveFormsModule, SharedModule],
 })
 export class UserAuthModule {}

@@ -4,11 +4,13 @@ import { DashboardPageComponent } from './pages/dashboard-page/dashboard-page.co
 import { RouterModule } from '@angular/router';
 import { DashboardFormComponent } from './components/dashboard-form/dashboard-form.component';
 import { ReactiveFormsModule } from '@angular/forms';
+import { SharedModule } from 'src/app/shared/shared.module';
 
 @NgModule({
   declarations: [DashboardPageComponent, DashboardFormComponent],
   imports: [
     CommonModule,
+    SharedModule,
     ReactiveFormsModule,
     RouterModule.forChild([
       {

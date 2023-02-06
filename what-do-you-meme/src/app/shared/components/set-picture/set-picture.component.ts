@@ -1,5 +1,5 @@
-import { UserAvatarService } from './../../services/user-avatar.service';
-import { AuthService } from './../../services/auth.service';
+import { UserAvatarService } from '../../../auth/services/user-avatar.service';
+import { AuthService } from '../../../auth/services/auth.service';
 import { Component, EventEmitter, OnInit, Output } from '@angular/core';
 import { randomize } from 'src/app/utils/randomize';
 import { EMPTY } from 'rxjs';
@@ -15,11 +15,14 @@ export class SetPictureComponent implements OnInit {
   private avatarNumber = 1;
   avatarPath: string = `${this.path}/${this.avatarNumber}`;
 
-  constructor(private authService: AuthService, private userAvatarService: UserAvatarService) {}
-
-  ngOnInit(): void {
+  constructor(
+    private authService: AuthService,
+    private userAvatarService: UserAvatarService
+  ) {
     this.getAvatarsArr();
   }
+
+  ngOnInit(): void {}
 
   randomizeAvatar() {
     this.avatarPath = `${this.path}/${randomize(0, this.avatarsLength)}`;

@@ -1,5 +1,7 @@
 <div class="form">
   <form class="form__form form__form_top" [formGroup]="changeUserDataForm">
+    <app-set-picture></app-set-picture>
+    <button class="btn" (click)="changeUserAvatar()">Сменить аватар</button>
     <label class="form__label">
       Новый логин:
       <input type="text" class="form__input" formControlName="login" />
