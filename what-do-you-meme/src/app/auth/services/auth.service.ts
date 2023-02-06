@@ -5,6 +5,7 @@ import { JwtHelperService } from '@auth0/angular-jwt';
 import { Injectable } from '@angular/core';
 import { HttpClient } from '@angular/common/http';
 import { map } from 'rxjs';
+
 @Injectable({
   providedIn: 'root',
 })
@@ -29,21 +30,15 @@ export class AuthService {
     );
   }
 
-  signUp(body: { username: string; password: string }) {
+  signUp(body: { username: string; password: string; image: string }) {
     return this.httpClient.post<{ username: string; password: string }>(
       `${this.URL}/users`,
       body
     );
   }
 
-  getUserById(id: number) {
-    return this.httpClient.get<{ username: string; password: string }>(
-      `https://wdym-server.up.railway.app/users/id/${id}`
-    );
-  }
-
   refresh() {
-    return this.httpClient.post<AuthData>(`${this.URL}/users/refresh`, {}).pipe(
+    return this.httpClient.post<AuthData>(`${this.URL}/auth/refresh`, {}).pipe(
       map((res) => {
         return {
           ...res,
@@ -54,6 +49,22 @@ export class AuthService {
   }
 
   isUniqueUsername(username: string) {
-    return this.httpClient.get(`${this.URL}/users/user/${username}`)
+    return this.httpClient.get(`${this.URL}/users/has?username=${username}`);
+  }
+
+  isValidPassword(password: string) {
+    return this.httpClient.post<AuthData>(`${this.URL}/auth/validate`, {password});
+  }
+
+  deleteUser() {
+    return this.httpClient.delete<AuthData>(`${this.URL}/users/`);
+  }
+
+  changeUserData(userData: Partial<AuthData>) {
+    return this.httpClient.patch<AuthData>(`${this.URL}/users/`, userData);
+  }
+
+  getAvatars() {
+    return this.httpClient.get(`${this.URL}/file/avatars`);
   }
 }

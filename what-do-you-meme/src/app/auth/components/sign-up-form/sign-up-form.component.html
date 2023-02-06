@@ -1,18 +1,67 @@
-<div class="sign-up">
-  <form (ngSubmit)="onSubmit()" [formGroup]="signUpForm" class="sign-up__form" novalidate>
-    <label class="sign-up__label">
+<div class="form">
+  <form
+    (ngSubmit)="onSubmit()"
+    [formGroup]="signUpForm"
+    class="form__form"
+    novalidate
+  >
+  <app-set-picture></app-set-picture>
+    <label class="form__label">
       Введите логин:
-      <input type="text" formControlName="username" class="sign-up__input" />
+      <input type="text" formControlName="username" class="form__input" />
+      <span class="form__error" *ngIf="usernameControl?.errors?.['minlength']"
+        >Минимальная длина 4 символа</span
+      >
+      <span class="form__error" *ngIf="usernameControl?.errors?.['maxlength']"
+        >Максимальная длина 12 символов</span
+      >
+      <span class="form__error" *ngIf="usernameControl?.errors?.['isUserExist']"
+        >Такой пользователь уже существует</span
+      >
     </label>
-    <label class="sign-up__label">
+    <label class="form__label">
       Введите пароль:
-      <input type="password" formControlName="password" class="sign-up__input"/>
+      <input type="password" formControlName="password" class="form__input" />
+      <span class="form__error" *ngIf="passwordControl?.errors?.['minlength']"
+        >Минимальная длина 8 символов</span
+      >
+      <span class="form__error" *ngIf="passwordControl?.errors?.['maxlength']"
+        >Максимальная длина 20 символов</span
+      >
     </label>
-    <label class="sign-up__label">
+    <label class="form__label">
       Повторите пароль:
-      <input type="password" formControlName="confirmPassword" class="sign-up__input"/>
-      <span class="sign-up__error" *ngIf="(!isPasswordEqual && passwordControl?.dirty && passwordConfirmControl?.dirty)">Пароли не совпадают!</span>
+      <input
+        type="password"
+        formControlName="confirmPassword"
+        class="form__input"
+      />
+      <span
+        class="form__error"
+        *ngIf="
+          !isPasswordEqual &&
+          passwordControl?.dirty &&
+          passwordConfirmControl?.dirty
+        "
+        >Пароли не совпадают!</span
+      >
+      <span
+        class="form__error"
+        *ngIf="passwordConfirmControl?.errors?.['minlength']"
+        >Минимальная длина 8 символов</span
+      >
+      <span
+        class="form__error"
+        *ngIf="passwordConfirmControl?.errors?.['maxlength']"
+        >Максимальная длина 20 символов</span
+      >
     </label>
-    <button type="submit" [disabled]="!(isPasswordEqual && isFormValid)" class="sign-up__btn">Зарегестрироваться</button>
+    <button
+      type="submit"
+      [disabled]="!(isPasswordEqual && isFormValid) || signUpForm.pending"
+      class="form__btn"
+    >
+      Зарегестрироваться
+    </button>
   </form>
 </div>

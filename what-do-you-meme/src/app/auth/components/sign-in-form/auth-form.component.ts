@@ -30,12 +30,12 @@ export class AuthFormComponent implements OnInit {
       username: new FormControl('', [
         Validators.required,
         Validators.minLength(4),
-        Validators.maxLength(24),
+        Validators.maxLength(12),
       ]),
       password: new FormControl('', [
         Validators.required,
         Validators.minLength(8),
-        Validators.maxLength(70),
+        Validators.maxLength(20),
       ]),
     });
   }
@@ -47,5 +47,9 @@ export class AuthFormComponent implements OnInit {
 
   get loginControl() {
     return this.authForm.get('username');
+  }
+
+  get passwordControl() {
+    return this.authForm.get('password');
   }
 }

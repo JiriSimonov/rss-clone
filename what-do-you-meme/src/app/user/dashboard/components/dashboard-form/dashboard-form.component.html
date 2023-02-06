@@ -1,18 +1,63 @@
-<form [formGroup]="changeLoginForm">
-  <label>
-    Новый логин:
-    <input type="text" formControlName="login" />
-  </label>
-  <button type="submit">Подтвердить</button>
-</form>
-<form [formGroup]="changePasswordForm">
-  <label>
-    Введите текущий пароль:
-    <input type="password" formControlName="password"/>
-  </label>
-  <label>
-    Введите новый пароль:
-    <input type="password" formControlName="confirmPassword"/>
-  </label>
-  <button type="submit">Подтвердить</button>
-</form>
+<div class="form">
+  <form class="form__form form__form_top" [formGroup]="changeUserDataForm">
+    <app-set-picture></app-set-picture>
+    <button class="btn" (click)="changeUserAvatar()">Сменить аватар</button>
+    <label class="form__label">
+      Новый логин:
+      <input type="text" class="form__input" formControlName="login" />
+      <span class="form__error" *ngIf="usernameControl?.errors?.['minlength']"
+        >Минимальная длина 4 символа</span
+      >
+      <span class="form__error" *ngIf="usernameControl?.errors?.['maxlength']"
+        >Максимальная длина 12 символов</span
+      >
+      <span class="form__error" *ngIf="usernameControl?.errors?.['isUserExist']"
+        >Такой пользователь уже существует</span
+      >
+    </label>
+    <label class="form__label">
+      Введите текущий пароль:
+      <input type="password" class="form__input" formControlName="password" />
+    </label>
+    <span
+      class="form__error"
+      *ngIf="passwordControl?.errors?.['isPasswordValid']"
+      >Неверный пароль</span
+    >
+    <label class="form__label">
+      Введите новый пароль:
+      <input
+        type="password"
+        class="form__input"
+        formControlName="confirmPassword"
+      />
+    </label>
+    <span
+      class="form__error"
+      *ngIf="confirmPasswordControl?.errors?.['minlength']"
+      >Минимальная длина 8 символов</span
+    >
+    <span
+      class="form__error"
+      *ngIf="confirmPasswordControl?.errors?.['maxlength']"
+      >Максимальная длина 20 символов</span
+    >
+    <button
+      class="form__btn"
+      type="submit"
+      (click)="changeUserData()"
+      [disabled]="
+      changeUserDataForm.invalid ||
+      changeUserDataForm.pending ||
+      !changeUserDataForm.touched ||
+      confirmPasswordControl?.errors?.['minlength'] ||
+      usernameControl?.errors?.['minlength'] ||
+      isFormValid()"
+    >
+      Подтвердить
+    </button>
+    <button class="form__delete" (click)="deleteUser()">
+      Удалить свой аккаунт
+    </button>
+  </form>
+</div>
