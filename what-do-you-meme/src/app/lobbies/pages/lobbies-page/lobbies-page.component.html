@@ -1,7 +1,7 @@
 <div class="lobbies__container">
   <div class="lobbies__list">
     <app-lobby-info
-      *ngFor="let lobby of lobbiesService.lobbies"
+      *ngFor="let lobby of lobbiesService.lobbies.slice(0, 5)"
       [lobby]="lobby">
     </app-lobby-info>
 
