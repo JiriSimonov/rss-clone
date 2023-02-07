@@ -1,4 +1,4 @@
-.modal-create__overlay {
+.modal__overlay {
   z-index: 3;
   position: fixed;
   top: 0;
@@ -12,36 +12,6 @@
   justify-content: center;
 }
 
-.modal-create__container {
-  padding: 3%;
-  border: 1px solid #111;
-  border-radius: 0.5rem;
+.modal__container {
   width: 50%;
-  background-color: #eee;
-  z-index: 99;
-  position: absolute;
 }
-
-.modal-create__form {
-  margin-bottom: 20px;
-
-  &-title {
-    font-size: 20px;
-  }
-
-  &-input {
-    width: 60%;
-  }
-}
-
-.modal-create__create-btn {
-  border: 1px solid #000;
-  font-size: 20px;
-  border-radius: 8px;
-  padding: 5px 15px;
-  background-color: #bababa;
-}
-
-
-
-

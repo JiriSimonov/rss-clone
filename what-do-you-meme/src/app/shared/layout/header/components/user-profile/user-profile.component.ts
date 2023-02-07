@@ -22,7 +22,7 @@ export class UserProfileComponent implements OnInit, OnDestroy {
     private store$: Store,
     private router: Router
   ) {}
-
+  
   ngOnDestroy(): void {
     this.subs.unsubscribe();
   }

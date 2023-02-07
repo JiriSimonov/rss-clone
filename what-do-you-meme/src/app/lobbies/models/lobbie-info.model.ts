@@ -1,6 +1,7 @@
 export interface LobbyOptions {
-  totalUsers: number;
+  maxUsers: number;
   rounds: number;
+  lobbyName: string;
 }
 
 export interface LobbyInfo extends LobbyOptions {

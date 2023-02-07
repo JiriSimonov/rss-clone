@@ -1,4 +1,6 @@
 import { Component, OnInit } from '@angular/core';
+import { ActivatedRoute } from '@angular/router';
+import { filter, fromEvent, map } from 'rxjs';
 import { LobbyOptions } from '../../models/lobbie-info.model';
 import { LobbyService } from '../../services/lobby.service';
 
@@ -9,11 +11,23 @@ import { LobbyService } from '../../services/lobby.service';
 })
 export class LobbiesPageComponent implements OnInit {
   isOpened = false;
+  id: number = 1;
 
-  constructor(public lobbiesService: LobbyService) { }
+  constructor(public lobbiesService: LobbyService, private activateRoute: ActivatedRoute) {
+    this.id = this.activateRoute.snapshot.params['id'];
+  }
 
   ngOnInit() {
-    this.lobbiesService.allLobbies.subscribe();
+    // Not sure
+    fromEvent<StorageEvent>(window, 'storage').pipe(
+      filter(event => event.key === 'createdLobby'),
+      filter(event => event.key !== null),
+      map((event) => {
+        return event.newValue;
+      }),
+    ).subscribe(key => window.localStorage.setItem('createdLobby', key ?? 'false'));
+
+    this.lobbiesService.getAllLobbies(this.id).subscribe();
   }
 
   toggleModal() {

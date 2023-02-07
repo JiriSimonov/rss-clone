@@ -67,4 +67,12 @@ export class AuthService {
   getAvatars() {
     return this.httpClient.get(`${this.URL}/file/avatars`);
   }
+
+  setNewUsername(id: number, newLogin: string) {
+    return this.httpClient.put<AuthData>(`${this.URL}/users/id/${id}`, { username: newLogin });
+  }
+
+  setNewPassword(id: number, newPassword: string) {
+    return this.httpClient.put<AuthData>(`${this.URL}/users/id/${id}`, { password: newPassword });
+  }
 }
