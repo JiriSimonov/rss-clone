@@ -4,7 +4,6 @@ import {
   FormControl,
   Validators
 } from '@angular/forms';
-import { filter, map } from 'rxjs';
 
 import { LobbyOptions } from '../../models/lobbie-info.model';
 
@@ -20,15 +19,15 @@ export class LobbyCreateModalComponent implements OnInit {
   @Output() onClosed = new EventEmitter<boolean>();
   @Output() onCreated = new EventEmitter<LobbyOptions>();
 
-  constructor(private elem: ElementRef) {
-    this.element = this.elem.nativeElement;
+  constructor(private lobbyModalElem: ElementRef) {
+    this.element = this.lobbyModalElem.nativeElement;
   }
 
   ngOnInit() {
     this.element.addEventListener("click", (e: Event) => {
       const target = e.target;
       if (target instanceof HTMLElement) {
-        if (target?.classList.contains('modal-create__overlay')) {
+        if (target?.classList.contains('modal__overlay')) {
           this.onClosed.emit();
         }
       }
@@ -41,7 +40,7 @@ export class LobbyCreateModalComponent implements OnInit {
       rounds: new FormControl('1', [
         Validators.required,
       ]),
-      name: new FormControl('name', [
+      lobbyName: new FormControl('lobbyName', [
         Validators.required,
         Validators.minLength(3),
         Validators.maxLength(18),
@@ -58,15 +57,15 @@ export class LobbyCreateModalComponent implements OnInit {
   }
 
   get nameControl() {
-    return this.modalForm.get('name');
+    return this.modalForm.get('lobbyName');
   }
 
-  get alreadyCreated() {
-    return window.localStorage.getItem('createdRoom') === 'true' ? true : false;
+  get isAlreadyCreatedLobby() {
+    return window.localStorage.getItem('createdLobby') === 'true' ? true : false;
   }
 
   onSubmit(data: LobbyOptions) {
-    window.localStorage.setItem('createdRoom', 'true');
+    window.localStorage.setItem('createdLobby', 'true');
     this.onCreated.emit(data);
   }
 }

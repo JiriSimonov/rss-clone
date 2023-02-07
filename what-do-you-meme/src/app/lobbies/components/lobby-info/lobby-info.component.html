@@ -1,4 +1,5 @@
 <div class="lobbie-info-container">
+  {{ lobby?.lobbyName }}
   <button class="lobbie__button-join" [routerLink]='gameLink'>Зайти</button>
   <div class="lobbie__users-number">{{ lobby?.joinedUsers }} / {{ lobby?.maxUsers }}</div>
   <div class="lobbie__rounds">{{ lobby?.rounds }} Раундов</div>

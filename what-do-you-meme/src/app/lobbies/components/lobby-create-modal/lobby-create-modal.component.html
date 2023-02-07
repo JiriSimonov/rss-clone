@@ -1,24 +1,24 @@
-<div class="modal-create">
-  <div class="modal-create__overlay">
-    <div class="modal-create__container form">
+<div class="modal">
+  <div class="modal__overlay">
+    <div class="form modal__container">
       <form (ngSubmit)="onSubmit(modalForm.value)"
         [formGroup]="modalForm"
-        class="modal-create__form form__form">
-        <label class="modal-create__label form__label">
+        class="form__form modal__form">
+        <label class="modal__label form__label">
           Количество игрoков - {{maxUsersControl?.value}}
-          <input class="modal-create__form-input form__input" formControlName="maxUsers" type="range" min="2" max="8">
+          <input class="modal__form-input form__input" formControlName="maxUsers" type="range" min="2" max="8">
         </label>
-        <label class="modal-create__label form__label">
+        <label class="modal__label form__label">
           Количество раундов - {{roundsControl?.value}}
-          <input class="modal-create__form-input form__input" formControlName="rounds" type="range" min="1" max="12">
+          <input class="form__input modal__form-input" formControlName="rounds" type="range" min="1" max="12">
         </label>
-        <label class="modal-create__label form__label">
+        <label class="form__label modal__label">
           Введите название лобби:
-          <input class="modal-create__form-input form__input" formControlName="name">
+          <input class="form__input modal__form-input" formControlName="lobbyName">
           <span class="form__error" *ngIf="nameControl?.errors?.['maxlength']">Максимальная длина - 18</span>
           <span class="form__error" *ngIf="nameControl?.errors?.['minlength']">Mинимальная длина - 3</span>
         </label>
-        <button class="modal-create__btn form__btn" type="submit" [disabled]="(!modalForm.valid || alreadyCreated)">Создать</button>
+        <button class="form__btn modal__btn" type="submit" [disabled]="(!modalForm.valid || isAlreadyCreatedLobby)">Создать</button>
       </form>
     </div>
   </div>
