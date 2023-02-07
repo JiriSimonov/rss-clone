@@ -18,7 +18,7 @@
           <span class="form__error" *ngIf="nameControl?.errors?.['maxlength']">Максимальная длина - 18</span>
           <span class="form__error" *ngIf="nameControl?.errors?.['minlength']">Mинимальная длина - 3</span>
         </label>
-        <button class="form__btn modal__btn" type="submit" [disabled]="(!modalForm.valid || !isAlreadyCreatedLobby)">Создать</button>
+        <button class="form__btn modal__btn" type="submit" [disabled]="(!modalForm.valid || isAlreadyCreatedLobby)">Создать</button>
       </form>
     </div>
   </div>
