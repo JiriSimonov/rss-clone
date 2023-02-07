@@ -1,16 +1,18 @@
-import { Component, ElementRef, EventEmitter, OnInit, Output } from '@angular/core';
 import {
-  FormGroup,
-  FormControl,
-  Validators
-} from '@angular/forms';
+  Component,
+  ElementRef,
+  EventEmitter,
+  OnInit,
+  Output,
+} from '@angular/core';
+import { FormGroup, FormControl, Validators } from '@angular/forms';
 
 import { LobbyOptions } from '../../models/lobbie-info.model';
 
 @Component({
   selector: 'app-lobby-modal',
   templateUrl: './lobby-create-modal.component.html',
-  styleUrls: ['./lobby-create-modal.component.scss']
+  styleUrls: ['./lobby-create-modal.component.scss'],
 })
 export class LobbyCreateModalComponent implements OnInit {
   modalForm!: FormGroup;
@@ -24,7 +26,7 @@ export class LobbyCreateModalComponent implements OnInit {
   }
 
   ngOnInit() {
-    this.element.addEventListener("click", (e: Event) => {
+    this.element.addEventListener('click', (e: Event) => {
       const target = e.target;
       if (target instanceof HTMLElement) {
         if (target?.classList.contains('modal__overlay')) {
@@ -34,12 +36,8 @@ export class LobbyCreateModalComponent implements OnInit {
     });
 
     this.modalForm = new FormGroup({
-      maxUsers: new FormControl('2', [
-        Validators.required,
-      ]),
-      rounds: new FormControl('1', [
-        Validators.required,
-      ]),
+      maxUsers: new FormControl('2', [Validators.required]),
+      rounds: new FormControl('1', [Validators.required]),
       lobbyName: new FormControl('lobbyName', [
         Validators.required,
         Validators.minLength(3),
@@ -58,10 +56,6 @@ export class LobbyCreateModalComponent implements OnInit {
 
   get nameControl() {
     return this.modalForm.get('lobbyName');
-  }
-
-  get isAlreadyCreatedLobby() {
-    return window.localStorage.getItem('createdLobby') === 'true' ? true : false;
   }
 
   onSubmit(data: LobbyOptions) {

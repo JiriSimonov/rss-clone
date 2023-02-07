@@ -1,24 +1,32 @@
-.lobbie-info-container {
+.lobbie {
   display: flex;
   justify-content: space-between;
   align-items: center;
-  border: 1px solid #bababa;
-  border-radius: 5px;
+  gap: 30px;
+  margin-bottom: 20px;
+  margin: 0 auto;
   padding: 10px 20px;
-}
+  border: 2px solid #382756;
+  border-radius: 13px;
+  max-width: 700px;
+  font-size: 18px;
+  color: #fff;
 
-.lobbie__button-join {
-  padding: 5px 10px;
-  background-color: #bababa;
-  border: 1px solid #111;
-  border-radius: 8px;
-}
+  &__head {
+    display: flex;
+    gap: 20px;
+  }
 
-.lobbie__users-number {
-  font-weight: bold;
-}
+  &__btn {
+    display: initial;
+    margin: 0;
+  }
 
-.lobbie__rounds {
-  font-weight: bold;
-}
+  &__users-number {
+    font-weight: bold;
+  }
 
+  &__rounds {
+    font-weight: bold;
+  }
+}
