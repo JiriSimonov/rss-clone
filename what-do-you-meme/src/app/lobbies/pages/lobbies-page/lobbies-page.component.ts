@@ -11,7 +11,7 @@ import { LobbyService } from '../../services/lobby.service';
 })
 export class LobbiesPageComponent implements OnInit {
   isOpened = false;
-  id: string = '1';
+  id: number = 1;
 
   constructor(public lobbiesService: LobbyService, private activateRoute: ActivatedRoute) {
     this.id = this.activateRoute.snapshot.params['id'];
@@ -23,12 +23,11 @@ export class LobbiesPageComponent implements OnInit {
       filter(event => event.key === 'createdLobby'),
       filter(event => event.key !== null),
       map((event) => {
-        console.log(event.newValue);
         return event.newValue;
       }),
-    ).subscribe(key => window.localStorage.setItem('createdLobby', key ?? ''));
+    ).subscribe(key => window.localStorage.setItem('createdLobby', key ?? 'false'));
 
-    this.lobbiesService.getAllLobbies(+this.id).subscribe();
+    this.lobbiesService.getAllLobbies(this.id).subscribe();
   }
 
   toggleModal() {

@@ -1,5 +1,6 @@
 import { NgModule } from '@angular/core';
 import { RouterModule, Routes } from '@angular/router';
+import { isValidLobbyPageGuard } from './guards/is-valid-lobby-page.guard';
 import { LobbiesPageComponent } from './pages/lobbies-page/lobbies-page.component';
 
 const routes: Routes = [
@@ -11,6 +12,7 @@ const routes: Routes = [
   {
     path: ':id',
     component: LobbiesPageComponent,
+    canMatch: isValidLobbyPageGuard,
   }
 ];
 
