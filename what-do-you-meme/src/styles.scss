@@ -24,7 +24,8 @@ h6 {
   margin: 0;
 }
 
-ul,ol {
+ul,
+ol {
   margin: 0;
   padding: 0;
   list-style: none;
@@ -57,32 +58,6 @@ button {
 
     &_top {
       margin-bottom: 20px;
-    }
-  }
-
-  &__btn {
-    display: block;
-    margin: 0 auto;
-    padding: 8px 16px;
-    border: 2px solid transparent;
-    border-radius: 5px;
-    background-color: #382756;
-    font-size: 18px;
-    font-weight: 400;
-    color: #fff;
-    transition: 0.3s linear;
-
-    &:hover,
-    &:focus {
-      border-color: #382756;
-      border-color: #fff;
-      cursor: pointer;
-      outline: none;
-    }
-
-    &:disabled {
-      opacity: .5;
-      pointer-events: none;
     }
   }
 
@@ -123,5 +98,78 @@ button {
 
   &__error {
     color: #bf437a;
+  }
+}
+
+.form__btn,
+.btn,
+.form__delete {
+  display: block;
+  margin: 0 auto;
+  padding: 8px 16px;
+  border: 2px solid transparent;
+  border-radius: 5px;
+  background-color: #382756;
+  font-size: 18px;
+  font-weight: 400;
+  color: #fff;
+  transition: 0.3s linear;
+
+  &:hover,
+  &:focus {
+    border-color: #382756;
+    border-color: #fff;
+    cursor: pointer;
+    outline: none;
+  }
+
+  &:disabled {
+    opacity: 0.5;
+    pointer-events: none;
+  }
+}
+
+.form__delete {
+  margin-top: 20px;
+  background-color: #bf437a;
+}
+
+.user {
+  position: relative;
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+  align-items: center;
+  gap: 5px;
+  cursor: pointer;
+
+  &__avatar {
+    border-radius: 50%;
+    width: 50px;
+    aspect-ratio: 1/1;
+    background-size: cover;
+    background-repeat: no-repeat;
+    background-position: center;
+    overflow: hidden;
+  }
+
+  &__text {
+    text-align: center;
+    color: #fff;
+    font-size: 18px;
+    user-select: none;
+  }
+  &__logout {
+    position: absolute;
+    top: 0;
+    border: none;
+    right: -20px;
+    width: 20px;
+    aspect-ratio: 1/1;
+    background-color: transparent;
+    background-image: url("../src/assets/icons/logout.svg");
+    background-repeat: no-repeat;
+    background-position: center;
+    cursor: pointer;
   }
 }

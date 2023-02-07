@@ -17,8 +17,12 @@ export class UserProfileComponent implements OnInit, OnDestroy {
   userName: string | undefined = this.DEFAULT_USERNAME;
   path: string = this.DEFAULT_AVATAR;
 
-  constructor(private httpService: AuthService, private store$: Store, private router: Router) {}
-
+  constructor(
+    private httpService: AuthService,
+    private store$: Store,
+    private router: Router
+  ) {}
+  
   ngOnDestroy(): void {
     this.subs.unsubscribe();
   }
@@ -35,9 +39,9 @@ export class UserProfileComponent implements OnInit, OnDestroy {
   }
 
   signOut() {
-    this.store$.dispatch(logoutSuccess());
     localStorage.clear();
-    this.router.navigate(['auth'], { replaceUrl: true })
+    this.router.navigate(['auth'], { replaceUrl: true });
+    this.store$.dispatch(logoutSuccess());
   }
 
   get isNotDefaultUsername() {
