@@ -1,6 +1,7 @@
 import { Injectable } from '@angular/core';
 import { Socket } from 'ngx-socket-io';
 import { map } from 'rxjs/operators';
+import { messageData } from '../models/messageData';
 
 @Injectable({
   providedIn: 'root',
@@ -8,10 +9,13 @@ import { map } from 'rxjs/operators';
 export class GlobalChatService {
   constructor(private socket: Socket) {}
 
-  sendMessage(msg: string) {
-    this.socket.emit('message', msg);
+  sendMessage(data: messageData) {
+    this.socket.emit('message', data);
   }
+
   getMessage() {
-    return this.socket.fromEvent<{msg: string}>('message').pipe(map((data) => data.msg));
+    return this.socket.fromEvent<messageData>('message').pipe(map((data) => {
+      console.log(data);
+    }));
   }
 }
