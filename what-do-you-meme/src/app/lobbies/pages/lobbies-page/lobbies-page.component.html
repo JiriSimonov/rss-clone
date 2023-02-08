@@ -1,4 +1,5 @@
 <div class="lobbies">
+  <app-lobby-search></app-lobby-search>
   <ul class="lobbies__list">
     <app-lobby-info
       *ngFor="let lobby of lobbiesService.lobbies.slice(0, 5)"
@@ -16,6 +17,7 @@
   <span class="form__error lobbies__error" *ngIf="isCreatedLobby"
     >Вы уже создали лобби</span
   >
+  <app-lobbies-pagination></app-lobbies-pagination>
 </div>
 <app-lobby-modal
   *ngIf="isOpened"
