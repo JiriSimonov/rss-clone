@@ -1,8 +1,10 @@
 <div class="chat">
   <div class="chat__field" *ngFor="let message of messageList">
-    <span class="span">{{message.timestamp}}</span><br>
-    <span class="span">{{message.username}}</span><br>
-    <span class="span">{{message.message}}</span><br>
+    <div class="chat__message">
+      <span class="span">{{message.username}}</span>
+      <span class="span">{{message.timestamp}}</span>
+      <span class="span">{{message.message}}</span>
+    </div>
   </div>
   <div class="chat__controls">
     <form class="chat__form" [formGroup]="sendMessageForm">

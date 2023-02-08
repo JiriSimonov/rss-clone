@@ -1,3 +1,4 @@
+import { AuthService } from './../../../shared/services/auth.service';
 import { GlobalChatService } from './../../services/global-chat.service';
 import { Component, OnInit } from '@angular/core';
 import { FormControl, FormGroup, Validators } from '@angular/forms';
@@ -13,7 +14,10 @@ export class GlobalChatComponent implements OnInit {
   sendMessageForm!: FormGroup;
   messageList: MessageData[] = [];
 
-  constructor(private chatService: GlobalChatService) {}
+  constructor(
+    private chatService: GlobalChatService,
+    private authService: AuthService
+  ) {}
 
   ngOnInit(): void {
     this.sendMessageForm = new FormGroup({
@@ -22,14 +26,10 @@ export class GlobalChatComponent implements OnInit {
         Validators.maxLength(308),
       ]),
     });
-    this.chatService
-      .getMessage()
-      .pipe(
-        tap((data) => {
-          console.log(data);
-        })
-      )
-      .subscribe((msg) => this.messageList.push(msg));
+    this.chatService.getMessage().subscribe((messageData) => {
+      messageData.timestamp?.toLocaleString();
+      this.messageList.push(messageData);
+    });
   }
 
   get messageControlValue() {
@@ -41,9 +41,11 @@ export class GlobalChatComponent implements OnInit {
   }
 
   sendMessage() {
-    this.chatService.sendMessage({
-      username: 'ddd',
-      message: this.messageControlValue,
+    this.authService.user$.subscribe((user) => {
+      this.chatService.sendMessage({
+        username: user?.username,
+        message: this.messageControlValue,
+      });
     });
   }
 }

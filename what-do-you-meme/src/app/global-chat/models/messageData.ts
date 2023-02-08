@@ -1,5 +1,5 @@
 export interface MessageData {
-  username: string;
+  username?: string;
   message: string;
   timestamp?: number;
 }

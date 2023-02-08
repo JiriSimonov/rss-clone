@@ -11,6 +11,7 @@
   background-color: #1b1a20;
 
   &__controls {
+    margin-top: auto;
     display: flex;
     justify-content: space-between;
     padding-top: 20px;
@@ -33,12 +34,19 @@
     cursor: text;
     white-space: pre-wrap;
     overflow-wrap: break-word;
-    font: 400 13.3333px Arial;
+    font: 400 16px Arial;
   }
 
   &__btn {
     display: initial;
     margin: 0 0 0 20px;
+  }
+
+  &__message {
+    display: flex;
+    gap: 10px;
+    font-size: 20px;
+    color: #fff;
   }
 } 
 
