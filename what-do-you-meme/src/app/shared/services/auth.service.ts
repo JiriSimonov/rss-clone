@@ -1,5 +1,5 @@
-import { AuthData } from './../store/auth.reducer';
-import { getAuthData } from './../store/auth.selectors';
+import { AuthData } from '../../auth/store/auth.reducer';
+import { getAuthData } from '../../auth/store/auth.selectors';
 import { Store } from '@ngrx/store';
 import { JwtHelperService } from '@auth0/angular-jwt';
 import { Injectable } from '@angular/core';

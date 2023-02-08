@@ -1,6 +1,6 @@
 import { Router } from '@angular/router';
 import { logoutSuccess } from './../../../../auth/store/auth.actions';
-import { AuthService } from './../../../../auth/services/auth.service';
+import { AuthService } from '../../../../shared/services/auth.service';
 import { Store } from '@ngrx/store';
 import { Component, OnInit } from '@angular/core';
 import { FormControl, FormGroup, Validators } from '@angular/forms';
@@ -9,7 +9,7 @@ import { HttpErrorResponse } from '@angular/common/http';
 import { UsernameValidator } from 'src/app/shared/validators/username.validator';
 import { UserData } from 'src/app/auth/models/user-data.model';
 import { PasswordValidator } from 'src/app/shared/validators/password.validator';
-import { UserAvatarService } from 'src/app/auth/services/user-avatar.service';
+import { UserAvatarService } from 'src/app/shared/services/user-avatar.service';
 
 @Component({
   selector: 'app-dashboard-form',

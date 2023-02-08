@@ -31,6 +31,5 @@ export class GlobalChatComponent implements OnInit {
 
   sendMessage() {
     this.chatService.sendMessage(this.messageControlValue);
-    console.log(this.messageControlValue);
   }
 }

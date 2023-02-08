@@ -1,4 +1,4 @@
-import { UserAvatarService } from './../../services/user-avatar.service';
+import { UserAvatarService } from '../../../shared/services/user-avatar.service';
 import { Router } from '@angular/router';
 import { catchError } from 'rxjs/operators';
 import { UserData } from './../../models/user-data.model';
@@ -14,7 +14,7 @@ import {
   ChangeDetectorRef,
   Input,
 } from '@angular/core';
-import { AuthService } from '../../services/auth.service';
+import { AuthService } from '../../../shared/services/auth.service';
 import { EMPTY } from 'rxjs';
 import { UsernameValidator } from 'src/app/shared/validators/username.validator';
 
