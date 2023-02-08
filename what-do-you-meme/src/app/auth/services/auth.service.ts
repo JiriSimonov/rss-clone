@@ -65,7 +65,7 @@ export class AuthService {
   }
 
   getAvatars() {
-    return this.httpClient.get(`${this.URL}/file/avatars`);
+    return this.httpClient.get(`${this.URL}/file/images/avatars`);
   }
 
   setNewUsername(id: number, newLogin: string) {

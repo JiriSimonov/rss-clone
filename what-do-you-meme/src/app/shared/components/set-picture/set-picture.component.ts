@@ -10,7 +10,7 @@ import { EMPTY } from 'rxjs';
   styleUrls: ['./set-picture.component.scss'],
 })
 export class SetPictureComponent implements OnInit {
-  readonly path = 'https://wdym-js-er-sd.onrender.com/file/avatars';
+  readonly path = 'https://wdym-js-er-sd.onrender.com/file/images/avatars';
   private avatarsLength = 4;
   private avatarNumber = 1;
   avatarPath: string = `${this.path}/${this.avatarNumber}`;

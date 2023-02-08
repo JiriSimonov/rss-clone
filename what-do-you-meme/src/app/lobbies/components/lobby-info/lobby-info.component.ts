@@ -15,6 +15,8 @@ export class LobbyInfoComponent implements OnInit {
   }
 
   ngOnInit(): void {
+    console.log(this.lobby);
+    
     this.gameLink = `/game/${this.lobby?.id}`;
   }
 }

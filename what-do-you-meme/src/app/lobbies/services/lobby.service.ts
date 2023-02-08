@@ -23,7 +23,15 @@ export class LobbyService {
       );
   }
 
-  getLobbie(id: string): Observable<LobbyInfo> {
+  getLobbiesPage(page: number): Observable<LobbyInfo[]>{
+    return this.http.get<LobbyInfo[]>(`${this.URL}?_page=${page}`).pipe(
+      tap((lobbies) => {
+        this.lobbies = [...lobbies];
+      })
+    );
+  } // как будет готово на бэке => должен возвращать массив лоббей
+
+  getLobby(id: string): Observable<LobbyInfo> {
     return this.http.get<LobbyInfo>(`${this.URL}/${id}`);
   }
 

@@ -6,6 +6,7 @@ import {
   Output,
 } from '@angular/core';
 import { FormGroup, FormControl, Validators } from '@angular/forms';
+import { AuthService } from 'src/app/auth/services/auth.service';
 
 import { LobbyOptions } from '../../models/lobbie-info.model';
 
@@ -21,7 +22,7 @@ export class LobbyCreateModalComponent implements OnInit {
   @Output() onClosed = new EventEmitter<boolean>();
   @Output() onCreated = new EventEmitter<LobbyOptions>();
 
-  constructor(private lobbyModalElem: ElementRef) {
+  constructor(private lobbyModalElem: ElementRef, private authService: AuthService) {
     this.element = this.lobbyModalElem.nativeElement;
   }
 
@@ -59,7 +60,11 @@ export class LobbyCreateModalComponent implements OnInit {
   }
 
   onSubmit(data: LobbyOptions) {
-    window.localStorage.setItem('createdLobby', 'true');
-    this.onCreated.emit(data);
+    this.authService.user$.subscribe(user => {
+      data.lobbyImage = user?.image;
+      data.lobbyOwner = user?.username;
+      window.localStorage.setItem('createdLobby', 'true');
+      this.onCreated.emit(data);
+    });
   }
 }
