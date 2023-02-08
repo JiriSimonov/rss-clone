@@ -3,6 +3,7 @@ import { NgModule } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { GlobalChatPageComponent } from './pages/global-chat-page/global-chat-page.component';
 import { GlobalChatComponent } from './components/global-chat/global-chat.component';
+import { ReactiveFormsModule } from '@angular/forms';
 
 
 
@@ -13,6 +14,7 @@ import { GlobalChatComponent } from './components/global-chat/global-chat.compon
   ],
   imports: [
     CommonModule,
+    ReactiveFormsModule,
     RouterModule.forChild([{
       path: '',
       pathMatch: 'full',

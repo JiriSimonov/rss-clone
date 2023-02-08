@@ -11,20 +11,22 @@
   background-color: #1b1a20;
 
   &__controls {
+    display: flex;
+    justify-content: space-between;
     padding-top: 20px;
     border-top: 1px solid #fff;
   }
 
   &__form {
     display: flex;
-    align-items: flex-start;
+    align-items: center;
   }
 
   &__textarea {
     padding: 10px;
     border-radius: 5px;
-    width: 400px;
-    height: 50px;
+    width: 600px;
+    height: 100px;
     color: #fff;
     background-color: transparent;
     resize: none;
@@ -39,3 +41,9 @@
     margin: 0 0 0 20px;
   }
 } 
+
+.rules {
+  font-size: 20px;
+  font-weight: 400;
+  color: #fff;
+}
