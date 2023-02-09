@@ -9,7 +9,7 @@
   </ul>
   <button
     class="btn lobbies__btn"
-    (click)="toggleModal()"
+    (click)="toggleCreateModal()"
     [disabled]="isCreatedLobby"
   >
     Создать Лобби
@@ -20,7 +20,10 @@
   <app-lobbies-pagination></app-lobbies-pagination>
 </div>
 <app-lobby-modal
-  *ngIf="isOpened"
-  (onClosed)="toggleModal()"
+  *ngIf="isOpenCreateModal"
+  (onClosed)="toggleCreateModal()"
   (onCreated)="createLobby($event)"
 ></app-lobby-modal>
+<app-lobby-join-modal
+
+></app-lobby-join-modal>

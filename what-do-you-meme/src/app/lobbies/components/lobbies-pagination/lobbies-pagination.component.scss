@@ -1,5 +1,6 @@
 .pagination {
-  max-width: 250px;
+  display: flex;
+  justify-content: center;
   margin: 20px auto 0 auto;
 
   &__wrapper {
@@ -14,6 +15,14 @@
     width: 40px;
     aspect-ratio: 1/1;
     background-color: #382756;
+  }
+
+  &__input {
+    all: unset;
+    max-width: 40px;
+    font-size: 24px;
+    color: #fff;
+    text-align: center;
   }
 
 }

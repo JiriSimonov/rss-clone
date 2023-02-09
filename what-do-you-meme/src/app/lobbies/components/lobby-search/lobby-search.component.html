@@ -1,9 +1,9 @@
 <div class="lobbies__controls">
-  <div class="lobbies__search">
+  <form class="lobbies__search" [formGroup]="searchForm">
     <label>
-      <input type="search" />
+      <input class="lobbies__input" type="search" placeholder="Введите название лобби" formControlName="searсh"/>
     </label>
     <button class="lobbies__btn">Найти</button>
-  </div>
+  </form>
   <button class="lobbies__btn" (click)="updateLobbies()">Обновить</button>
 </div>

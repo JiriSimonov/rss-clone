@@ -8,6 +8,7 @@ import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { LobbiesRoutingModule } from './lobbies-routing.module';
 import { LobbySearchComponent } from './components/lobby-search/lobby-search.component';
 import { LobbiesPaginationComponent } from './components/lobbies-pagination/lobbies-pagination.component';
+import { LobbyJoinModalComponent } from './components/lobby-join-modal/lobby-join-modal.component';
 
 @NgModule({
   declarations: [
@@ -15,7 +16,8 @@ import { LobbiesPaginationComponent } from './components/lobbies-pagination/lobb
     LobbyInfoComponent,
     LobbyCreateModalComponent,
     LobbySearchComponent,
-    LobbiesPaginationComponent
+    LobbiesPaginationComponent,
+    LobbyJoinModalComponent
   ],
   imports: [
     CommonModule,

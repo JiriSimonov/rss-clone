@@ -23,7 +23,7 @@ export class LobbyService {
       );
   }
 
-  getLobbiesPage(page: number): Observable<LobbyInfo[]>{
+  getLobbiesPage(page: number): Observable<LobbyInfo[]> {
     return this.http.get<LobbyInfo[]>(`${this.URL}?_page=${page}`).pipe(
       tap((lobbies) => {
         this.lobbies = [...lobbies];
@@ -34,6 +34,10 @@ export class LobbyService {
   getLobby(id: string): Observable<LobbyInfo> {
     return this.http.get<LobbyInfo>(`${this.URL}/${id}`);
   }
+
+  getLobbyByName(name: string) {
+    return this.http.get(`${this.URL}/${name}`);
+  } // TODO
 
   createNewLobby(lobby: LobbyInfo): Observable<LobbyInfo> {
     return this.http.post<LobbyInfo>(this.URL, lobby).pipe(

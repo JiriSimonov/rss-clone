@@ -19,7 +19,7 @@ import { of, timer, first, fromEvent } from 'rxjs';
 import { AuthService } from '../../shared/services/auth.service';
 
 @Injectable()
-export class AdminAuthEffects {
+export class AuthEffects {
   login$ = createEffect(() =>
     this.actions$.pipe(
       ofType(login),

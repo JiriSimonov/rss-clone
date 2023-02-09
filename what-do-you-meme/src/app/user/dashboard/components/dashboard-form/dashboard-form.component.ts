@@ -1,3 +1,4 @@
+import { AuthData } from './../../../../auth/store/auth.reducer';
 import { Router } from '@angular/router';
 import { logoutSuccess } from './../../../../auth/store/auth.actions';
 import { AuthService } from '../../../../shared/services/auth.service';
@@ -10,6 +11,7 @@ import { UsernameValidator } from 'src/app/shared/validators/username.validator'
 import { UserData } from 'src/app/auth/models/user-data.model';
 import { PasswordValidator } from 'src/app/shared/validators/password.validator';
 import { UserAvatarService } from 'src/app/shared/services/user-avatar.service';
+import { getAuthData } from 'src/app/auth/store/auth.selectors';
 
 @Component({
   selector: 'app-dashboard-form',

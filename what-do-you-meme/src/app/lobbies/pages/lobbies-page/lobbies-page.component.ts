@@ -10,7 +10,8 @@ import { LobbyService } from '../../services/lobby.service';
   styleUrls: ['./lobbies-page.component.scss'],
 })
 export class LobbiesPageComponent implements OnInit {
-  isOpened: boolean = false;
+  isOpenCreateModal: boolean = false;
+  isOpenJoinModal: boolean = false;
   id: number = 1;
 
   constructor(
@@ -23,8 +24,7 @@ export class LobbiesPageComponent implements OnInit {
   ngOnInit() {
     fromEvent<StorageEvent>(window, 'storage')
       .pipe(
-        filter((event) => event.key === 'createdLobby'),
-        filter((event) => event.key !== null),
+        filter((event) => event.key === 'createdLobby' && event.key !== null),
         map((event) => {
           return event.newValue;
         })
@@ -40,13 +40,17 @@ export class LobbiesPageComponent implements OnInit {
     return localStorage.getItem('createdLobby') === 'true';
   }
 
-  toggleModal() {
-    this.isOpened = !this.isOpened;
+  toggleCreateModal() {
+    this.isOpenCreateModal = !this.isOpenCreateModal;
+  }
+
+  toggleJoinModal() {
+    this.isOpenJoinModal = !this.isOpenJoinModal;
   }
 
   createLobby(params: LobbyOptions) {
     const body = { ...params, joinedUsers: 1 };
     this.lobbiesService.createNewLobby(body).subscribe();
-    this.toggleModal();
+    this.toggleCreateModal();
   }
 }

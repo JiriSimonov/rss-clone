@@ -11,7 +11,7 @@ import { SharedModule } from './shared/shared.module';
 import { SocketIoModule } from 'ngx-socket-io';
 import { SocketIoConfig } from 'ngx-socket-io/src/config/socket-io.config';
 
-const config: SocketIoConfig = { url: 'https://wdym-js-er-sd.onrender.com', options: {}}
+const config: SocketIoConfig = { url: 'https://wdym-js-er-sd.onrender.com', options: {auth: {token: localStorage.getItem('authData')}}}
 
 @NgModule({
   declarations: [AppComponent],
