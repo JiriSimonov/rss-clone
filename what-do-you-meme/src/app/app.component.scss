@@ -5,6 +5,9 @@
   min-height: 100vh;
 }
 
-:host ul, li {
-  list-style: none;
+.container-game {
+  flex-grow: 1;
+  display: flex;
+  padding: 0;
+  max-width: unset;
 }
