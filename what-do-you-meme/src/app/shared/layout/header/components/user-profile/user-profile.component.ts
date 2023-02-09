@@ -2,7 +2,7 @@ import { Router } from '@angular/router';
 import { Store } from '@ngrx/store';
 import { Component, OnDestroy, OnInit } from '@angular/core';
 import { Subscription } from 'rxjs';
-import { AuthService } from '../../../../../auth/services/auth.service';
+import { AuthService } from '../../../../services/auth.service';
 import { logout, logoutSuccess } from 'src/app/auth/store/auth.actions';
 
 @Component({
@@ -22,7 +22,7 @@ export class UserProfileComponent implements OnInit, OnDestroy {
     private store$: Store,
     private router: Router
   ) {}
-  
+
   ngOnDestroy(): void {
     this.subs.unsubscribe();
   }

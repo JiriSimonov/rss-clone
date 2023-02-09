@@ -1,6 +1,6 @@
 import { TestBed } from '@angular/core/testing';
 
-import { UserAvatarService } from './user-avatar.service';
+import { UserAvatarService } from '../../shared/services/user-avatar.service';
 
 describe('UserAvatarService', () => {
   let service: UserAvatarService;

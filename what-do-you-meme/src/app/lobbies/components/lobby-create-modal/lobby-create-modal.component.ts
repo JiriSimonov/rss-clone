@@ -6,7 +6,7 @@ import {
   Output,
 } from '@angular/core';
 import { FormGroup, FormControl, Validators } from '@angular/forms';
-import { AuthService } from 'src/app/auth/services/auth.service';
+import { AuthService } from 'src/app/shared/services/auth.service';
 
 import { LobbyOptions } from '../../models/lobbie-info.model';
 

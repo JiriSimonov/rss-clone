@@ -8,6 +8,10 @@ import { StoreRouterConnectingModule } from '@ngrx/router-store';
 import { AuthStoreModule } from './auth/store/auth-store.module';
 import { EffectsModule } from '@ngrx/effects';
 import { SharedModule } from './shared/shared.module';
+import { SocketIoModule } from 'ngx-socket-io';
+import { SocketIoConfig } from 'ngx-socket-io/src/config/socket-io.config';
+
+const config: SocketIoConfig = { url: 'https://wdym-js-er-sd.onrender.com', options: {}}
 
 @NgModule({
   declarations: [AppComponent],
@@ -15,6 +19,7 @@ import { SharedModule } from './shared/shared.module';
     BrowserModule,
     AppRoutingModule,
     StoreModule.forRoot({}, {}),
+    SocketIoModule.forRoot(config),
     StoreDevtoolsModule.instrument({ maxAge: 25, logOnly: !isDevMode() }),
     StoreRouterConnectingModule.forRoot(),
     AuthStoreModule,
