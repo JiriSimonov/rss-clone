@@ -9,7 +9,9 @@
   <div class="chat__controls">
     <form class="chat__form" [formGroup]="sendMessageForm">
       <div class="chat__control">
-        <textarea name="text" placeholder="Текст сообщения" class="chat__textarea" formControlName="messageControl"></textarea>
+        <mat-form-field class="chat__textarea_mat">
+          <textarea matInput name="text" placeholder="Текст сообщения" class="chat__textarea" formControlName="messageControl"></textarea>
+        </mat-form-field>
         <span class="form__error" *ngIf="messageControl?.errors?.['maxLength']">Макисмальная длина 308 символов</span>
       </div>
       <button class="btn chat__btn" [disabled]="sendMessageForm.invalid" (click)="sendMessage()">></button>

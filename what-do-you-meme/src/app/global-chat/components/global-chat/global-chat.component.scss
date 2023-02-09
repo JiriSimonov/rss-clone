@@ -27,18 +27,12 @@
     align-items: center;
   }
 
+  &__textarea_mat {
+    width: 500px;
+  }
+
   &__textarea {
-    padding: 10px;
-    border-radius: 5px;
-    width: 600px;
-    height: 100px;
-    color: #fff;
-    background-color: transparent;
     resize: none;
-    cursor: text;
-    white-space: pre-wrap;
-    overflow-wrap: break-word;
-    font: 400 16px Arial;
   }
 
   &__btn {
@@ -71,7 +65,7 @@
     padding: 5px;
     background-color: #382756;
   }
-} 
+}
 
 .rules {
   font-size: 20px;
