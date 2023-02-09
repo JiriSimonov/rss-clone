@@ -2,14 +2,14 @@
   <app-lobby-search></app-lobby-search>
   <ul class="lobbies__list">
     <app-lobby-info
-      *ngFor="let lobby of lobbiesService.lobbies.slice(0, 5)"
+      *ngFor="let lobby of lobbiesService.lobbies"
       [lobby]="lobby"
     >
     </app-lobby-info>
   </ul>
   <button
     class="btn lobbies__btn"
-    (click)="toggleCreateModal()"
+    (click)="changeCreateModalState()"
     [disabled]="isCreatedLobby"
   >
     Создать Лобби
@@ -17,11 +17,10 @@
   <span class="form__error lobbies__error" *ngIf="isCreatedLobby"
     >Вы уже создали лобби</span
   >
-  <app-lobbies-pagination></app-lobbies-pagination>
 </div>
 <app-lobby-modal
-  *ngIf="isOpenCreateModal"
-  (onClosed)="toggleCreateModal()"
+  *ngIf="createModalState"
+  (onClosed)="changeCreateModalState()"
   (onCreated)="createLobby($event)"
 ></app-lobby-modal>
 <app-lobby-join-modal

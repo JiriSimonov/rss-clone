@@ -1,7 +1,6 @@
 import { Component, OnInit } from '@angular/core';
-import { ActivatedRoute } from '@angular/router';
-import { filter, fromEvent, map } from 'rxjs';
 import { LobbyOptions } from '../../models/lobbie-info.model';
+import { LobbyModalService } from '../../services/lobby-modal.service';
 import { LobbyService } from '../../services/lobby.service';
 
 @Component({
@@ -10,47 +9,31 @@ import { LobbyService } from '../../services/lobby.service';
   styleUrls: ['./lobbies-page.component.scss'],
 })
 export class LobbiesPageComponent implements OnInit {
-  isOpenCreateModal: boolean = false;
-  isOpenJoinModal: boolean = false;
-  id: number = 1;
-
   constructor(
     public lobbiesService: LobbyService,
-    private activateRoute: ActivatedRoute
-  ) {
-    this.id = this.activateRoute.snapshot.params['id'];
-  }
+    private lobbyModal: LobbyModalService
+  ) {}
 
   ngOnInit() {
-    fromEvent<StorageEvent>(window, 'storage')
-      .pipe(
-        filter((event) => event.key === 'createdLobby' && event.key !== null),
-        map((event) => {
-          return event.newValue;
-        })
-      )
-      .subscribe((key) =>
-        window.localStorage.setItem('createdLobby', key ?? 'false')
-      );
-
-    this.lobbiesService.getAllLobbies(this.id).subscribe();
+    this.lobbiesService.extractCreateLobby();
+    this.lobbiesService.getAllLobbies().subscribe();
   }
 
   get isCreatedLobby() {
     return localStorage.getItem('createdLobby') === 'true';
   }
 
-  toggleCreateModal() {
-    this.isOpenCreateModal = !this.isOpenCreateModal;
+  get createModalState() {
+    return this.lobbyModal.isOpenCreateModal;
   }
 
-  toggleJoinModal() {
-    this.isOpenJoinModal = !this.isOpenJoinModal;
+  changeCreateModalState() {
+    this.lobbyModal.toggleCreateModal();
   }
 
   createLobby(params: LobbyOptions) {
     const body = { ...params, joinedUsers: 1 };
     this.lobbiesService.createNewLobby(body).subscribe();
-    this.toggleCreateModal();
+    this.lobbyModal.toggleCreateModal();
   }
 }

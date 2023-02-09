@@ -44,9 +44,9 @@ export class GlobalChatComponent implements OnInit {
   }
 
   sendMessage() {
-    this.authService.user$.subscribe((user) => {
+    this.authService.username$.subscribe((username) => {
       this.chatService.sendMessage({
-        username: user?.username,
+        username,
         message: this.messageControlValue,
       });
     });

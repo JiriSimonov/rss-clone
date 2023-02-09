@@ -1,6 +1,6 @@
 import { HttpClient } from '@angular/common/http';
 import { Injectable } from '@angular/core';
-import { Observable, tap } from 'rxjs';
+import { filter, fromEvent, map, Observable, tap } from 'rxjs';
 import { LobbyInfo } from '../models/lobbie-info.model';
 
 @Injectable({
@@ -55,5 +55,18 @@ export class LobbyService {
         ));
       })
     );
+  }
+
+  extractCreateLobby() {
+    fromEvent<StorageEvent>(window, 'storage')
+      .pipe(
+        filter((event) => event.key === 'createdLobby' && event.key !== null),
+        map((event) => {
+          return event.newValue;
+        })
+      )
+      .subscribe((key) =>
+        window.localStorage.setItem('createdLobby', key ?? 'false')
+      );
   }
 }
