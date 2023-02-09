@@ -18,6 +18,10 @@
     border-top: 1px solid #fff;
   }
 
+  &__field {
+    padding-bottom: 20px;
+  }
+
   &__form {
     display: flex;
     align-items: center;
@@ -44,9 +48,28 @@
 
   &__message {
     display: flex;
-    gap: 10px;
+    flex-direction: column;
+    gap: 5px;
     font-size: 20px;
     color: #fff;
+  }
+
+  &__content {
+    position: relative;
+    padding: 10px;
+    border-radius: 5px;
+    background-color: #382756;
+  }
+
+  &__time {
+    position: absolute;
+    bottom: 5px;
+    right: 5px;
+  }
+
+  &__text {
+    padding: 5px;
+    background-color: #382756;
   }
 } 
 
