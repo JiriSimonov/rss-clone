@@ -8,28 +8,24 @@ import { LobbyInfo } from '../models/lobbie-info.model';
 })
 export class LobbyService {
   private readonly URL = 'http://localhost:3000/lobbies';
-  private readonly LobbyLimit = 5;
   public lobbies: LobbyInfo[] = [];
+  public page = 1;
 
   constructor(private http: HttpClient) {}
 
-  getAllLobbies(page = 1, limit = this.LobbyLimit): Observable<LobbyInfo[]> {
+  get currentPage(): number {
+    return this.page;
+  }
+
+  getLobbies(page: number): Observable<LobbyInfo[]> {
     return this.http
-      .get<LobbyInfo[]>(`${this.URL}?_page=${page}&_limit=${limit}`)
+      .get<LobbyInfo[]>(`${this.URL}?_page=${page}&per_page=5`)
       .pipe(
         tap((lobbies) => {
           this.lobbies = [...lobbies];
         })
       );
   }
-
-  getLobbiesPage(page: number): Observable<LobbyInfo[]> {
-    return this.http.get<LobbyInfo[]>(`${this.URL}?_page=${page}`).pipe(
-      tap((lobbies) => {
-        this.lobbies = [...lobbies];
-      })
-    );
-  } // как будет готово на бэке => должен возвращать массив лоббей
 
   getLobby(id: string): Observable<LobbyInfo> {
     return this.http.get<LobbyInfo>(`${this.URL}/${id}`);

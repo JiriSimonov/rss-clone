@@ -9,6 +9,9 @@ import { LobbyService } from '../../services/lobby.service';
   styleUrls: ['./lobbies-page.component.scss'],
 })
 export class LobbiesPageComponent implements OnInit {
+  throttle = 0;
+  distance = 2;
+
   constructor(
     public lobbiesService: LobbyService,
     private lobbyModal: LobbyModalService
@@ -16,7 +19,7 @@ export class LobbiesPageComponent implements OnInit {
 
   ngOnInit() {
     this.lobbiesService.extractCreateLobby();
-    this.lobbiesService.getAllLobbies().subscribe();
+    this.lobbiesService.getLobbies(this.lobbiesService.currentPage).subscribe();
   }
 
   get isCreatedLobby() {
@@ -35,5 +38,9 @@ export class LobbiesPageComponent implements OnInit {
     const body = { ...params, joinedUsers: 1 };
     this.lobbiesService.createNewLobby(body).subscribe();
     this.lobbyModal.toggleCreateModal();
+  }
+
+  onScroll():void {
+    this.lobbiesService.getLobbies(++this.lobbiesService.page).subscribe((lobbies) => this.lobbiesService.lobbies.push(...lobbies));
   }
 }

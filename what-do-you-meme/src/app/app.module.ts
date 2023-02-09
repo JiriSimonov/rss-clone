@@ -10,6 +10,8 @@ import { EffectsModule } from '@ngrx/effects';
 import { SharedModule } from './shared/shared.module';
 import { SocketIoModule } from 'ngx-socket-io';
 import { SocketIoConfig } from 'ngx-socket-io/src/config/socket-io.config';
+import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
+import { InfiniteScrollModule } from 'ngx-infinite-scroll';
 
 const config: SocketIoConfig = { url: 'https://wdym-js-er-sd.onrender.com', options: {auth: {token: localStorage.getItem('authData')}}}
 
@@ -25,6 +27,8 @@ const config: SocketIoConfig = { url: 'https://wdym-js-er-sd.onrender.com', opti
     AuthStoreModule,
     SharedModule,
     EffectsModule.forRoot([]),
+    BrowserAnimationsModule,
+    InfiniteScrollModule,
   ],
   providers: [],
   exports: [],

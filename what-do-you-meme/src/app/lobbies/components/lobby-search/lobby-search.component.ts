@@ -1,4 +1,3 @@
-import { LobbyInfo } from './../../models/lobbie-info.model';
 import { Component, OnInit } from '@angular/core';
 import { FormGroup, FormControl, Validators } from '@angular/forms';
 import { LobbyService } from '../../services/lobby.service';
@@ -33,8 +32,10 @@ export class LobbySearchComponent implements OnInit {
   }
 
   updateLobbies() {
-    this.lobbyService.getAllLobbies().subscribe((lobbies) => {
-      this.lobbyService.lobbies = lobbies;
-    });
+    this.lobbyService
+      .getLobbies(this.lobbyService.page)
+      .subscribe((lobbies) => {
+        this.lobbyService.lobbies = lobbies;
+      });
   }
 }
