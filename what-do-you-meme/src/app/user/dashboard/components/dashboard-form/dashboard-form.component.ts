@@ -1,7 +1,7 @@
 import { AuthData } from './../../../../auth/store/auth.reducer';
 import { Router } from '@angular/router';
 import { logoutSuccess } from './../../../../auth/store/auth.actions';
-import { AuthService } from '../../../../shared/services/auth.service';
+import { AuthService } from '../../../../auth/services/auth.service';
 import { Store } from '@ngrx/store';
 import { Component, OnInit } from '@angular/core';
 import { FormControl, FormGroup, Validators } from '@angular/forms';
