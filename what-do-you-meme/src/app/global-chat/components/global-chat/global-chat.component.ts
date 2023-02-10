@@ -28,9 +28,7 @@ export class GlobalChatComponent implements OnInit {
     });
     this.chatService.joinRoom();
     this.chatService.getMessage().subscribe((messageData) => {
-      const hours = new Date(messageData?.timestamp ? messageData?.timestamp : '').getHours();
-      const minutes = new Date(messageData?.timestamp ? messageData?.timestamp : '').getMinutes();
-      messageData.timestamp = `${hours}:${minutes}`;
+      messageData.timestamp = new Date(messageData?.timestamp ??  '').toLocaleTimeString("ru-RU")
       messageData.timestamp?.toLocaleString();
       this.messageList.push(messageData);
     });
