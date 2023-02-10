@@ -1,5 +1,5 @@
-import { UserAvatarService } from '../../../auth/services/user-avatar.service';
-import { AuthService } from '../../../auth/services/auth.service';
+import { UserAvatarService } from '../../services/user-avatar.service';
+import { AuthService } from '../../services/auth.service';
 import { Component, EventEmitter, OnInit, Output } from '@angular/core';
 import { randomize } from 'src/app/utils/randomize';
 import { EMPTY } from 'rxjs';
@@ -10,7 +10,7 @@ import { EMPTY } from 'rxjs';
   styleUrls: ['./set-picture.component.scss'],
 })
 export class SetPictureComponent implements OnInit {
-  readonly path = 'https://wdym-js-er-sd.onrender.com/file/avatars';
+  readonly path = 'https://wdym-js-er-sd.onrender.com/file/images/avatars';
   private avatarsLength = 4;
   private avatarNumber = 1;
   avatarPath: string = `${this.path}/${this.avatarNumber}`;

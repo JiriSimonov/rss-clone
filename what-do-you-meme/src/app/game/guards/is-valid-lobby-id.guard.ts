@@ -5,7 +5,7 @@ import { LobbyService } from 'src/app/lobbies/services/lobby.service';
 
 export const isValidLobbyIdGuard  = [(route: Route, segments: UrlSegment[]) => {
   const router = inject(Router);
-  return inject(LobbyService).getLobbie(segments[0].path).pipe(
+  return inject(LobbyService).getLobby(segments[0].path).pipe(
     map(() => {
       return true;
     }),

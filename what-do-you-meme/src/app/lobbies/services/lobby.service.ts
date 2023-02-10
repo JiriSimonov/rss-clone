@@ -1,43 +1,73 @@
+import { LocalStorageService } from './../../shared/storage/services/local-storage/local-storage.service';
 import { HttpClient } from '@angular/common/http';
 import { Injectable } from '@angular/core';
-import { Observable, tap } from 'rxjs';
+import { filter, fromEvent, map, Observable, tap } from 'rxjs';
 import { LobbyInfo } from '../models/lobbie-info.model';
 
 @Injectable({
-  providedIn: 'root'
+  providedIn: 'root',
 })
 export class LobbyService {
-  private readonly Url = 'http://localhost:3000/lobbies'
-  private readonly LobbyLimit = 5;
+  private readonly URL = 'http://localhost:3000/lobbies';
   public lobbies: LobbyInfo[] = [];
+  public page = 1;
 
-  constructor(private http: HttpClient) { }
+  constructor(private http: HttpClient, private localStorage: LocalStorageService) {}
 
-  getAllLobbies(page = 1, limit = this.LobbyLimit): Observable<LobbyInfo[]> {
-    return this.http.get<LobbyInfo[]>(`${this.Url}?_page=${page}&_limit=${limit}`).pipe(
-      tap((lobbies) => {
-        this.lobbies = [...lobbies];
-      }),
-    );
+  get currentPage(): number {
+    return this.page;
   }
 
-  getLobbie(id: string): Observable<LobbyInfo> {
-    return this.http.get<LobbyInfo>(`${this.Url}/${id}`);
+  getLobbies(page: number): Observable<LobbyInfo[]> {
+    return this.http
+      .get<LobbyInfo[]>(`${this.URL}?_page=${page}&per_page=5`)
+      .pipe(
+        tap((lobbies) => {
+          this.lobbies = [...lobbies];
+        })
+      );
   }
 
+  getLobby(id: string): Observable<LobbyInfo> {
+    return this.http.get<LobbyInfo>(`${this.URL}/${id}`);
+  }
+
+  getLobbyByName(name: string) {
+    return this.http.get(`${this.URL}/${name}`);
+  } // TODO
 
   createNewLobby(lobby: LobbyInfo): Observable<LobbyInfo> {
-    return this.http.post<LobbyInfo>(this.Url, lobby).pipe(
+    return this.http.post<LobbyInfo>(this.URL, lobby).pipe(
       tap((lobby) => {
         this.lobbies.push(lobby);
-      }
-      ),
+      })
     );
+  }
+
+  isValidPassword(password: string) {
+    return this.http.get(`${this.URL}/${password}`);
   }
 
   deleteLobby(id: string): Observable<LobbyInfo> {
-    return this.http.delete<LobbyInfo>(`${this.Url}/${id}`).pipe(tap((lobby) => {
-      return this.lobbies = this.lobbies.filter((item) => item.id !== lobby.id);
-    }));
+    return this.http.delete<LobbyInfo>(`${this.URL}/${id}`).pipe(
+      tap((lobby) => {
+        return (this.lobbies = this.lobbies.filter(
+          (item) => item.id !== lobby.id
+        ));
+      })
+    );
+  }
+
+  extractCreateLobby() {
+    fromEvent<StorageEvent>(window, 'storage')
+      .pipe(
+        filter((event) => event.key === 'createdLobby' && event.key !== null),
+        map((event) => {
+          return event.newValue;
+        })
+      )
+      .subscribe((key) =>
+        this.localStorage.setItem('createdLobby', key ?? 'false')
+      );
   }
 }

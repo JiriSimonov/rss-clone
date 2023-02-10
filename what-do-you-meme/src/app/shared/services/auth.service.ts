@@ -1,16 +1,17 @@
-import { AuthData } from './../store/auth.reducer';
-import { getAuthData } from './../store/auth.selectors';
+import { AuthData } from '../../auth/store/auth.reducer';
+import { getAuthData } from '../../auth/store/auth.selectors';
 import { Store } from '@ngrx/store';
 import { JwtHelperService } from '@auth0/angular-jwt';
 import { Injectable } from '@angular/core';
 import { HttpClient } from '@angular/common/http';
-import { map } from 'rxjs';
+import { distinctUntilChanged, map, pluck } from 'rxjs';
 
 @Injectable({
   providedIn: 'root',
 })
 export class AuthService {
   public user$ = this.store$.select(getAuthData);
+  public username$ = this.user$.pipe(map((userData) => userData?.username), distinctUntilChanged()); 
   private URL = 'https://wdym-js-er-sd.onrender.com';
 
   constructor(
@@ -65,7 +66,7 @@ export class AuthService {
   }
 
   getAvatars() {
-    return this.httpClient.get(`${this.URL}/file/avatars`);
+    return this.httpClient.get(`${this.URL}/file/images/avatars`);
   }
 
   setNewUsername(id: number, newLogin: string) {

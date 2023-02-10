@@ -1,4 +1,4 @@
-import { AuthService } from '../../auth/services/auth.service';
+import { AuthService } from '../services/auth.service';
 import { AbstractControl, AsyncValidatorFn } from '@angular/forms';
 import { map } from 'rxjs';
 

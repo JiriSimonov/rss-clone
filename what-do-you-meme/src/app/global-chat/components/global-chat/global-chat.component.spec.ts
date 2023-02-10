@@ -1,18 +1,18 @@
 import { ComponentFixture, TestBed } from '@angular/core/testing';
 
-import { UserAuthPageComponent } from './user-auth-page.component';
+import { GlobalChatComponent } from './global-chat.component';
 
-describe('UserAuthPageComponent', () => {
-  let component: UserAuthPageComponent;
-  let fixture: ComponentFixture<UserAuthPageComponent>;
+describe('GlobalChatComponent', () => {
+  let component: GlobalChatComponent;
+  let fixture: ComponentFixture<GlobalChatComponent>;
 
   beforeEach(async () => {
     await TestBed.configureTestingModule({
-      declarations: [ UserAuthPageComponent ]
+      declarations: [ GlobalChatComponent ]
     })
     .compileComponents();
 
-    fixture = TestBed.createComponent(UserAuthPageComponent);
+    fixture = TestBed.createComponent(GlobalChatComponent);
     component = fixture.componentInstance;
     fixture.detectChanges();
   });

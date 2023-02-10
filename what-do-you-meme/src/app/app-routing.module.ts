@@ -25,6 +25,14 @@ const routes: Routes = [
     canMatch: isUserGuards,
   },
   {
+    path: 'chat',
+    loadChildren: () =>
+      import('./global-chat/global-chat.module').then(
+        (module) => module.GlobalChatModule
+      ),
+    canMatch: isUserGuards,
+  },
+  {
     path: 'lobbies',
     loadChildren: () =>
       import('./lobbies/lobbies.module').then((module) => module.LobbiesModule),

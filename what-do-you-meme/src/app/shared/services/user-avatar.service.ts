@@ -4,7 +4,7 @@ import { Injectable } from '@angular/core';
   providedIn: 'root',
 })
 export class UserAvatarService {
-  avatarPath: string = 'https://wdym-js-er-sd.onrender.com/file/avatars/0';
+  avatarPath: string = 'https://wdym-js-er-sd.onrender.com/file/images/avatars/0';
 
   constructor() {}
 

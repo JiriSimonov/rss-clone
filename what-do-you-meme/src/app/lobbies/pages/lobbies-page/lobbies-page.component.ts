@@ -1,7 +1,7 @@
+import { LocalStorageService } from './../../../shared/storage/services/local-storage/local-storage.service';
 import { Component, OnInit } from '@angular/core';
-import { ActivatedRoute } from '@angular/router';
-import { filter, fromEvent, map } from 'rxjs';
 import { LobbyOptions } from '../../models/lobbie-info.model';
+import { LobbyModalService } from '../../services/lobby-modal.service';
 import { LobbyService } from '../../services/lobby.service';
 
 @Component({
@@ -10,32 +10,43 @@ import { LobbyService } from '../../services/lobby.service';
   styleUrls: ['./lobbies-page.component.scss'],
 })
 export class LobbiesPageComponent implements OnInit {
-  isOpened = false;
-  id: number = 1;
+  throttle = 0;
+  distance = 2;
 
-  constructor(public lobbiesService: LobbyService, private activateRoute: ActivatedRoute) {
-    this.id = this.activateRoute.snapshot.params['id'];
-  }
+  constructor(
+    public lobbiesService: LobbyService,
+    private lobbyModal: LobbyModalService,
+    private localStorage: LocalStorageService,
+  ) {}
 
   ngOnInit() {
-    // Not sure
-    fromEvent<StorageEvent>(window, 'storage').pipe(
-      filter(event => event.key === 'createdLobby'),
-      filter(event => event.key !== null),
-      map((event) => {
-        return event.newValue;
-      }),
-    ).subscribe(key => window.localStorage.setItem('createdLobby', key ?? 'false'));
-
-    this.lobbiesService.getAllLobbies(this.id).subscribe();
+    this.lobbiesService.extractCreateLobby();
+    this.lobbiesService.getLobbies(this.lobbiesService.currentPage).subscribe();
   }
 
-  toggleModal() {
-    this.isOpened = !this.isOpened;
+  get isCreatedLobby() {
+    return this.localStorage.getItem('createdLobby') === 'true';
+  }
+
+  get createModalState() {
+    return this.lobbyModal.isOpenCreateModal;
+  }
+
+  get joinModalState() {
+    return this.lobbyModal.isOpenJoinModal;
+  }
+
+  changeCreateModalState() {
+    this.lobbyModal.toggleCreateModal();
   }
 
   createLobby(params: LobbyOptions) {
-    const body = { ...params, joinedUsers: 1 }
+    const body = { ...params, joinedUsers: 1 };
     this.lobbiesService.createNewLobby(body).subscribe();
+    this.lobbyModal.toggleCreateModal();
+  }
+
+  onScroll():void {
+    this.lobbiesService.getLobbies(++this.lobbiesService.page).subscribe((lobbies) => this.lobbiesService.lobbies.push(...lobbies));
   }
 }
