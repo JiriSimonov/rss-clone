@@ -30,6 +30,10 @@ export class LobbiesPageComponent implements OnInit {
     return this.lobbyModal.isOpenCreateModal;
   }
 
+  get joinModalState() {
+    return this.lobbyModal.isOpenJoinModal;
+  }
+
   changeCreateModalState() {
     this.lobbyModal.toggleCreateModal();
   }

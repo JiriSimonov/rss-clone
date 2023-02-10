@@ -8,6 +8,8 @@ import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { LobbiesRoutingModule } from './lobbies-routing.module';
 import { LobbySearchComponent } from './components/lobby-search/lobby-search.component';
 import { LobbyJoinModalComponent } from './components/lobby-join-modal/lobby-join-modal.component';
+import { MaterialModule } from '../shared/material/material.module';
+import {MatCheckboxModule} from '@angular/material/checkbox';
 
 @NgModule({
   declarations: [
@@ -21,7 +23,9 @@ import { LobbyJoinModalComponent } from './components/lobby-join-modal/lobby-joi
     CommonModule,
     LobbiesRoutingModule,
     FormsModule,
-    ReactiveFormsModule
+    ReactiveFormsModule,
+    MaterialModule,
+    MatCheckboxModule,
   ]
 })
 export class LobbiesModule { }

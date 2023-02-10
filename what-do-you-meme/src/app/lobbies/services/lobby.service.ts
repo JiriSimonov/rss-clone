@@ -43,6 +43,10 @@ export class LobbyService {
     );
   }
 
+  isValidPassword(password: string) {
+    return this.http.get(`${this.URL}/${password}`);
+  }
+
   deleteLobby(id: string): Observable<LobbyInfo> {
     return this.http.delete<LobbyInfo>(`${this.URL}/${id}`).pipe(
       tap((lobby) => {

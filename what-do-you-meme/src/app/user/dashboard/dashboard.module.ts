@@ -5,6 +5,7 @@ import { RouterModule } from '@angular/router';
 import { DashboardFormComponent } from './components/dashboard-form/dashboard-form.component';
 import { ReactiveFormsModule } from '@angular/forms';
 import { SharedModule } from 'src/app/shared/shared.module';
+import { MaterialModule } from 'src/app/shared/material/material.module';
 
 @NgModule({
   declarations: [DashboardPageComponent, DashboardFormComponent],
@@ -12,6 +13,7 @@ import { SharedModule } from 'src/app/shared/shared.module';
     CommonModule,
     SharedModule,
     ReactiveFormsModule,
+    MaterialModule,
     RouterModule.forChild([
       {
         path: '',

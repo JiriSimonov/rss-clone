@@ -1,4 +1,6 @@
+import { LobbyModalService } from './../../services/lobby-modal.service';
 import { Component, Input, OnInit } from '@angular/core';
+import { Router } from '@angular/router';
 import { LobbyInfo } from '../../models/lobbie-info.model';
 
 @Component({
@@ -9,12 +11,19 @@ import { LobbyInfo } from '../../models/lobbie-info.model';
 export class LobbyInfoComponent implements OnInit {
   @Input() lobby?: LobbyInfo;
 
-  gameLink?: string;
 
-  constructor() {
+  constructor(private router: Router, private lobbyModal: LobbyModalService) {
   }
 
   ngOnInit(): void {
-    this.gameLink = `/game/${this.lobby?.id}`;
+    
+  }
+
+  checkPrivate() {
+    if (this.lobby?.private) {
+    this.lobbyModal.toggleJoinModal();      
+    } else {
+      this.router.navigate([`/game/${this.lobby?.id}`], {replaceUrl: true});
+    }
   }
 }
