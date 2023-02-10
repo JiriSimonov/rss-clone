@@ -1,6 +1,9 @@
-<aside class="chat">
-  <div class="chat__inner">
-    <h2 class="chat__title">Chat?</h2>
+<aside class="game-aside chat" [class.game-aside__closed]="isClosed">
+  <div class="game-aside__inner chat__inner">
+    <div class="game-aside__top chat__top">
+      <h2 class="game-aside__title chat__title">Chat?</h2>
+      <button class="game-aside__close-btn chat__close-btn" (click)="toggleChat()"></button>
+    </div>
     <div class="chat__messages"></div>
     <form (ngSubmit)="onSubmit()" [formGroup]="chatForm" class="form__form chat__form">
       <label class="form__label chat__label">

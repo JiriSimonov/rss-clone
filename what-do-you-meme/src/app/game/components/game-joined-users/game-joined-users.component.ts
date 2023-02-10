@@ -6,5 +6,9 @@ import { Component } from '@angular/core';
   styleUrls: ['./game-joined-users.component.scss']
 })
 export class GameJoinedUsersComponent {
+  isClosed: boolean = false;
 
+  togglePlayers() {
+    this.isClosed = !this.isClosed;
+  }
 }

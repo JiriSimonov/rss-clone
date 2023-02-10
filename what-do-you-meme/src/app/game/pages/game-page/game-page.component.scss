@@ -7,4 +7,14 @@
   display: flex;
   justify-content: space-between;
   width: 100%;
+  position: relative;
+  overflow: hidden;
+}
+
+.meme-cards {
+  position: absolute;
+  bottom: 0;
+  left: 50%;
+  transform: translate(-50%, 0);
+  display: flex;
 }

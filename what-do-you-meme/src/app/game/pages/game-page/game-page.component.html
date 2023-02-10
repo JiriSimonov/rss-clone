@@ -1,5 +1,13 @@
 <div class="game">
-  <app-game-chat class="game-chat"/>
-  <app-game-playground class="game-playground"/>
-  <app-game-joined-users class="game-players"/>
+  <app-game-chat class="game-chat" />
+  <app-game-playground class="game-playground" />
+  <app-game-joined-users class="game-players" />
+  <div class="meme-cards">
+    <app-meme-card
+      *ngFor='let memeImage of gameService.memes; index as i'
+      [memeImage]="memeImage"
+      [RotationDegree]="rotateMemeCard(i)"
+      [distance]="calcDistance(i)"
+      />
+  </div>
 </div>

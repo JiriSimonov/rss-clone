@@ -125,3 +125,76 @@ button {
     color: #bf437a;
   }
 }
+
+// Здесь насрано
+.game-aside {
+  height: 100%;
+  transition: 1s;
+  &__title {
+    font-size: 24px;
+    color: #fff;
+  }
+}
+
+.game-aside__closed {
+  transform: translateX(-100%);
+
+  & .game-aside__close-btn {
+    border-top: 2px solid #fff;
+    border-left: 2px solid #fff;
+    transform: translateX(150%) rotate(135deg);
+
+    &::after {
+      content: "";
+      display: block;
+      width: 2px;
+      height: 45px;
+      transform: rotate(-45deg) translate(15px, 4px);
+      left: 0;
+      top: 0;
+    }
+
+    &::before {
+      display: none;
+    }
+  }
+}
+
+.game-aside__inner {
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+  align-items: center;
+  gap: 10px;
+  padding: 20px;
+  background-color: #1b1a20;
+  height: 100%;
+}
+
+.game-aside__top {
+  width: 100%;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+}
+
+.game-aside__close-btn {
+  transition: all 0.25s ease-out;
+  width: 50px;
+  height: 50px;
+  background-color: transparent;
+  position: relative;
+  &:before, &:after {
+    content: "";
+    position: absolute;
+    display: block;
+    width: 35px;
+    height: 5px;
+    transform: rotate(-45deg);
+    background-color: #fff;
+  }
+
+  &:after {
+    transform: rotate(-135deg);
+  }
+}

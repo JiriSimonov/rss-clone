@@ -1,8 +1,8 @@
 import { NgModule } from '@angular/core';
 import { RouterModule, Routes } from '@angular/router';
 import { GamePageComponent } from '../game/pages/game-page/game-page.component';
-import { NotFoundPageComponent } from '../not-found/pages/not-found-page/not-found-page.component';
 import { isValidLobbyIdGuard } from './guards/is-valid-lobby-id.guard';
+import { NotFoundPageComponent } from '../not-found/pages/not-found-page/not-found-page.component';
 
 const routes: Routes = [
   {

@@ -1,4 +1,4 @@
-import { Component } from '@angular/core';
+import { Component, Input } from '@angular/core';
 
 @Component({
   selector: 'app-meme-card',
@@ -6,5 +6,7 @@ import { Component } from '@angular/core';
   styleUrls: ['./meme-card.component.scss']
 })
 export class MemeCardComponent {
-
+  @Input() RotationDegree: number = 0;
+  @Input() memeImage: string = 'https://adrenaline.zp.ua/wp-content/uploads/2018/11/1532577152181059880.png'
+  @Input() distance: string = '0 0';
 }

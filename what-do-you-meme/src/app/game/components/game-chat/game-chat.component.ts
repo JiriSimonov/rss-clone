@@ -8,6 +8,7 @@ import { FormControl, FormGroup } from '@angular/forms';
 })
 export class GameChatComponent implements OnInit{
   chatForm!: FormGroup;
+  isClosed: boolean = false;
 
   ngOnInit() {
     this.chatForm = new FormGroup({
@@ -21,5 +22,9 @@ export class GameChatComponent implements OnInit{
 
   onSubmit() {
     console.log('message from chat');
+  }
+
+  toggleChat() {
+    this.isClosed = !this.isClosed;
   }
 }
