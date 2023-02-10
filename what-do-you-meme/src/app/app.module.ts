@@ -16,6 +16,7 @@ import { InfiniteScrollModule } from 'ngx-infinite-scroll';
 import { WINDOW } from './shared/storage/tokens/window.token';
 import { STORAGE_KEY_PREFIX } from './shared/storage/tokens/storage-key.token';
 
+export const localStoragePrefix = 'WDYM';
 
 @NgModule({
   declarations: [AppComponent],
@@ -38,7 +39,7 @@ import { STORAGE_KEY_PREFIX } from './shared/storage/tokens/storage-key.token';
   },
   {
     provide: STORAGE_KEY_PREFIX,
-    useValue: 'WDYM',
+    useValue: localStoragePrefix,
   },],
   exports: [],
   bootstrap: [AppComponent],
