@@ -13,7 +13,6 @@ export class LobbyJoinModalComponent implements OnInit {
   private element: HTMLElement;
 
   constructor(
-    private lobbyService: LobbyService,
     private lobbyModal: LobbyModalService,
     private lobbyModalElem: ElementRef
   ) {

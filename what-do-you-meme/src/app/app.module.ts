@@ -1,4 +1,6 @@
-import { NgModule, isDevMode } from '@angular/core';
+import { ConfigService } from './shared/storage/services/config/config.service';
+import { AuthData } from './auth/store/auth.reducer';
+import { NgModule, isDevMode, Inject, inject } from '@angular/core';
 import { BrowserModule } from '@angular/platform-browser';
 import { AppRoutingModule } from './app-routing.module';
 import { AppComponent } from './app.component';
@@ -9,11 +11,11 @@ import { AuthStoreModule } from './auth/store/auth-store.module';
 import { EffectsModule } from '@ngrx/effects';
 import { SharedModule } from './shared/shared.module';
 import { SocketIoModule } from 'ngx-socket-io';
-import { SocketIoConfig } from 'ngx-socket-io/src/config/socket-io.config';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 import { InfiniteScrollModule } from 'ngx-infinite-scroll';
+import { WINDOW } from './shared/storage/tokens/window.token';
+import { STORAGE_KEY_PREFIX } from './shared/storage/tokens/storage-key.token';
 
-const config: SocketIoConfig = { url: 'https://wdym-js-er-sd.onrender.com', options: {auth: {token: localStorage.getItem('authData')}}}
 
 @NgModule({
   declarations: [AppComponent],
@@ -21,7 +23,7 @@ const config: SocketIoConfig = { url: 'https://wdym-js-er-sd.onrender.com', opti
     BrowserModule,
     AppRoutingModule,
     StoreModule.forRoot({}, {}),
-    SocketIoModule.forRoot(config),
+    SocketIoModule.forRoot(ConfigService.socketConfig),
     StoreDevtoolsModule.instrument({ maxAge: 25, logOnly: !isDevMode() }),
     StoreRouterConnectingModule.forRoot(),
     AuthStoreModule,
@@ -30,7 +32,14 @@ const config: SocketIoConfig = { url: 'https://wdym-js-er-sd.onrender.com', opti
     BrowserAnimationsModule,
     InfiniteScrollModule,
   ],
-  providers: [],
+  providers: [ {
+    provide: WINDOW,
+    useFactory: () => window,
+  },
+  {
+    provide: STORAGE_KEY_PREFIX,
+    useValue: 'WDYM',
+  },],
   exports: [],
   bootstrap: [AppComponent],
 })

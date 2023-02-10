@@ -14,6 +14,10 @@ export class GlobalChatService {
     this.socket.emit('messageToServer', data);
   }
 
+  joinRoom() {
+    this.socket.emit('joinRoom', 'GlobalChat');
+  }
+
   getMessage() {
     return this.socket.fromEvent<MessageData>('globalChatMessage');
   }

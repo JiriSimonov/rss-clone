@@ -1,3 +1,4 @@
+import { LocalStorageService } from './../../../shared/storage/services/local-storage/local-storage.service';
 import {
   Component,
   ElementRef,
@@ -26,7 +27,8 @@ export class LobbyCreateModalComponent implements OnInit {
   constructor(
     private lobbyModalElem: ElementRef,
     private authService: AuthService,
-    private router: Router
+    private router: Router,
+    private localStorage: LocalStorageService,
   ) {
     this.element = this.lobbyModalElem.nativeElement;
   }
@@ -75,7 +77,7 @@ export class LobbyCreateModalComponent implements OnInit {
       data.lobbyImage = user?.image;
       data.lobbyOwner = user?.username;
       data.private = this.privateControl?.value;
-      window.localStorage.setItem('createdLobby', 'true');
+      this.localStorage.setItem('createdLobby', 'true');
       this.onCreated.emit(data);
       this.router.navigate([`/game/9`], {replaceUrl: true});
     });

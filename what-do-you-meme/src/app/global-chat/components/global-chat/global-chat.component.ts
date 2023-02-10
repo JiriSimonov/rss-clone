@@ -26,6 +26,7 @@ export class GlobalChatComponent implements OnInit {
         Validators.maxLength(308),
       ]),
     });
+    this.chatService.joinRoom();
     this.chatService.getMessage().subscribe((messageData) => {
       const hours = new Date(messageData?.timestamp ? messageData?.timestamp : '').getHours();
       const minutes = new Date(messageData?.timestamp ? messageData?.timestamp : '').getMinutes();

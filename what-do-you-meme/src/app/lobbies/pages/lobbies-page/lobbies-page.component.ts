@@ -1,3 +1,4 @@
+import { LocalStorageService } from './../../../shared/storage/services/local-storage/local-storage.service';
 import { Component, OnInit } from '@angular/core';
 import { LobbyOptions } from '../../models/lobbie-info.model';
 import { LobbyModalService } from '../../services/lobby-modal.service';
@@ -14,7 +15,8 @@ export class LobbiesPageComponent implements OnInit {
 
   constructor(
     public lobbiesService: LobbyService,
-    private lobbyModal: LobbyModalService
+    private lobbyModal: LobbyModalService,
+    private localStorage: LocalStorageService,
   ) {}
 
   ngOnInit() {
@@ -23,7 +25,7 @@ export class LobbiesPageComponent implements OnInit {
   }
 
   get isCreatedLobby() {
-    return localStorage.getItem('createdLobby') === 'true';
+    return this.localStorage.getItem('createdLobby') === 'true';
   }
 
   get createModalState() {

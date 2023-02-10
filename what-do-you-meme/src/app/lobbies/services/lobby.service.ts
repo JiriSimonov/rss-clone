@@ -1,3 +1,4 @@
+import { LocalStorageService } from './../../shared/storage/services/local-storage/local-storage.service';
 import { HttpClient } from '@angular/common/http';
 import { Injectable } from '@angular/core';
 import { filter, fromEvent, map, Observable, tap } from 'rxjs';
@@ -11,7 +12,7 @@ export class LobbyService {
   public lobbies: LobbyInfo[] = [];
   public page = 1;
 
-  constructor(private http: HttpClient) {}
+  constructor(private http: HttpClient, private localStorage: LocalStorageService) {}
 
   get currentPage(): number {
     return this.page;
@@ -66,7 +67,7 @@ export class LobbyService {
         })
       )
       .subscribe((key) =>
-        window.localStorage.setItem('createdLobby', key ?? 'false')
+        this.localStorage.setItem('createdLobby', key ?? 'false')
       );
   }
 }
