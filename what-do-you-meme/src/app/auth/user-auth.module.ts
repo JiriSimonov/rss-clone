@@ -7,6 +7,7 @@ import { UserAuthRoutingModule } from './user-auth-routing.module';
 import { SignUpComponent } from './pages/sign-up-page/sign-up-page.component';
 import { SignUpFormComponent } from './components/sign-up-form/sign-up-form.component';
 import { SharedModule } from '../shared/shared.module';
+import { MaterialModule } from '../shared/material/material.module';
 
 @NgModule({
   declarations: [
@@ -15,6 +16,12 @@ import { SharedModule } from '../shared/shared.module';
     SignUpComponent,
     SignUpFormComponent,
   ],
-  imports: [CommonModule, UserAuthRoutingModule, ReactiveFormsModule, SharedModule],
+  imports: [
+    CommonModule,
+    UserAuthRoutingModule,
+    ReactiveFormsModule,
+    SharedModule,
+    MaterialModule,
+  ],
 })
 export class UserAuthModule {}

@@ -10,8 +10,11 @@ export class GlobalChatService {
   constructor(private socket: Socket) {}
 
   sendMessage(data: MessageData) {
-    console.warn('ger');
     this.socket.emit('messageToServer', data);
+  }
+
+  joinRoom() {
+    this.socket.emit('joinRoom', 'GlobalChat');
   }
 
   getMessage() {

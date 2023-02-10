@@ -11,5 +11,5 @@
     </div>
     <div class="lobbie__rounds">{{ lobby?.rounds }} Раундов</div>
   </div>
-  <button class="btn lobbie__btn" [routerLink]="gameLink">Присоединиться</button>
+  <button class="btn lobbie__btn" (click)="checkPrivate()">Присоединиться</button>
 </li>

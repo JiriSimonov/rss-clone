@@ -1,28 +1,53 @@
 <div class="modal">
   <div class="modal__overlay">
     <div class="form modal__container">
-      <form (ngSubmit)="onSubmit(modalForm.value)"
+      <form
+        (ngSubmit)="onSubmit(modalForm.value)"
         [formGroup]="modalForm"
-        class="form__form modal__form">
+        class="form__form modal__form"
+      >
         <label class="modal__label form__label">
-          Количество игрoков - {{maxUsersControl?.value}}
-          <input class="modal__form-input form__input" formControlName="maxUsers" type="range" min="2" max="8">
+          Количество игрoков - {{ maxUsersControl?.value }}
+          <input
+            class="modal__form-input form__input"
+            formControlName="maxUsers"
+            type="range"
+            min="2"
+            max="8"
+          />
         </label>
         <label class="modal__label form__label">
-          Количество раундов - {{roundsControl?.value}}
-          <input class="form__input modal__form-input" formControlName="rounds" type="range" min="1" max="12">
+          Количество раундов - {{ roundsControl?.value }}
+          <input
+            class="form__input modal__form-input"
+            formControlName="rounds"
+            type="range"
+            min="1"
+            max="12"
+          />
         </label>
-        <label class="modal__label">
-          Приватная игра:
-          <input class="" formControlName="private" type="checkbox">
-        </label>
-        <label class="form__label modal__label">
-          Введите название лобби:
-          <input class="form__input modal__form-input" formControlName="lobbyName">
-          <span class="form__error" *ngIf="nameControl?.errors?.['maxlength']">Максимальная длина - 18</span>
-          <span class="form__error" *ngIf="nameControl?.errors?.['minlength']">Mинимальная длина - 3</span>
-        </label>
-        <button class="form__btn modal__btn" type="submit" [disabled]="(!modalForm.valid)">Создать</button>
+        <mat-checkbox formControlName="private">Приватная игра:</mat-checkbox>
+        <mat-form-field>
+          <mat-label>Введите имя лобби:</mat-label>
+          <input
+          matInput
+            class="form__input modal__form-input"
+            formControlName="lobbyName"
+          />
+          <span class="form__error" *ngIf="nameControl?.errors?.['maxlength']"
+            >Максимальная длина - 18</span
+          >
+          <span class="form__error" *ngIf="nameControl?.errors?.['minlength']"
+            >Mинимальная длина - 3</span
+          >
+        </mat-form-field>
+        <button
+          class="form__btn modal__btn"
+          type="submit"
+          [disabled]="!modalForm.valid"
+        >
+          Создать
+        </button>
       </form>
     </div>
   </div>

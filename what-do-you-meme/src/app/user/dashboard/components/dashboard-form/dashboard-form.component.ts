@@ -12,6 +12,7 @@ import { UserData } from 'src/app/auth/models/user-data.model';
 import { PasswordValidator } from 'src/app/shared/validators/password.validator';
 import { UserAvatarService } from 'src/app/shared/services/user-avatar.service';
 import { getAuthData } from 'src/app/auth/store/auth.selectors';
+import { LocalStorageService } from 'src/app/shared/storage/services/local-storage/local-storage.service';
 
 @Component({
   selector: 'app-dashboard-form',
@@ -25,7 +26,8 @@ export class DashboardFormComponent implements OnInit {
     private store$: Store,
     private authService: AuthService,
     private router: Router,
-    private userAvatar: UserAvatarService
+    private userAvatar: UserAvatarService,
+    private localStorage: LocalStorageService,
   ) {}
 
   ngOnInit(): void {
@@ -86,7 +88,7 @@ export class DashboardFormComponent implements OnInit {
       )
       .subscribe(() => {
         this.store$.dispatch(logoutSuccess());
-        localStorage.clear();
+        this.localStorage.clear();
         this.router.navigate(['auth'], { replaceUrl: true });
       });
   }
@@ -107,7 +109,7 @@ export class DashboardFormComponent implements OnInit {
       )
       .subscribe(() => {
         this.store$.dispatch(logoutSuccess());
-        localStorage.clear();
+        this.localStorage.clear();
         this.router.navigate(['auth'], { replaceUrl: true });
       });
   }
@@ -136,7 +138,7 @@ export class DashboardFormComponent implements OnInit {
       )
       .subscribe(() => {
         this.store$.dispatch(logoutSuccess());
-        localStorage.clear();
+        this.localStorage.clear();
         this.router.navigate(['auth'], { replaceUrl: true });
       });
   }
