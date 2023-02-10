@@ -21,11 +21,6 @@ export class LobbyService {
   getLobbies(page: number): Observable<LobbyInfo[]> {
     return this.http
       .get<LobbyInfo[]>(`${this.URL}?_page=${page}&per_page=5`)
-      .pipe(
-        tap((lobbies) => {
-          this.lobbies = [...lobbies];
-        })
-      );
   }
 
   getLobby(id: string): Observable<LobbyInfo> {

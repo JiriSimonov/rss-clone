@@ -19,8 +19,12 @@ export class LobbyInfoComponent implements OnInit {
     
   }
 
+  get isPrivate() {
+    return this.lobby?.password;
+  }
+
   checkPrivate() {
-    if (this.lobby?.private) {
+    if (this.isPrivate) {
     this.lobbyModal.toggleJoinModal();      
     } else {
       this.router.navigate([`/game/${this.lobby?.id}`], {replaceUrl: true});
