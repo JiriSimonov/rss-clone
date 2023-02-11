@@ -7,9 +7,9 @@ import { ActivatedRoute } from '@angular/router';
   styleUrls: ['./game-page.component.scss']
 })
 export class GamePageComponent {
-  id: string;
+  gameId: string;
 
   constructor(private activateRoute: ActivatedRoute) {
-     this.id = this.activateRoute.snapshot.params['id'];
+     this.gameId = this.activateRoute.snapshot.params['id'];
   }
 }

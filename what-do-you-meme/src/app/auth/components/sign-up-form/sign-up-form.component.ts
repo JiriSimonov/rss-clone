@@ -14,7 +14,7 @@ import {
   ChangeDetectorRef,
   Input,
 } from '@angular/core';
-import { AuthService } from '../../../shared/services/auth.service';
+import { AuthService } from '../../services/auth.service';
 import { EMPTY } from 'rxjs';
 import { UsernameValidator } from 'src/app/shared/validators/username.validator';
 

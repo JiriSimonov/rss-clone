@@ -17,7 +17,7 @@ import {
 } from './auth.actions';
 import { catchError, filter, map, switchMap, tap } from 'rxjs/operators';
 import { of, timer, first, fromEvent } from 'rxjs';
-import { AuthService } from '../../shared/services/auth.service';
+import { AuthService } from '../services/auth.service';
 
 @Injectable()
 export class AuthEffects {

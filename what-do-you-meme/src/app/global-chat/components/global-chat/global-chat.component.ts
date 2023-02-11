@@ -1,4 +1,4 @@
-import { AuthService } from './../../../shared/services/auth.service';
+import { AuthService } from '../../../auth/services/auth.service';
 import { GlobalChatService } from './../../services/global-chat.service';
 import { Component, OnInit } from '@angular/core';
 import { FormControl, FormGroup, Validators } from '@angular/forms';
