@@ -3,6 +3,7 @@ import { AuthService } from '../../../auth/services/auth.service';
 import { Component, EventEmitter, OnInit, Output } from '@angular/core';
 import { randomize } from 'src/app/utils/randomize';
 import { EMPTY } from 'rxjs';
+import { ConfigService } from '../../storage/services/config/config.service';
 
 @Component({
   selector: 'app-set-picture',
@@ -10,7 +11,7 @@ import { EMPTY } from 'rxjs';
   styleUrls: ['./set-picture.component.scss'],
 })
 export class SetPictureComponent implements OnInit {
-  readonly path = 'https://wdym-js-er-sd.onrender.com/file/images/avatars';
+  readonly path = `${ConfigService.SERVER_URL}/file/images/avatars`
   private avatarsLength = 4;
   private avatarNumber = 1;
   avatarPath: string = `${this.path}/${this.avatarNumber}`;

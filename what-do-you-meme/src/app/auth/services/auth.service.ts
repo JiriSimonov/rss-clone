@@ -5,6 +5,7 @@ import { JwtHelperService } from '@auth0/angular-jwt';
 import { Injectable } from '@angular/core';
 import { HttpClient } from '@angular/common/http';
 import { distinctUntilChanged, map } from 'rxjs';
+import { ConfigService } from '../../shared/storage/services/config/config.service';
 
 @Injectable({
   providedIn: 'root',
@@ -24,7 +25,7 @@ export class AuthService {
     }),
     distinctUntilChanged()
   );
-  private URL = 'https://wdym-js-er-sd.onrender.com';
+  private URL = ConfigService.SERVER_URL;
 
   constructor(
     private httpClient: HttpClient,

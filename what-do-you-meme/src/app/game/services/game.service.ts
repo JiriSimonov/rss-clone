@@ -3,15 +3,13 @@ import { Injectable } from '@angular/core';
 import { ActivatedRoute } from '@angular/router';
 import { Socket } from 'ngx-socket-io';
 import { map, Observable, tap } from 'rxjs';
-import { shuffle } from 'src/app/utils/shuffleArray';
+// import { shuffle } from 'src/app/utils/shuffleArray';
 import { ConfigService } from '../../shared/storage/services/config/config.service';
 
 @Injectable({
   providedIn: 'root'
 })
 export class GameService {
-  private readonly Url = 'https://wdym-js-er-sd.onrender.com/file/images/meme'
-  memes: string[] = []
   private readonly Url = `${ConfigService.SERVER_URL}/file/images/meme`
   memes: string[] = [];
   usedMeme: string[] = [];
@@ -24,7 +22,7 @@ export class GameService {
       map(memesArr => {
         return memesArr.map(item => `${this.Url}/${item}`)
       }),
-      tap((memesArr) => this.memes = shuffle(memesArr).slice(0, 5)),
+      // tap((memesArr) => this.memes = shuffle(memesArr).slice(0, 5)),
     )
   }
 
