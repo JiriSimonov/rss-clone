@@ -1,5 +1,5 @@
 import { UserAvatarService } from '../../services/user-avatar.service';
-import { AuthService } from '../../services/auth.service';
+import { AuthService } from '../../../auth/services/auth.service';
 import { Component, EventEmitter, OnInit, Output } from '@angular/core';
 import { randomize } from 'src/app/utils/randomize';
 import { EMPTY } from 'rxjs';

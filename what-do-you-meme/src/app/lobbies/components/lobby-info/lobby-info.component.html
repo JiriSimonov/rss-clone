@@ -2,7 +2,7 @@
   <div class="lobbie__controls">
     <div class="lobbie__avatar" style="background-image: url({{lobby?.lobbyImage}});"></div>
     <span>{{lobby?.lobbyOwner}}</span>
-    <div class="lobbie__avatar" *ngIf="lobby?.private">Приватное лобби</div>
+    <div class="lobbie__avatar" *ngIf="isPrivate">Приватное лобби</div>
   </div>
   <div class="lobbie__head">
     <span>{{ lobby?.lobbyName }}</span>
