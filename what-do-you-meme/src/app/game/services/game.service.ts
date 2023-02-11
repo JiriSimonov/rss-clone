@@ -1,12 +1,13 @@
 import { HttpClient } from '@angular/common/http';
 import { Injectable } from '@angular/core';
 import { map, Observable, tap } from 'rxjs';
+import { ConfigService } from '../../shared/storage/services/config/config.service';
 
 @Injectable({
   providedIn: 'root'
 })
 export class GameService {
-  private readonly Url = 'https://wdym-js-er-sd.onrender.com/file/images/meme'
+  private readonly Url = `${ConfigService.SERVER_URL}/file/images/meme`
   memes: string[] = [];
   usedMeme: string[] = [];
 
