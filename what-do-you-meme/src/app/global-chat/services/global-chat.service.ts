@@ -14,7 +14,7 @@ export class GlobalChatService {
   }
 
   joinRoom() {
-    this.socket.emit('joinRoom', 'GlobalChat');
+    this.socket.emit('joinGlobalChat');
   }
 
   getMessage() {
