@@ -1,4 +1,5 @@
 import { Component, Input } from '@angular/core';
+import { GameService } from '../../services/game.service';
 
 @Component({
   selector: 'app-meme-card',
@@ -7,10 +8,8 @@ import { Component, Input } from '@angular/core';
 })
 export class MemeCardComponent {
   @Input() RotationDegree: number = 0;
-  @Input() memeImage: string = 'https://adrenaline.zp.ua/wp-content/uploads/2018/11/1532577152181059880.png'
   @Input() distance: string = '0 0';
+  @Input() memeImage: string = 'https://adrenaline.zp.ua/wp-content/uploads/2018/11/1532577152181059880.png'
 
-  drop() {
-    console.log(10);
-  }
+  constructor(public gameService: GameService) { }
 }

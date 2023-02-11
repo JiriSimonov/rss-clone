@@ -9,7 +9,6 @@ import { GameService } from '../../services/game.service';
 })
 export class GamePlaygroundComponent {
   roundNumber = 1;
-  playgroundCards: string[] = [];
 
   constructor(public gameService: GameService) { }
 
@@ -23,7 +22,11 @@ export class GamePlaygroundComponent {
   }
 
   drop(event: CdkDragDrop<string[]>) {
-    transferArrayItem(this.gameService.memes,
-      this.playgroundCards,event.previousIndex, event.currentIndex);
+    transferArrayItem(
+      this.gameService.memes,
+      this.gameService.usedMeme,
+      event.previousIndex,
+      event.currentIndex,
+    );
   }
 }

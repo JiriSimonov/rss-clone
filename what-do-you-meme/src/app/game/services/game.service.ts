@@ -7,7 +7,8 @@ import { map, Observable, tap } from 'rxjs';
 })
 export class GameService {
   private readonly Url = 'https://wdym-js-er-sd.onrender.com/file/images/meme'
-  memes: string[] = []
+  memes: string[] = [];
+  usedMeme: string[] = [];
 
   constructor(private http: HttpClient) { }
 

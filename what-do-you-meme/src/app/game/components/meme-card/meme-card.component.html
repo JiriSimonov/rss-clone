@@ -2,6 +2,7 @@
   transform-origin: {{distance}}"
   cdkDrag
   cdkDragBoundary=".game-playground"
+  [cdkDragDisabled]="gameService.usedMeme.length !== 0"
   >
 
   <div class="meme-card__inner" style="background-image: url({{memeImage}})">

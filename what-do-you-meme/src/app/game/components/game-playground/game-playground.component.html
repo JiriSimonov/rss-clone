@@ -1,6 +1,6 @@
 <div class="playground"
   cdkDropList
-  [cdkDropListData]="playgroundCards"
+  [cdkDropListData]="gameService.usedMeme"
   [cdkDropListConnectedTo]="gameService.memes">
   <div class="playground__inner">
     <div class="playground__info">
@@ -19,7 +19,7 @@
 
     <div class="playground__chosen">
       <app-meme-card
-        *ngFor='let memeImage of playgroundCards; index as i'
+        *ngFor='let memeImage of gameService.usedMeme; index as i'
         [memeImage]="memeImage"
         />
     </div>
@@ -27,11 +27,12 @@
     <div class="meme-cards"
       cdkDropList
       [cdkDropListData]="gameService.memes"
-      [cdkDropListConnectedTo]="playgroundCards"
+      [cdkDropListConnectedTo]="gameService.usedMeme"
       (cdkDropListDropped)="drop($event)"
       cdkDropListOrientation="horizontal">
 
-      <app-meme-card *ngFor='let memeImage of gameService.memes; index as i'
+      <app-meme-card
+        *ngFor='let memeImage of gameService.memes; index as i'
         [memeImage]="memeImage"
         [RotationDegree]="rotateMemeCard(i)"
         [distance]="calcDistance(i)"
