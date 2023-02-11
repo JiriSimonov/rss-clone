@@ -85,16 +85,14 @@ export class LobbyCreateModalComponent implements OnInit {
   }
 
   onSubmit(data: LobbyOptions) {
-    this.authService.user$.subscribe((user) => {
-      if (user) {
+    this.authService.userData$.subscribe((user) => {
+      if (user.image && user.username) {
         data.lobbyImage = user.image;
         data.lobbyOwner = user.username;
       }
       data.password = this.passwordControl?.value;
       this.localStorage.setItem('createdLobby', 'true');
       this.onCreated.emit(data);
-      //TODO: добавить поток для получения айди лобби
-      this.router.navigate([`/game/9`], {replaceUrl: true});
     });
   }
 }

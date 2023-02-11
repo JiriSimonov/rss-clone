@@ -4,14 +4,26 @@ import { Store } from '@ngrx/store';
 import { JwtHelperService } from '@auth0/angular-jwt';
 import { Injectable } from '@angular/core';
 import { HttpClient } from '@angular/common/http';
-import { distinctUntilChanged, map, pluck } from 'rxjs';
+import { distinctUntilChanged, map } from 'rxjs';
 
 @Injectable({
   providedIn: 'root',
 })
 export class AuthService {
   public user$ = this.store$.select(getAuthData);
-  public username$ = this.user$.pipe(map((userData) => userData?.username), distinctUntilChanged()); 
+  public username$ = this.user$.pipe(
+    map((userData) => userData?.username),
+    distinctUntilChanged()
+  );
+  public userData$ = this.user$.pipe(
+    map((userData) => {
+      return {
+        username: userData?.username,
+        image: userData?.image
+      }
+    }),
+    distinctUntilChanged()
+  );
   private URL = 'https://wdym-js-er-sd.onrender.com';
 
   constructor(
@@ -54,7 +66,9 @@ export class AuthService {
   }
 
   isValidPassword(password: string) {
-    return this.httpClient.post<AuthData>(`${this.URL}/auth/validate`, {password});
+    return this.httpClient.post<AuthData>(`${this.URL}/auth/validate`, {
+      password,
+    });
   }
 
   deleteUser() {
@@ -70,10 +84,14 @@ export class AuthService {
   }
 
   setNewUsername(id: number, newLogin: string) {
-    return this.httpClient.put<AuthData>(`${this.URL}/users/id/${id}`, { username: newLogin });
+    return this.httpClient.put<AuthData>(`${this.URL}/users/id/${id}`, {
+      username: newLogin,
+    });
   }
 
   setNewPassword(id: number, newPassword: string) {
-    return this.httpClient.put<AuthData>(`${this.URL}/users/id/${id}`, { password: newPassword });
+    return this.httpClient.put<AuthData>(`${this.URL}/users/id/${id}`, {
+      password: newPassword,
+    });
   }
 }

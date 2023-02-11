@@ -1,8 +1,10 @@
+import { Router } from '@angular/router';
 import { LocalStorageService } from './../../shared/storage/services/local-storage/local-storage.service';
 import { HttpClient } from '@angular/common/http';
 import { Injectable } from '@angular/core';
 import { filter, fromEvent, map, Observable, tap } from 'rxjs';
 import { LobbyInfo } from '../models/lobbie-info.model';
+import { LobbyModalService } from './lobby-modal.service';
 
 @Injectable({
   providedIn: 'root',
@@ -12,15 +14,19 @@ export class LobbyService {
   public lobbies: LobbyInfo[] = [];
   public page = 1;
 
-  constructor(private http: HttpClient, private localStorage: LocalStorageService) {}
+  constructor(
+    private http: HttpClient,
+    private localStorage: LocalStorageService,
+    private lobbyModal: LobbyModalService,
+    private router: Router
+  ) {}
 
   get currentPage(): number {
     return this.page;
   }
 
   getLobbies(page: number): Observable<LobbyInfo[]> {
-    return this.http
-      .get<LobbyInfo[]>(`${this.URL}?_page=${page}&per_page=5`)
+    return this.http.get<LobbyInfo[]>(`${this.URL}?_page=${page}&per_page=5`);
   }
 
   getLobby(id: string): Observable<LobbyInfo> {
@@ -31,10 +37,10 @@ export class LobbyService {
     return this.http.get(`${this.URL}/${name}`);
   } // TODO
 
-  createNewLobby(lobby: LobbyInfo): Observable<LobbyInfo> {
+  createNewLobby(lobby: LobbyInfo) {
     return this.http.post<LobbyInfo>(this.URL, lobby).pipe(
       tap((lobby) => {
-        this.lobbies.push(lobby);
+        this.router.navigate([`/game/${lobby.id}`], { replaceUrl: true });
       })
     );
   }
