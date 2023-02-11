@@ -5,11 +5,11 @@ import { LobbyService } from 'src/app/lobbies/services/lobby.service';
 
 export const isValidLobbyIdGuard  = [(route: Route, segments: UrlSegment[]) => {
   const router = inject(Router);
-  return inject(LobbyService).getLobby(segments[0].path).pipe(
-    map(() => {
-      return true;
-    }),
-    catchError(() => {
-      return router.navigate(['lobbies'], { replaceUrl: true });
-    }));
+  // return inject(LobbyService).getLobby(segments[0].path).pipe(
+  //   map(() => {
+  //     return true;
+  //   }),
+  //   catchError(() => {
+  //     return router.navigate(['lobbies'], { replaceUrl: true });
+  //   }));
 }];

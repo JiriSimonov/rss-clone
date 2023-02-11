@@ -1,4 +1,4 @@
-import { LocalStorageService } from './../../../shared/storage/services/local-storage/local-storage.service';
+import { LobbyModalService } from './../../services/lobby-modal/lobby-modal.service';
 import {
   Component,
   ElementRef,
@@ -7,10 +7,9 @@ import {
   Output,
 } from '@angular/core';
 import { FormGroup, FormControl, Validators } from '@angular/forms';
-import { Router } from '@angular/router';
 import { AuthService } from 'src/app/auth/services/auth.service';
-
 import { LobbyOptions } from '../../models/lobbie-info.model';
+import { LobbyService } from '../../services/lobby.service';
 
 @Component({
   selector: 'app-lobby-modal',
@@ -27,8 +26,8 @@ export class LobbyCreateModalComponent implements OnInit {
   constructor(
     private lobbyModalElem: ElementRef,
     private authService: AuthService,
-    private router: Router,
-    private localStorage: LocalStorageService,
+    private lobbyService: LobbyService,
+    private lobbyModal: LobbyModalService
   ) {
     this.element = this.lobbyModalElem.nativeElement;
   }
@@ -91,8 +90,8 @@ export class LobbyCreateModalComponent implements OnInit {
         data.lobbyOwner = user.username;
       }
       data.password = this.passwordControl?.value;
-      this.localStorage.setItem('createdLobby', 'true');
-      this.onCreated.emit(data);
+      this.lobbyService.createLobby(data);
+      this.lobbyModal.toggleCreateModal();
     });
   }
 }

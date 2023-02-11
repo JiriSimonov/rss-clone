@@ -1,7 +1,7 @@
-import { LobbyModalService } from './../../services/lobby-modal.service';
+import { LobbyState } from './../../models/lobbie-info.model';
+import { LobbyModalService } from '../../services/lobby-modal/lobby-modal.service';
 import { Component, Input, OnInit } from '@angular/core';
 import { Router } from '@angular/router';
-import { LobbyInfo } from '../../models/lobbie-info.model';
 
 @Component({
   selector: 'app-lobby-info',
@@ -9,8 +9,10 @@ import { LobbyInfo } from '../../models/lobbie-info.model';
   styleUrls: ['./lobby-info.component.scss']
 })
 export class LobbyInfoComponent implements OnInit {
-  @Input() lobby?: LobbyInfo;
+  @Input() lobby?: LobbyState;
 
+  currentUsers: number = Object.values(this.lobby?.players ?? '').length
+// TODO переписать
 
   constructor(private router: Router, private lobbyModal: LobbyModalService) {
   }
@@ -27,7 +29,7 @@ export class LobbyInfoComponent implements OnInit {
     if (this.isPrivate) {
     this.lobbyModal.toggleJoinModal();      
     } else {
-      this.router.navigate([`/game/${this.lobby?.id}`], {replaceUrl: true});
+      this.router.navigate([`/game/${this.lobby?.uuid}`], {replaceUrl: true});
     }
   }
 }

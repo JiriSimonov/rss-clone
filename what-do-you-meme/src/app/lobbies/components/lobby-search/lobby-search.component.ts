@@ -23,19 +23,19 @@ export class LobbySearchComponent implements OnInit {
   }
 
   onSubmit() {
-    this.lobbyService
-      .getLobbyByName(this.seacrhField?.value)
-      .subscribe((data) =>
-        // this.lobbyService.lobbies
-        console.log(data)
-      );
+    // this.lobbyService
+    //   .getLobby(this.seacrhField?.value)
+    //   .subscribe((data) =>
+    //     // this.lobbyService.lobbies
+    //     console.log(data)
+    //   );
   }
 
   updateLobbies() {
-    this.lobbyService
-      .getLobbies(this.lobbyService.page)
-      .subscribe((lobbies) => {
-        this.lobbyService.lobbies = lobbies;
-      });
+    // this.lobbyService
+    //   .getLobbies(this.lobbyService.page)
+    //   .subscribe((lobbies) => {
+    //     this.lobbyService.lobbies = lobbies;
+    //   });
   }
 }

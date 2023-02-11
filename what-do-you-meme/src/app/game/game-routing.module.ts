@@ -13,7 +13,7 @@ const routes: Routes = [
   {
     path: ':id',
     component: GamePageComponent,
-    canMatch: isValidLobbyIdGuard,
+    // canMatch: isValidLobbyIdGuard,
   }
 ];
 

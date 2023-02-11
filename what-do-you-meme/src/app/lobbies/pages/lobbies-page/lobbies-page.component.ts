@@ -1,7 +1,7 @@
 import { LocalStorageService } from './../../../shared/storage/services/local-storage/local-storage.service';
 import { Component, OnInit } from '@angular/core';
 import { LobbyOptions } from '../../models/lobbie-info.model';
-import { LobbyModalService } from '../../services/lobby-modal.service';
+import { LobbyModalService } from '../../services/lobby-modal/lobby-modal.service';
 import { LobbyService } from '../../services/lobby.service';
 
 @Component({
@@ -21,7 +21,7 @@ export class LobbiesPageComponent implements OnInit {
 
   ngOnInit() {
     this.lobbiesService.extractCreateLobby();
-    this.lobbiesService.getLobbies(this.lobbiesService.currentPage).subscribe();
+    // this.lobbiesService.getLobbies(this.lobbiesService.currentPage).subscribe();
   }
 
   get isCreatedLobby() {
@@ -40,13 +40,11 @@ export class LobbiesPageComponent implements OnInit {
     this.lobbyModal.toggleCreateModal();
   }
 
-  createLobby(params: LobbyOptions) {
-    const body = { ...params, joinedUsers: 1 };
-    this.lobbiesService.createNewLobby(body).subscribe();
+  createLobby() {
     this.lobbyModal.toggleCreateModal();
   }
 
   onScroll():void {
-    this.lobbiesService.getLobbies(++this.lobbiesService.page).subscribe((lobbies) => this.lobbiesService.lobbies.push(...lobbies));
+    // this.lobbiesService.getLobbies(++this.lobbiesService.page).subscribe((lobbies) => this.lobbiesService.lobbies.push(...lobbies));
   }
 }
