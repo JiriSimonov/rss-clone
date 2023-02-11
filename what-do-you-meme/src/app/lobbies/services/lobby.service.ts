@@ -1,7 +1,7 @@
 import { Router } from '@angular/router';
 import { LocalStorageService } from './../../shared/storage/services/local-storage/local-storage.service';
 import { Injectable } from '@angular/core';
-import { filter, fromEvent, map, Observable, tap } from 'rxjs';
+import { filter, fromEvent, map } from 'rxjs';
 import {
   LobbyListOptions,
   LobbyOptions,

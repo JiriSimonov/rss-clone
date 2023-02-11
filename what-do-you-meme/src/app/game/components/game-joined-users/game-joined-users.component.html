@@ -5,9 +5,9 @@
       <h2 class="game-aside__title players__title">Score?</h2>
     </div>
     <ul class="players__list">
-      <li class="players__list-item">
-        <p class="players__list-item-name">Rotakot Tokator</p>
-        <span class="players__list-item-score">100</span>
+      <li class="players__list-item" *ngFor="let player of gameService.players">
+        <p class="players__list-item-name">player[0]</p>
+        <span class="players__list-item-score">player[1]</span>
       </li>
     </ul>
     <button class="form__btn players__btn">Покинуть</button>

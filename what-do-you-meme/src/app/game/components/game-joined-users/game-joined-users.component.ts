@@ -1,4 +1,5 @@
 import { Component } from '@angular/core';
+import { GameService } from '../../services/game.service';
 
 @Component({
   selector: 'app-game-joined-users',
@@ -8,7 +9,13 @@ import { Component } from '@angular/core';
 export class GameJoinedUsersComponent {
   isClosed: boolean = false;
 
+  constructor(public gameService: GameService) {
+    gameService.getLobby();
+    console.log(gameService.players);
+  }
+
   togglePlayers() {
     this.isClosed = !this.isClosed;
   }
+
 }
