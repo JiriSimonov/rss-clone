@@ -1,61 +1,88 @@
+import { Router } from '@angular/router';
 import { LocalStorageService } from './../../shared/storage/services/local-storage/local-storage.service';
-import { HttpClient } from '@angular/common/http';
 import { Injectable } from '@angular/core';
 import { filter, fromEvent, map, Observable, tap } from 'rxjs';
-import { LobbyInfo } from '../models/lobbie-info.model';
+import {
+  LobbyListOptions,
+  LobbyOptions,
+  LobbyState,
+} from '../models/lobbie-info.model';
+import { LobbyModalService } from './lobby-modal/lobby-modal.service';
+import { Socket } from 'ngx-socket-io';
 
 @Injectable({
   providedIn: 'root',
 })
 export class LobbyService {
-  private readonly URL = 'http://localhost:3000/lobbies';
-  public lobbies: LobbyInfo[] = [];
-  public page = 1;
+  public lobbies: any[] = []; //todo типизация
+  public chunkOptions = {
+    page: 0,
+    limit: 10,
+  };
 
-  constructor(private http: HttpClient, private localStorage: LocalStorageService) {}
+  constructor(
+    private localStorage: LocalStorageService,
+    private lobbyModal: LobbyModalService,
+    private socket: Socket,
+    private router: Router
+  ) {}
 
   get currentPage(): number {
-    return this.page;
+    return this.chunkOptions.page;
   }
 
-  getLobbies(page: number): Observable<LobbyInfo[]> {
-    return this.http
-      .get<LobbyInfo[]>(`${this.URL}?_page=${page}&per_page=5`)
-      .pipe(
-        tap((lobbies) => {
-          this.lobbies = [...lobbies];
-        })
+  incrementPage(): void {
+    ++this.chunkOptions.page;
+  }
+
+  joinLobby(data: LobbyState) {
+    this.socket.emit('joinLobbyRequest', data);
+  }
+
+  createLobby(options: LobbyOptions) {
+    this.socket.emit(
+      'createLobbyRequest',
+      { lobby: options },
+      (data: LobbyState) => {
+        this.joinLobby(data);
+        this.router.navigate([`/game/${data.uuid}`], { replaceUrl: true });
+      }
+    );
+  }
+
+  getLobbiesList(options: LobbyListOptions) {
+    return new Promise((resolve) =>
+      this.socket.emit('getLobbyList', options, (res: any) => {
+        console.log(res);
+        resolve(res);
+      })
+    );
+  }
+
+  getInitialLobbiesList() {
+    return new Promise((resolve) =>
+      this.socket.emit('getLobbyList', this.chunkOptions, (res: any) => {
+        this.lobbies = res;
+      })
+    );
+  }
+
+  isValidPassword(uuid: string, password: string) {
+    return new Promise((resolve) => {
+      this.socket.emit(
+        'isPasswordCorrectRequest',
+        { uuid, password },
+        (res: boolean) => {
+          return res ? { isPasswordCorrect: true } : null;
+        }
       );
+    });
   }
 
-  getLobby(id: string): Observable<LobbyInfo> {
-    return this.http.get<LobbyInfo>(`${this.URL}/${id}`);
-  }
-
-  getLobbyByName(name: string) {
-    return this.http.get(`${this.URL}/${name}`);
-  } // TODO
-
-  createNewLobby(lobby: LobbyInfo): Observable<LobbyInfo> {
-    return this.http.post<LobbyInfo>(this.URL, lobby).pipe(
-      tap((lobby) => {
-        this.lobbies.push(lobby);
-      })
-    );
-  }
-
-  isValidPassword(password: string) {
-    return this.http.get(`${this.URL}/${password}`);
-  }
-
-  deleteLobby(id: string): Observable<LobbyInfo> {
-    return this.http.delete<LobbyInfo>(`${this.URL}/${id}`).pipe(
-      tap((lobby) => {
-        return (this.lobbies = this.lobbies.filter(
-          (item) => item.id !== lobby.id
-        ));
-      })
-    );
+  getLobby(uuid: string) {
+    this.socket.emit('getLobbyData', uuid, (res: LobbyState) => {
+      console.log(res);
+    });
   }
 
   extractCreateLobby() {
