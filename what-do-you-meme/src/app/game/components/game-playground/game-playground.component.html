@@ -1,0 +1,41 @@
+<div class="playground"
+  cdkDropList
+  [cdkDropListData]="playgroundCards"
+  [cdkDropListConnectedTo]="gameService.memes">
+  <div class="playground__inner">
+    <div class="playground__info">
+
+      <div class="playground__info-rounds">Pаунд {{roundNumber}}</div>
+      <button class="form__btn playground__info-btn">Готов</button>
+    </div>
+
+    <div class="playground__card">
+      <div class="playground__card-inner">
+        <p class="playground__card-text">Lorem, ipsum dolor sit amet consectetur adipisicing elit. Iure libero id
+          impedit vero ducimus debitis ab fugiat! Reiciendis sint, repellendus eligendi aperiam alias repudiandae unde!
+        </p>
+      </div>
+    </div>
+
+    <div class="playground__chosen">
+      <app-meme-card
+        *ngFor='let memeImage of playgroundCards; index as i'
+        [memeImage]="memeImage"
+        />
+    </div>
+
+    <div class="meme-cards"
+      cdkDropList
+      [cdkDropListData]="gameService.memes"
+      [cdkDropListConnectedTo]="playgroundCards"
+      (cdkDropListDropped)="drop($event)"
+      cdkDropListOrientation="horizontal">
+
+      <app-meme-card *ngFor='let memeImage of gameService.memes; index as i'
+        [memeImage]="memeImage"
+        [RotationDegree]="rotateMemeCard(i)"
+        [distance]="calcDistance(i)"
+        />
+    </div>
+  </div>
+</div>

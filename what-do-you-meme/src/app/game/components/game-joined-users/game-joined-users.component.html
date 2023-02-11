@@ -1,0 +1,15 @@
+<aside class="game-aside players" [class.game-aside__closed]="isClosed">
+  <div class="game-aside__inner players__inner">
+    <div class="game-aside__top players__top">
+      <button class="game-aside__close-btn players__close-btn" (click)="togglePlayers()"></button>
+      <h2 class="game-aside__title players__title">Score?</h2>
+    </div>
+    <ul class="players__list">
+      <li class="players__list-item">
+        <p class="players__list-item-name">Rotakot Tokator</p>
+        <span class="players__list-item-score">100</span>
+      </li>
+    </ul>
+    <button class="form__btn players__btn">Покинуть</button>
+  </div>
+</aside>

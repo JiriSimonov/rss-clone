@@ -1,5 +1,6 @@
 import { Component } from '@angular/core';
 import { ActivatedRoute } from '@angular/router';
+import { GameService } from '../../services/game.service';
 
 @Component({
   selector: 'app-game-page',
@@ -9,7 +10,9 @@ import { ActivatedRoute } from '@angular/router';
 export class GamePageComponent {
   gameId: string;
 
+
   constructor(private activateRoute: ActivatedRoute) {
      this.gameId = this.activateRoute.snapshot.params['id'];
+     gameService.getMemes().subscribe();
   }
 }

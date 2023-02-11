@@ -1,46 +1,23 @@
 <div class="modal">
   <div class="modal__overlay">
     <div class="form modal__container">
-      <form
-        (ngSubmit)="onSubmit(modalForm.value)"
-        [formGroup]="modalForm"
-        class="form__form modal__form"
-      >
+      <form (ngSubmit)="onSubmit(modalForm.value)" [formGroup]="modalForm" class="form__form modal__form">
         <label class="modal__label form__label">
           Количество игрoков - {{ maxUsersControl?.value }}
-          <input
-            class="modal__form-input form__input"
-            formControlName="maxUsers"
-            type="range"
-            min="2"
-            max="8"
-          />
+          <input class="modal__form-input form__input" formControlName="maxUsers" type="range" min="2" max="8" />
         </label>
         <label class="modal__label form__label">
           Количество раундов - {{ roundsControl?.value }}
-          <input
-            class="form__input modal__form-input"
-            formControlName="rounds"
-            type="range"
-            min="1"
-            max="12"
-          />
+          <input class="form__input modal__form-input" formControlName="rounds" type="range" min="1" max="12" />
         </label>
         <mat-checkbox formControlName="private">Приватная игра:</mat-checkbox>
         <mat-form-field>
           <mat-label>Введите имя лобби:</mat-label>
-          <input
-          matInput
-            class="form__input modal__form-input"
-            formControlName="lobbyName"
-          />
-          <span class="form__error" *ngIf="nameControl?.errors?.['maxlength']"
-            >Максимальная длина - 18</span
-          >
-          <span class="form__error" *ngIf="nameControl?.errors?.['minlength']"
-            >Mинимальная длина - 3</span
-          >
+          <input matInput class="form__input modal__form-input" formControlName="lobbyName" />
+          <span class="form__error" *ngIf="nameControl?.errors?.['maxlength']">Максимальная длина - 18</span>
+          <span class="form__error" *ngIf="nameControl?.errors?.['minlength']">Mинимальная длина - 3</span>
         </mat-form-field>
+
         <mat-form-field appearance="fill" *ngIf="isPrivate">
           <mat-label>Введите пароль:</mat-label> 
           <input matInput type="password" formControlName="password" class="form__input" />
