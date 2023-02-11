@@ -6,7 +6,7 @@ import { Store, StoreModule } from '@ngrx/store';
 import { AuthReducer, USER_AUTH_FEATURENAME } from './auth.reducer';
 import { HttpClientModule, HTTP_INTERCEPTORS } from '@angular/common/http';
 import { EffectsModule } from '@ngrx/effects';
-import { AdminAuthEffects } from './auth.effects';
+import { AuthEffects } from './auth.effects';
 import { JwtModule } from '@auth0/angular-jwt';
 
 @NgModule({
@@ -20,7 +20,7 @@ import { JwtModule } from '@auth0/angular-jwt';
       },
     }),
     StoreModule.forFeature(USER_AUTH_FEATURENAME, AuthReducer),
-    EffectsModule.forFeature([AdminAuthEffects]),
+    EffectsModule.forFeature([AuthEffects]),
   ],
   providers: [
     { provide: HTTP_INTERCEPTORS, useClass: AuthInterceptor, multi: true },

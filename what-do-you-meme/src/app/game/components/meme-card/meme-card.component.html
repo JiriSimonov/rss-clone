@@ -1,7 +1,9 @@
-<div class="meme-card"
-  style="transform: rotate({{RotationDegree}}deg);
-  transform-origin: {{distance}}">
-  <div class="meme-card__inner"
-    style="background-image: url({{memeImage}})">
+<div class="meme-card" style="transform: rotate({{RotationDegree}}deg);
+  transform-origin: {{distance}}"
+  cdkDrag
+  cdkDragBoundary=".game-playground"
+  >
+
+  <div class="meme-card__inner" style="background-image: url({{memeImage}})">
   </div>
 </div>

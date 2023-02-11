@@ -1,15 +1,17 @@
-import { AuthData } from './../store/auth.reducer';
-import { getAuthData } from './../store/auth.selectors';
+import { AuthData } from '../../auth/store/auth.reducer';
+import { getAuthData } from '../../auth/store/auth.selectors';
 import { Store } from '@ngrx/store';
 import { JwtHelperService } from '@auth0/angular-jwt';
 import { Injectable } from '@angular/core';
 import { HttpClient } from '@angular/common/http';
-import { map } from 'rxjs';
+import { distinctUntilChanged, map, pluck } from 'rxjs';
+
 @Injectable({
   providedIn: 'root',
 })
 export class AuthService {
   public user$ = this.store$.select(getAuthData);
+  public username$ = this.user$.pipe(map((userData) => userData?.username), distinctUntilChanged()); 
   private URL = 'https://wdym-js-er-sd.onrender.com';
 
   constructor(
@@ -29,16 +31,10 @@ export class AuthService {
     );
   }
 
-  signUp(body: { username: string; password: string }) {
+  signUp(body: { username: string; password: string; image: string }) {
     return this.httpClient.post<{ username: string; password: string }>(
       `${this.URL}/users`,
       body
-    );
-  }
-
-  getUserById(id: number) {
-    return this.httpClient.get<{ username: string; password: string }>(
-      `https://wdym-server.up.railway.app/users/id/${id}`
     );
   }
 
@@ -54,7 +50,23 @@ export class AuthService {
   }
 
   isUniqueUsername(username: string) {
-    return this.httpClient.get(`${this.URL}/users/user/${username}`)
+    return this.httpClient.get(`${this.URL}/users/has?username=${username}`);
+  }
+
+  isValidPassword(password: string) {
+    return this.httpClient.post<AuthData>(`${this.URL}/auth/validate`, {password});
+  }
+
+  deleteUser() {
+    return this.httpClient.delete<AuthData>(`${this.URL}/users/`);
+  }
+
+  changeUserData(userData: Partial<AuthData>) {
+    return this.httpClient.patch<AuthData>(`${this.URL}/users/`, userData);
+  }
+
+  getAvatars() {
+    return this.httpClient.get(`${this.URL}/file/images/avatars`);
   }
 
   setNewUsername(id: number, newLogin: string) {

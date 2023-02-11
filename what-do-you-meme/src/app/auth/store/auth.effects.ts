@@ -1,3 +1,4 @@
+import { LocalStorageService } from './../../shared/storage/services/local-storage/local-storage.service';
 import { select } from '@ngrx/store';
 import { isAuth } from './auth.selectors';
 import { Store } from '@ngrx/store';
@@ -16,10 +17,10 @@ import {
 } from './auth.actions';
 import { catchError, filter, map, switchMap, tap } from 'rxjs/operators';
 import { of, timer, first, fromEvent } from 'rxjs';
-import { AuthService } from '../services/auth.service';
+import { AuthService } from '../../shared/services/auth.service';
 
 @Injectable()
-export class AdminAuthEffects {
+export class AuthEffects {
   login$ = createEffect(() =>
     this.actions$.pipe(
       ofType(login),
@@ -71,7 +72,7 @@ export class AdminAuthEffects {
         ofType(loginSuccess),
         tap((loginSuccessData) => {
           const { type, ...authData } = loginSuccessData;
-          localStorage.setItem('authData', JSON.stringify(authData));
+          this.localStorage.setItem('authData', authData);
         })
       ),
     { dispatch: false }
@@ -81,11 +82,11 @@ export class AdminAuthEffects {
     this.actions$.pipe(
       ofType(initAuth, extractLoginData),
       map(() => {
-        const authDataFromLocalStorage = localStorage.getItem('authData');
+        const authDataFromLocalStorage = this.localStorage.getItem<AuthData>('authData');
         if (!authDataFromLocalStorage) {
           return logoutSuccess();
         }
-        const authData: AuthData = JSON.parse(authDataFromLocalStorage);
+        const authData: AuthData = authDataFromLocalStorage;
         if (authData.exp * 1000 - 10 * 1000 - Date.now() < 0) {
           return logoutSuccess();
         }
@@ -116,6 +117,7 @@ export class AdminAuthEffects {
     private actions$: Actions,
     private authService: AuthService,
     private router: Router,
-    private store$: Store
+    private store$: Store,
+    private localStorage: LocalStorageService,
   ) {}
 }

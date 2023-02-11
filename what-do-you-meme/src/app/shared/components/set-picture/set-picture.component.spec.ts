@@ -1,18 +1,18 @@
 import { ComponentFixture, TestBed } from '@angular/core/testing';
 
-import { UserAuthPageComponent } from './user-auth-page.component';
+import { SetPictureComponent } from './set-picture.component';
 
-describe('UserAuthPageComponent', () => {
-  let component: UserAuthPageComponent;
-  let fixture: ComponentFixture<UserAuthPageComponent>;
+describe('SetPictureComponent', () => {
+  let component: SetPictureComponent;
+  let fixture: ComponentFixture<SetPictureComponent>;
 
   beforeEach(async () => {
     await TestBed.configureTestingModule({
-      declarations: [ UserAuthPageComponent ]
+      declarations: [ SetPictureComponent ]
     })
     .compileComponents();
 
-    fixture = TestBed.createComponent(UserAuthPageComponent);
+    fixture = TestBed.createComponent(SetPictureComponent);
     component = fixture.componentInstance;
     fixture.detectChanges();
   });

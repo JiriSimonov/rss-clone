@@ -1,12 +1,18 @@
-import { getAuthData } from './../../../../auth/store/auth.selectors';
+import { AuthData } from './../../../../auth/store/auth.reducer';
 import { Router } from '@angular/router';
 import { logoutSuccess } from './../../../../auth/store/auth.actions';
-import { AuthService } from './../../../../auth/services/auth.service';
+import { AuthService } from '../../../../shared/services/auth.service';
 import { Store } from '@ngrx/store';
 import { Component, OnInit } from '@angular/core';
 import { FormControl, FormGroup, Validators } from '@angular/forms';
 import { catchError, EMPTY } from 'rxjs';
 import { HttpErrorResponse } from '@angular/common/http';
+import { UsernameValidator } from 'src/app/shared/validators/username.validator';
+import { UserData } from 'src/app/auth/models/user-data.model';
+import { PasswordValidator } from 'src/app/shared/validators/password.validator';
+import { UserAvatarService } from 'src/app/shared/services/user-avatar.service';
+import { getAuthData } from 'src/app/auth/store/auth.selectors';
+import { LocalStorageService } from 'src/app/shared/storage/services/local-storage/local-storage.service';
 
 @Component({
   selector: 'app-dashboard-form',
@@ -14,57 +20,61 @@ import { HttpErrorResponse } from '@angular/common/http';
   styleUrls: ['./dashboard-form.component.scss'],
 })
 export class DashboardFormComponent implements OnInit {
-  changeLoginForm!: FormGroup;
-  changePasswordForm!: FormGroup;
-  // private userSub: number | undefined;
+  changeUserDataForm!: FormGroup;
 
   constructor(
     private store$: Store,
     private authService: AuthService,
-    private router: Router
+    private router: Router,
+    private userAvatar: UserAvatarService,
+    private localStorage: LocalStorageService,
   ) {}
 
   ngOnInit(): void {
-    this.changeLoginForm = new FormGroup({
-      login: new FormControl('', [
-        Validators.required,
-        Validators.minLength(3),
-      ]),
-    });
-    this.changePasswordForm = new FormGroup({
-      password: new FormControl('', [
-        Validators.required,
-        Validators.minLength(8),
-      ]),
+    this.changeUserDataForm = new FormGroup({
+      login: new FormControl(
+        '',
+        [Validators.minLength(4), Validators.maxLength(12)],
+        [UsernameValidator.isUniqueUsername(this.authService)]
+      ),
+      password: new FormControl(
+        '',
+        [
+          Validators.minLength(8),
+          Validators.maxLength(20),
+          Validators.required,
+        ],
+        [PasswordValidator.isValidPassword(this.authService)]
+      ),
       confirmPassword: new FormControl('', [
-        Validators.required,
         Validators.minLength(8),
+        Validators.maxLength(20),
       ]),
     });
+  }
+
+  isFormValid() {
+    return !(
+      this.usernameControl?.value !== '' ||
+      this.confirmPasswordControl?.value !== ''
+    );
   }
 
   get usernameControl() {
-    return this.changeLoginForm.get('login');
+    return this.changeUserDataForm.get('login');
   }
 
   get passwordControl() {
-    return this.changePasswordForm.get('password');
+    return this.changeUserDataForm.get('password');
   }
 
   get confirmPasswordControl() {
-    return this.changePasswordForm.get('confirmPassword');
+    return this.changeUserDataForm.get('confirmPassword');
   }
 
-  getUserSub() {
-    let userSub;
-    this.authService.user$.subscribe((data) => (userSub = data?.sub));
-    return userSub ? userSub : 6;
-  }
-
-  onSubmitChangeLogin() {
-    this.getUserSub();
+  deleteUser() {
     this.authService
-      .setNewUsername(this.getUserSub(), this.usernameControl?.value)
+      .deleteUser()
       .pipe(
         catchError((err) => {
           if (err instanceof HttpErrorResponse) {
@@ -78,15 +88,14 @@ export class DashboardFormComponent implements OnInit {
       )
       .subscribe(() => {
         this.store$.dispatch(logoutSuccess());
-        localStorage.clear();
+        this.localStorage.clear();
         this.router.navigate(['auth'], { replaceUrl: true });
       });
   }
 
-  onSubmitChangePassword() {
-    this.getUserSub();
+  changeUserAvatar() {
     this.authService
-      .setNewPassword(this.getUserSub(), this.confirmPasswordControl?.value)
+      .changeUserData({ image: this.userAvatar.avatarPath })
       .pipe(
         catchError((err) => {
           if (err instanceof HttpErrorResponse) {
@@ -100,7 +109,36 @@ export class DashboardFormComponent implements OnInit {
       )
       .subscribe(() => {
         this.store$.dispatch(logoutSuccess());
-        localStorage.clear();
+        this.localStorage.clear();
+        this.router.navigate(['auth'], { replaceUrl: true });
+      });
+  }
+
+  changeUserData() {
+    const userData: Partial<UserData> = {};
+    if (this.usernameControl!.value) {
+      userData.username = this.usernameControl!.value;
+    }
+    if (this.confirmPasswordControl!.value) {
+      userData.password = this.confirmPasswordControl!.value;
+    }
+
+    this.authService
+      .changeUserData(userData)
+      .pipe(
+        catchError((err) => {
+          if (err instanceof HttpErrorResponse) {
+            if (err.status === 404) {
+              console.log('404 NOT FOUND');
+              return EMPTY;
+            }
+          }
+          throw err;
+        })
+      )
+      .subscribe(() => {
+        this.store$.dispatch(logoutSuccess());
+        this.localStorage.clear();
         this.router.navigate(['auth'], { replaceUrl: true });
       });
   }

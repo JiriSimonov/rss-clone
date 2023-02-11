@@ -1,26 +1,27 @@
 <div class="form">
   <form
-  class="form__form"
-  (ngSubmit)="onSubmit()"
-  [formGroup]="authForm"
-  *ngIf="loaded$ | async as loaded"
->
-  <label class="form__label">
-    Введите логин:
-    <input class="form__input" type="text" formControlName="username" />
-  </label>
-  <label class="form__label">
-    Введите пароль:
-    <input class="form__input" type="password" formControlName="password" />
-  </label>
-  <div class="" *ngIf="loginControl?.invalid && loginControl?.dirty">Error</div>
-  <button
-    class="form__btn"
-    type="submit"
-    [disabled]="authForm.invalid || disabled || (loading$ | async)"
+    class="form__form"
+    (ngSubmit)="onSubmit()"
+    [formGroup]="authForm"
+    *ngIf="loaded$ | async as loaded"
   >
-    Войти
-  </button>
-  <a class="form__link" routerLink="/auth/signup">Зарегистрироваться</a>
-</form>
+  <mat-form-field appearance="fill">
+    <mat-label >Введите логин:</mat-label>
+    <input matInput placeholder="medoed" formControlName="username">
+  </mat-form-field>
+  <mat-form-field appearance="fill">
+    <mat-label >Введите пароль:</mat-label>
+    <input matInput placeholder="medoed" type="password" formControlName="password">
+  </mat-form-field>
+    <span class="form__error" *ngIf="(loginControl?.invalid && loginControl?.dirty )|| (serverError$ | async)">Неправильный логин или пароль</span>
+    <button
+      color="primary"
+      class="btn"
+      type="submit"
+      [disabled]="authForm.invalid || disabled || (loading$ | async)"
+    >
+      Войти
+    </button>
+    <a class="form__link" routerLink="/auth/signup">Зарегистрироваться</a>
+  </form>
 </div>

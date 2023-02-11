@@ -7,6 +7,7 @@ import { GameJoinedUsersComponent } from './components/game-joined-users/game-jo
 import { GamePlaygroundComponent } from './components/game-playground/game-playground.component';
 import { MemeCardComponent } from './components/meme-card/meme-card.component';
 import { ReactiveFormsModule } from '@angular/forms';
+import {DragDropModule} from '@angular/cdk/drag-drop';
 
 @NgModule({
   declarations: [
@@ -20,6 +21,7 @@ import { ReactiveFormsModule } from '@angular/forms';
     CommonModule,
     GameRoutingModule,
     ReactiveFormsModule,
+    DragDropModule,
   ]
 })
 export class GameModule { }

@@ -1,21 +1,22 @@
+import { UserAvatarService } from '../../../shared/services/user-avatar.service';
 import { Router } from '@angular/router';
-import { catchError, tap } from 'rxjs/operators';
+import { catchError } from 'rxjs/operators';
 import { UserData } from './../../models/user-data.model';
 import {
   FormGroup,
   FormControl,
   Validators,
-  AbstractControl,
 } from '@angular/forms';
 import {
   ChangeDetectionStrategy,
   Component,
   OnInit,
   ChangeDetectorRef,
+  Input,
 } from '@angular/core';
-import { AuthService } from '../../services/auth.service';
+import { AuthService } from '../../../shared/services/auth.service';
 import { EMPTY } from 'rxjs';
-import { isUniqueUsernameValidator } from './username.validator';
+import { UsernameValidator } from 'src/app/shared/validators/username.validator';
 
 @Component({
   selector: 'app-sign-up-form',
@@ -26,11 +27,11 @@ import { isUniqueUsernameValidator } from './username.validator';
 export class SignUpFormComponent implements OnInit {
   signUpForm!: FormGroup;
   errors: string[] = [];
-
   constructor(
     private authService: AuthService,
     private router: Router,
-    private cdr: ChangeDetectorRef
+    private cdr: ChangeDetectorRef,
+    private userAvatarService: UserAvatarService
   ) {}
 
   ngOnInit(): void {
@@ -42,7 +43,7 @@ export class SignUpFormComponent implements OnInit {
           Validators.minLength(4),
           Validators.maxLength(12),
         ],
-        []
+        [UsernameValidator.isUniqueUsername(this.authService)]
       ),
       password: new FormControl('', [
         Validators.required,
@@ -61,6 +62,7 @@ export class SignUpFormComponent implements OnInit {
     return {
       username: this.signUpForm.value.username,
       password: this.signUpForm.value.password,
+      image: this.userAvatarService.avatarPath,
     };
   }
 

@@ -10,16 +10,8 @@ import { GameService } from '../../services/game.service';
 export class GamePageComponent {
   id: string;
 
-  constructor(activateRoute: ActivatedRoute, public gameService: GameService) {
+  constructor(activateRoute: ActivatedRoute, gameService: GameService) {
     this.id = activateRoute.snapshot.params['id'];
-  }
-
-  rotateMemeCard(index: number, arr: string[] = this.gameService.memes) {
-    const middleCard = Math.floor(arr.length / 2);
-    return -(middleCard * 15) + index * 15;
-  }
-
-  calcDistance(index: number, arr: string[] = this.gameService.memes) {
-    return `${(Math.ceil(arr.length / 2) * 50) - index * 50}% -100%`
+    gameService.getMemes().subscribe();
   }
 }

@@ -7,21 +7,16 @@ import { map, Observable, tap } from 'rxjs';
 })
 export class GameService {
   private readonly Url = 'https://wdym-js-er-sd.onrender.com/file/images/meme'
-  memes: string[] = [
-    `${this.Url}/trawolta`,
-    `${this.Url}/trawolta`,
-    `${this.Url}/trawolta`,
-    `${this.Url}/trawolta`,
-    `${this.Url}/trawolta`,
-  ]
+  memes: string[] = []
 
   constructor(private http: HttpClient) { }
 
-  getMemes(): Observable<string> {
-    return this.http.get<string>(`${this.Url}`);
-  }
-
-  getMeme(name: string) {
-    return this.http.get<any>(`${this.Url}/${name}`).pipe(map(response => response.json()));
+  getMemes(): Observable<string[]> {
+    return this.http.get<string[]>(`${this.Url}`).pipe(
+      map(memesArr => {
+        return memesArr.map(item => `${this.Url}/${item}`)
+      }),
+      tap((memesArr) => this.memes = [...memesArr.slice(0, 5)]),
+    )
   }
 }

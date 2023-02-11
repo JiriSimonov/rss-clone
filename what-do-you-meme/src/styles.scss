@@ -24,7 +24,8 @@ h6 {
   margin: 0;
 }
 
-ul,ol {
+ul,
+ol {
   margin: 0;
   padding: 0;
   list-style: none;
@@ -57,32 +58,6 @@ button {
 
     &_top {
       margin-bottom: 20px;
-    }
-  }
-
-  &__btn {
-    display: block;
-    margin: 0 auto;
-    padding: 8px 16px;
-    border: 2px solid transparent;
-    border-radius: 5px;
-    background-color: #382756;
-    font-size: 18px;
-    font-weight: 400;
-    color: #fff;
-    transition: 0.3s linear;
-
-    &:hover,
-    &:focus {
-      border-color: #382756;
-      border-color: #fff;
-      cursor: pointer;
-      outline: none;
-    }
-
-    &:disabled {
-      opacity: .5;
-      pointer-events: none;
     }
   }
 
