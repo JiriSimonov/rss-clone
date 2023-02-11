@@ -31,11 +31,8 @@ export class LobbySearchComponent implements OnInit {
     //   );
   }
 
-  updateLobbies() {
-    // this.lobbyService
-    //   .getLobbies(this.lobbyService.page)
-    //   .subscribe((lobbies) => {
-    //     this.lobbyService.lobbies = lobbies;
-    //   });
+  async updateLobbies() {
+    const lobbies: any = await this.lobbyService.getLobbiesList({});
+    this.lobbyService.lobbies = lobbies;
   }
 }

@@ -16,12 +16,12 @@ export class LobbiesPageComponent implements OnInit {
   constructor(
     public lobbiesService: LobbyService,
     private lobbyModal: LobbyModalService,
-    private localStorage: LocalStorageService,
+    private localStorage: LocalStorageService
   ) {}
 
   ngOnInit() {
     this.lobbiesService.extractCreateLobby();
-    // this.lobbiesService.getLobbies(this.lobbiesService.currentPage).subscribe();
+    this.lobbiesService.getInitialLobbiesList();
   }
 
   get isCreatedLobby() {
@@ -44,7 +44,14 @@ export class LobbiesPageComponent implements OnInit {
     this.lobbyModal.toggleCreateModal();
   }
 
-  onScroll():void {
-    // this.lobbiesService.getLobbies(++this.lobbiesService.page).subscribe((lobbies) => this.lobbiesService.lobbies.push(...lobbies));
+  onScroll(): void {
+    console.log(this.lobbiesService.chunkOptions);
+    this.lobbiesService.incrementPage();
+    console.log(this.lobbiesService.chunkOptions);
+    this.lobbiesService.lobbies.push(
+      this.lobbiesService.getLobbiesList({
+        chunk: this.lobbiesService.chunkOptions,
+      })
+    );
   }
 }

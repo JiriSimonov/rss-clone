@@ -2,7 +2,11 @@ import { Router } from '@angular/router';
 import { LocalStorageService } from './../../shared/storage/services/local-storage/local-storage.service';
 import { Injectable } from '@angular/core';
 import { filter, fromEvent, map, Observable, tap } from 'rxjs';
-import { LobbyOptions, LobbyState } from '../models/lobbie-info.model';
+import {
+  LobbyListOptions,
+  LobbyOptions,
+  LobbyState,
+} from '../models/lobbie-info.model';
 import { LobbyModalService } from './lobby-modal/lobby-modal.service';
 import { Socket } from 'ngx-socket-io';
 
@@ -10,8 +14,11 @@ import { Socket } from 'ngx-socket-io';
   providedIn: 'root',
 })
 export class LobbyService {
-  public lobbies: [] = [];
-  public page = 1;
+  public lobbies: any[] = []; //todo типизация
+  public chunkOptions = {
+    page: 0,
+    limit: 10,
+  };
 
   constructor(
     private localStorage: LocalStorageService,
@@ -20,10 +27,16 @@ export class LobbyService {
     private router: Router
   ) {}
 
+  get currentPage(): number {
+    return this.chunkOptions.page;
+  }
+
+  incrementPage(): void {
+    ++this.chunkOptions.page;
+  }
+
   joinLobby(data: LobbyState) {
-    this.socket.emit('joinRoom', data, (data: any) => {
-      console.log(data);
-    });
+    this.socket.emit('joinLobbyRequest', data);
   }
 
   createLobby(options: LobbyOptions) {
@@ -37,47 +50,40 @@ export class LobbyService {
     );
   }
 
-  //TODO описать интерфейс лоббей
-
-  get currentPage(): number {
-    return this.page;
+  getLobbiesList(options: LobbyListOptions) {
+    return new Promise((resolve) =>
+      this.socket.emit('getLobbyList', options, (res: any) => {
+        console.log(res);
+        resolve(res);
+      })
+    );
   }
 
-  // getLobbies(page: number): Observable<LobbyInfo[]> {
-  //   return this.http.get<LobbyInfo[]>(`${this.URL}?_page=${page}&per_page=5`);
-  // }
+  getInitialLobbiesList() {
+    return new Promise((resolve) =>
+      this.socket.emit('getLobbyList', this.chunkOptions, (res: any) => {
+        this.lobbies = res;
+      })
+    );
+  }
 
-  getLobby(uuid: string) {
-    this.socket.emit('getLobbyData', uuid, (data: any) => {
-      console.log(data);
+  isValidPassword(uuid: string, password: string) {
+    return new Promise((resolve) => {
+      this.socket.emit(
+        'isPasswordCorrectRequest',
+        { uuid, password },
+        (res: boolean) => {
+          return res ? { isPasswordCorrect: true } : null;
+        }
+      );
     });
   }
 
-  // getLobbyByName(name: string) {
-  //   return this.http.get(`${this.URL}/${name}`);
-  // } // TODO
-
-  // createNewLobby(lobby: LobbyInfo) {
-  //   return this.http.post<LobbyInfo>(this.URL, lobby).pipe(
-  //     tap((lobby) => {
-  //       this.router.navigate([`/game/${lobby.id}`], { replaceUrl: true });
-  //     })
-  //   );
-  // }
-
-  // isValidPassword(password: string) {
-  //   return this.http.get(`${this.URL}/${password}`);
-  // }
-
-  // deleteLobby(id: string): Observable<LobbyInfo> {
-  //   return this.http.delete<LobbyInfo>(`${this.URL}/${id}`).pipe(
-  //     tap((lobby) => {
-  //       return (this.lobbies = this.lobbies.filter(
-  //         (item) => item.id !== lobby.id
-  //       ));
-  //     })
-  //   );
-  // }
+  getLobby(uuid: string) {
+    this.socket.emit('getLobbyData', uuid, (res: LobbyState) => {
+      console.log(res);
+    });
+  }
 
   extractCreateLobby() {
     fromEvent<StorageEvent>(window, 'storage')

@@ -2,7 +2,7 @@
   <div class="lobbies">
     <app-lobby-search></app-lobby-search>
     <ul class="lobbies__list">
-      <app-lobby-info *ngFor="let lobby of lobbiesService.lobbies" [lobby]="lobby">
+      <app-lobby-info *ngFor="let lobby of lobbiesService.lobbies" [lobby]="lobby[1]">
       </app-lobby-info>
     </ul>
     <button class="btn lobbies__btn" (click)="changeCreateModalState()" [disabled]="isCreatedLobby">
