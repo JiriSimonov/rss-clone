@@ -20,4 +20,8 @@ export class GameService {
       tap((memesArr) => this.memes = [...memesArr.slice(0, 5)]),
     )
   }
+
+  shuffleArr(arr: string[]) {
+
+  }
 }

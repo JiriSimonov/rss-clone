@@ -25,7 +25,7 @@ export class LobbyService {
     private lobbyModal: LobbyModalService,
     private socket: Socket,
     private router: Router
-  ) {}
+  ) { }
 
   get currentPage(): number {
     return this.chunkOptions.page;
