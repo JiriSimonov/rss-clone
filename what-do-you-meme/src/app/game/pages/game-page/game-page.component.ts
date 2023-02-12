@@ -16,10 +16,11 @@ export class GamePageComponent implements OnInit {
   }
 
   ngOnInit() {
-    this.gameService.joinLobby(this.gameId);
     this.gameService.getPlayers(this.gameId);
-    this.gameService.joinLobbyEvent(this.gameId).subscribe(data => {
-      return console.log(data);
+    this.gameService.joinLobbyRequest(this.gameId);
+
+    this.gameService.joinLobbyEvent().subscribe((data: any) => {
+      console.log('name');
     });
   }
 }

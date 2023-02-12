@@ -41,18 +41,14 @@ export class GameService {
     return players;
   }
 
-  async joinLobby(uuid: string) {
+  async joinLobbyRequest(uuid: string) {
     this.socket.emit('joinLobbyRequest', {
       uuid,
       password: (await this.getLobby(uuid)).password,
     });
   }
 
-  joinLobbyEvent(uuid: string) {
-    this.socket.emit('joinLobby', { uuid }, (data: any) => {
-      console.log(data)
-    });
-
-    return this.socket.fromEvent('joinLobby');
+  joinLobbyEvent() {
+    return this.socket.fromEvent('joinLobbyRequest');
   }
 }
