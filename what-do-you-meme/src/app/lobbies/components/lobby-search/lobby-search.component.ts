@@ -15,20 +15,32 @@ export class LobbySearchComponent implements OnInit {
   ngOnInit() {
     this.searchForm = new FormGroup({
       searсh: new FormControl('', [Validators.minLength(3)], []),
+      private: new FormControl(),
     });
   }
 
-  get seacrhField() {
+  get searchField() {
     return this.searchForm.get('searсh');
   }
 
+  get privateField() {
+    return this.searchForm.get('private');
+  }
+
+  get privateFieldBooleanValue() {
+    return this.privateField?.value === ''
+      ? ''
+      : this.privateField?.value === 'false'
+      ? false
+      : true;
+  }
+
   onSubmit() {
-    // this.lobbyService
-    //   .getLobby(this.seacrhField?.value)
-    //   .subscribe((data) =>
-    //     // this.lobbyService.lobbies
-    //     console.log(data)
-    //   );
+    this.lobbyService.getLobbiesList({
+      chunk: this.lobbyService.chunkOptions,
+      isPrivate: this.privateFieldBooleanValue,
+      nameContains: this.searchField?.value,
+    });
   }
 
   async updateLobbies() {

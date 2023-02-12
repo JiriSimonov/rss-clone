@@ -22,5 +22,6 @@ export interface LobbyListOptions {
     page: number;
     limit: number;
   };
-  private?: boolean;
+  isPrivate?: boolean | string;
+  nameContains?: string;
 }

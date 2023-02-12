@@ -51,20 +51,15 @@ export class LobbyService {
   }
 
   getLobbiesList(options: LobbyListOptions) {
-    return new Promise((resolve) =>
-      this.socket.emit('getLobbyList', options, (res: any) => {
-        console.log(res);
-        resolve(res);
-      })
-    );
+    this.socket.emit('getLobbyList', options, (res: LobbyState[]) => {
+      this.lobbies = res;
+    });
   }
 
   getInitialLobbiesList() {
-    return new Promise((resolve) =>
-      this.socket.emit('getLobbyList', this.chunkOptions, (res: any) => {
-        this.lobbies = res;
-      })
-    );
+    this.socket.emit('getLobbyList', this.chunkOptions, (res: LobbyState[]) => {
+      this.lobbies = res;
+    });
   }
 
   isValidPassword(uuid: string, password: string) {
