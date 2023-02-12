@@ -5,6 +5,7 @@ export interface LobbyOptions {
   lobbyOwner: string;
   lobbyImage: string;
   password?: string;
+  private?: boolean;
 }
 
 export interface LobbyState extends LobbyOptions {

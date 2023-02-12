@@ -1,5 +1,4 @@
 import { LobbyModalService } from '../../services/lobby-modal/lobby-modal.service';
-import { LobbyService } from 'src/app/lobbies/services/lobby.service';
 import { Component, ElementRef, OnInit } from '@angular/core';
 import { FormControl, FormGroup, Validators } from '@angular/forms';
 

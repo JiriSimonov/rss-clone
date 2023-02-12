@@ -89,6 +89,7 @@ export class LobbyCreateModalComponent implements OnInit {
         data.lobbyImage = user.image;
         data.lobbyOwner = user.username;
       }
+      delete data.private;
       data.password = this.passwordControl?.value;
       this.lobbyService.createLobby(data);
       this.lobbyModal.toggleCreateModal();

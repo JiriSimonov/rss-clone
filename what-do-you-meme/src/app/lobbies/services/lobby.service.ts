@@ -7,7 +7,6 @@ import {
   LobbyOptions,
   LobbyState,
 } from '../models/lobbie-info.model';
-import { LobbyModalService } from './lobby-modal/lobby-modal.service';
 import { Socket } from 'ngx-socket-io';
 
 @Injectable({
@@ -22,7 +21,6 @@ export class LobbyService {
 
   constructor(
     private localStorage: LocalStorageService,
-    private lobbyModal: LobbyModalService,
     private socket: Socket,
     private router: Router
   ) {}
@@ -68,9 +66,17 @@ export class LobbyService {
         'isPasswordCorrectRequest',
         { uuid, password },
         (res: boolean) => {
-          return res ? { isPasswordCorrect: true } : null;
+          resolve(res ? { isPasswordCorrect: true } : null);
         }
       );
+    });
+  }
+
+  isUniqueLobbyName(lobbyName: string) {
+    return new Promise((resolve) => {
+      this.socket.emit('event', lobbyName, (res: any) => {
+        resolve(res ? { isLobbyUnique: true } : null);
+      });
     });
   }
 
