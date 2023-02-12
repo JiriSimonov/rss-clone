@@ -1,4 +1,4 @@
-import { Component } from '@angular/core';
+import { Component  } from '@angular/core';
 import { GameService } from '../../services/game.service';
 
 @Component({
@@ -9,13 +9,9 @@ import { GameService } from '../../services/game.service';
 export class GameJoinedUsersComponent {
   isClosed: boolean = false;
 
-  constructor(public gameService: GameService) {
-    gameService.getLobby();
-    console.log(gameService.players);
-  }
+  constructor(public gameService: GameService) { }
 
   togglePlayers() {
     this.isClosed = !this.isClosed;
   }
-
 }

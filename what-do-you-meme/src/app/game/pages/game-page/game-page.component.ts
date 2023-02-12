@@ -1,4 +1,4 @@
-import { Component } from '@angular/core';
+import { Component, OnInit } from '@angular/core';
 import { ActivatedRoute } from '@angular/router';
 import { GameService } from '../../services/game.service';
 
@@ -7,11 +7,19 @@ import { GameService } from '../../services/game.service';
   templateUrl: './game-page.component.html',
   styleUrls: ['./game-page.component.scss']
 })
-export class GamePageComponent {
+export class GamePageComponent implements OnInit {
   gameId: string;
 
 
   constructor(private activateRoute: ActivatedRoute, private gameService: GameService) {
-     this.gameId = this.activateRoute.snapshot.params['id'];
+    this.gameId = this.activateRoute.snapshot.params['id'];
+  }
+
+  ngOnInit() {
+    this.gameService.joinLobby(this.gameId);
+    this.gameService.getPlayers(this.gameId);
+    this.gameService.joinLobbyEvent(this.gameId).subscribe(data => {
+      return console.log(data);
+    });
   }
 }
