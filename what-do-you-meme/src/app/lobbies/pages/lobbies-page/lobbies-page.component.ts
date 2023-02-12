@@ -1,8 +1,7 @@
+import { LobbyService } from 'src/app/lobbies/services/lobby.service';
 import { LocalStorageService } from './../../../shared/storage/services/local-storage/local-storage.service';
 import { Component, OnInit } from '@angular/core';
-import { LobbyOptions } from '../../models/lobbie-info.model';
 import { LobbyModalService } from '../../services/lobby-modal/lobby-modal.service';
-import { LobbyService } from '../../services/lobby.service';
 
 @Component({
   selector: 'app-lobbies-page',
@@ -12,9 +11,10 @@ import { LobbyService } from '../../services/lobby.service';
 export class LobbiesPageComponent implements OnInit {
   throttle = 0;
   distance = 2;
+  lobbies$ = this.lobbiesService.lobbies$ 
 
   constructor(
-    public lobbiesService: LobbyService,
+    private lobbiesService: LobbyService,
     private lobbyModal: LobbyModalService,
     private localStorage: LocalStorageService
   ) {}
@@ -45,13 +45,7 @@ export class LobbiesPageComponent implements OnInit {
   }
 
   onScroll(): void {
-    console.log(this.lobbiesService.chunkOptions);
-    this.lobbiesService.incrementPage();
-    console.log(this.lobbiesService.chunkOptions);
-    this.lobbiesService.lobbies.push(
-      this.lobbiesService.getLobbiesList({
-        chunk: this.lobbiesService.chunkOptions,
-      })
-    );
+    this.lobbiesService.incrementPage()
+    this.lobbiesService.updateLobbiesList({chunk: this.lobbiesService.chunkOptions});
   }
 }

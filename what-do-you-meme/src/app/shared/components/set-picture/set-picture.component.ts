@@ -26,8 +26,9 @@ export class SetPictureComponent implements OnInit {
   ngOnInit(): void {}
 
   randomizeAvatar() {
-    this.avatarPath = `${this.path}/${randomize(0, this.avatarsLength)}`;
-    this.userAvatarService.setAvatarPath(this.avatarPath);
+    // this.avatarPath = `${this.path}/${randomize(0, this.avatarsLength)}`;
+    // this.userAvatarService.setAvatarPath(this.avatarPath);
+    console.log(this.userAvatarService.getRandomAvatar());
   }
 
   getAvatarsArr() {

@@ -28,23 +28,25 @@ export class LobbySearchComponent implements OnInit {
   }
 
   get privateFieldBooleanValue() {
-    return this.privateField?.value === ''
-      ? ''
-      : this.privateField?.value === 'false'
-      ? false
-      : true;
+    return this.privateField?.value === 'false' ? false : true;
   }
 
   onSubmit() {
-    this.lobbyService.getLobbiesList({
-      chunk: this.lobbyService.chunkOptions,
-      isPrivate: this.privateFieldBooleanValue,
-      nameContains: this.searchField?.value,
-    });
+    if (this.privateField?.value === '') {
+      this.lobbyService.getLobbiesList({
+        chunk: { page: 0, limit: this.lobbyService.chunkOptions.limit },
+        nameContains: this.searchField?.value,
+      });
+    } else {
+      this.lobbyService.getLobbiesList({
+        chunk: { page: 0, limit: this.lobbyService.chunkOptions.limit },
+        isPrivate: this.privateFieldBooleanValue,
+        nameContains: this.searchField?.value,
+      });
+    }
   }
 
-  async updateLobbies() {
-    const lobbies: any = await this.lobbyService.getLobbiesList({});
-    this.lobbyService.lobbies = lobbies;
+  updateLobbies() {
+    this.onSubmit()
   }
 }

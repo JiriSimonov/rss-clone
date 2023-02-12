@@ -9,6 +9,7 @@ import { LobbySearchComponent } from './components/lobby-search/lobby-search.com
 import { LobbyJoinModalComponent } from './components/lobby-join-modal/lobby-join-modal.component';
 import { MaterialModule } from '../shared/material/material.module';
 import {MatCheckboxModule} from '@angular/material/checkbox';
+import { InfiniteScrollModule } from 'ngx-infinite-scroll';
 
 @NgModule({
   declarations: [
@@ -25,6 +26,7 @@ import {MatCheckboxModule} from '@angular/material/checkbox';
     ReactiveFormsModule,
     MaterialModule,
     MatCheckboxModule,
+    InfiniteScrollModule,
   ]
 })
 export class LobbiesModule { }

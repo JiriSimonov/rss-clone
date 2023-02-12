@@ -1,19 +1,20 @@
+import { HttpClient } from '@angular/common/http';
 import { Injectable } from '@angular/core';
+import { EMPTY } from 'rxjs';
 import { ConfigService } from '../storage/services/config/config.service';
 
 @Injectable({
   providedIn: 'root',
 })
 export class UserAvatarService {
-  avatarPath: string = `${ConfigService.SERVER_URL}/file/images/avatars/0`
+  public images = '';
+  constructor(private httpClient: HttpClient) {}
 
-  constructor() {}
-
-  setAvatarPath(path: string) {
-    this.avatarPath = path;
-  }
-
-  get avatar(): string {
-    return this.avatarPath;
+  getRandomAvatar() {
+    this.httpClient
+      .get(`${ConfigService.SERVER_URL}/file/random-avatar`)
+      .subscribe((image: any) => {
+        console.log(image);
+      });
   }
 }

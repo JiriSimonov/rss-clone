@@ -1,7 +1,8 @@
+import { EventName } from './../../shared/model/sockets-events';
 import { Router } from '@angular/router';
 import { LocalStorageService } from './../../shared/storage/services/local-storage/local-storage.service';
 import { Injectable } from '@angular/core';
-import { filter, fromEvent, map } from 'rxjs';
+import { BehaviorSubject, filter, fromEvent, map, scan } from 'rxjs';
 import {
   LobbyListOptions,
   LobbyOptions,
@@ -13,10 +14,12 @@ import { Socket } from 'ngx-socket-io';
   providedIn: 'root',
 })
 export class LobbyService {
-  public lobbies: any[] = []; //todo типизация
+  private lobbies$$ = new BehaviorSubject<[string, LobbyState][]>([]);
+  public lobbies$ = this.lobbies$$.asObservable();
+  // public lobbies: [string, LobbyState][] = [];
   public chunkOptions = {
     page: 0,
-    limit: 10,
+    limit: 8,
   };
 
   constructor(
@@ -34,12 +37,12 @@ export class LobbyService {
   }
 
   joinLobby(data: LobbyState) {
-    this.socket.emit('joinLobbyRequest', data);
+    this.socket.emit(EventName.joinLobbyRequest, data);
   }
 
   createLobby(options: LobbyOptions) {
     this.socket.emit(
-      'createLobbyRequest',
+      EventName.createLobbyRequest,
       { lobby: options },
       (data: LobbyState) => {
         this.joinLobby(data);
@@ -49,24 +52,43 @@ export class LobbyService {
   }
 
   getLobbiesList(options: LobbyListOptions) {
-    this.socket.emit('getLobbyList', options, (res: LobbyState[]) => {
-      this.lobbies = res;
-    });
+    this.socket.emit(
+      EventName.getLobbyList,
+      options,
+      (res: [string, LobbyState][]) => {
+        this.lobbies$$.next(res);
+      }
+    );
+  }
+
+  updateLobbiesList(options: LobbyListOptions) {
+    this.socket.emit(
+      EventName.getLobbyList,
+      options,
+      (res: [string, LobbyState][]) => {
+        // this.lobbies$$.pipe(scan((prev, current) => [...prev, ...current]));
+        this.lobbies$$.next([...this.lobbies$$.value, ...res]);
+      }
+    );
   }
 
   getInitialLobbiesList() {
-    this.socket.emit('getLobbyList', this.chunkOptions, (res: LobbyState[]) => {
-      this.lobbies = res;
-    });
+    this.socket.emit(
+      EventName.getLobbyList,
+      this.chunkOptions,
+      (res: [string, LobbyState][]) => {
+        this.lobbies$$.next(res.slice(0, this.chunkOptions.limit));
+      }
+    );
   }
 
   isValidPassword(uuid: string, password: string) {
     return new Promise((resolve) => {
       this.socket.emit(
-        'isPasswordCorrectRequest',
+        EventName.isPasswordCorrectRequest,
         { uuid, password },
         (res: boolean) => {
-          resolve(res ? { isPasswordCorrect: true } : null);
+          resolve(res === true ? { isPasswordCorrect: true } : null);
         }
       );
     });
@@ -74,14 +96,18 @@ export class LobbyService {
 
   isUniqueLobbyName(lobbyName: string) {
     return new Promise((resolve) => {
-      this.socket.emit('event', lobbyName, (res: any) => {
-        resolve(res ? { isLobbyUnique: true } : null);
-      });
+      this.socket.emit(
+        EventName.isLobbyNameUniqueRequest,
+        lobbyName,
+        (res: any) => {
+          resolve(res === true ? { isLobbyUnique: true } : null);
+        }
+      );
     });
   }
 
   getLobby(uuid: string) {
-    this.socket.emit('getLobbyData', uuid, (res: LobbyState) => {
+    this.socket.emit(EventName.getLobbyData, uuid, (res: LobbyState) => {
       console.log(res);
     });
   }
