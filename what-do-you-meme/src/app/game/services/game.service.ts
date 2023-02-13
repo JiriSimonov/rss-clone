@@ -10,6 +10,7 @@ export class GameService {
   memes: string[] = [];
   usedMeme: string[] = [];
   players: Player[] = [];
+  activatedRoute: any;
 
   constructor(private socket: Socket) { }
 
@@ -44,11 +45,5 @@ export class GameService {
 
   joinLobbyEvent() {
     return this.socket.fromEvent<Player>('joinLobby');
-  }
-
-  getLobby() {
-    this.socket.emit('getLobbyData', { uuid: this.activatedRoute.snapshot.params['id'] }, (data: any) => {
-      this.players = Object.values(data.players);
-    });
   }
 }
