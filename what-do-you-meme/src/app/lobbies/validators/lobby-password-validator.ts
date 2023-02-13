@@ -1,17 +1,8 @@
 import { LobbyService } from 'src/app/lobbies/services/lobby.service';
-import { AbstractControl, AsyncValidatorFn } from '@angular/forms';
-import { map } from 'rxjs';
+import { AbstractControl, AsyncValidatorFn, ValidatorFn } from '@angular/forms';
 
 export class LobbyPasswordValidator {
-  static isValidLobbyPassword(lobbyService: LobbyService): AsyncValidatorFn {
-    return (control: AbstractControl) => {
-      return lobbyService.isValidPassword(control.value).pipe(
-        map((result) => {
-          return Object.values(result).join('') === 'true'
-            ? null
-            : { isPasswordValid: true };
-        })
-      );
-    };
-  }
+  // static isValidLobbyPassword(lobbyService: LobbyService, uuid: string): AsyncValidatorFn {
+  //   return (control: AbstractControl) => lobbyService.isValidPassword(uuid, control.value);
+  // }
 }

@@ -94,24 +94,24 @@ export class DashboardFormComponent implements OnInit {
   }
 
   changeUserAvatar() {
-    this.authService
-      .changeUserData({ image: this.userAvatar.avatarPath })
-      .pipe(
-        catchError((err) => {
-          if (err instanceof HttpErrorResponse) {
-            if (err.status === 404) {
-              console.log('404 NOT FOUND');
-              return EMPTY;
-            }
-          }
-          throw err;
-        })
-      )
-      .subscribe(() => {
-        this.store$.dispatch(logoutSuccess());
-        this.localStorage.clear();
-        this.router.navigate(['auth'], { replaceUrl: true });
-      });
+    // this.authService
+    //   .changeUserData({ image: this.userAvatar.avatarPath })
+    //   .pipe(
+    //     catchError((err) => {
+    //       if (err instanceof HttpErrorResponse) {
+    //         if (err.status === 404) {
+    //           console.log('404 NOT FOUND');
+    //           return EMPTY;
+    //         }
+    //       }
+    //       throw err;
+    //     })
+    //   )
+    //   .subscribe(() => {
+    //     this.store$.dispatch(logoutSuccess());
+    //     this.localStorage.clear();
+    //     this.router.navigate(['auth'], { replaceUrl: true });
+    //   });
   }
 
   changeUserData() {

@@ -11,8 +11,7 @@ export class GamePageComponent {
   gameId: string;
 
 
-  constructor(private activateRoute: ActivatedRoute) {
+  constructor(private activateRoute: ActivatedRoute, private gameService: GameService) {
      this.gameId = this.activateRoute.snapshot.params['id'];
-     gameService.getMemes().subscribe();
   }
 }

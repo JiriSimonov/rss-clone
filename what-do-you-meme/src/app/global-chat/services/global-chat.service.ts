@@ -1,6 +1,5 @@
 import { Injectable } from '@angular/core';
 import { Socket } from 'ngx-socket-io';
-import { map } from 'rxjs/operators';
 import { MessageData } from '../models/messageData';
 
 @Injectable({
@@ -11,10 +10,6 @@ export class GlobalChatService {
 
   sendMessage(data: MessageData) {
     this.socket.emit('messageToServer', data);
-  }
-
-  joinRoom() {
-    this.socket.emit('joinRoom', 'GlobalChat');
   }
 
   getMessage() {

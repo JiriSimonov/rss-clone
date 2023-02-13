@@ -5,9 +5,24 @@ export interface LobbyOptions {
   lobbyOwner: string;
   lobbyImage: string;
   password?: string;
+  private?: boolean;
 }
 
-export interface LobbyInfo extends LobbyOptions {
-  id?: number;
-  joinedUsers: number;
+export interface LobbyState extends LobbyOptions {
+  uuid: string;
+  players: Record<Player['username'], Player>;
+}
+
+export interface Player {
+  username: string;
+  score: number | string;
+}
+
+export interface LobbyListOptions {
+  chunk?: {
+    page: number;
+    limit: number;
+  };
+  isPrivate?: boolean | string;
+  nameContains?: string;
 }

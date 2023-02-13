@@ -1,62 +1,146 @@
+import { EventName } from './../../shared/model/sockets-events';
 import { Router } from '@angular/router';
 import { LocalStorageService } from './../../shared/storage/services/local-storage/local-storage.service';
-import { HttpClient } from '@angular/common/http';
 import { Injectable } from '@angular/core';
-import { filter, fromEvent, map, Observable, tap } from 'rxjs';
-import { LobbyInfo } from '../models/lobbie-info.model';
-import { LobbyModalService } from './lobby-modal.service';
+import { BehaviorSubject, filter, fromEvent, map } from 'rxjs';
+import { LobbyOptions, LobbyState } from '../models/lobbie-info.model';
+import { Socket } from 'ngx-socket-io';
+import { LobbiesPrivate } from '../models/lobbies-private.model';
 
 @Injectable({
   providedIn: 'root',
 })
 export class LobbyService {
-  private readonly URL = 'http://localhost:3000/lobbies';
-  public lobbies: LobbyInfo[] = [];
-  public page = 1;
+  private lobbies$$ = new BehaviorSubject<[string, LobbyState][]>([]);
+  public lobbies$ = this.lobbies$$.asObservable();
+  private lobbyPrivate$$ = new BehaviorSubject<LobbiesPrivate>(
+    LobbiesPrivate.all
+  );
+  public lobbyPrivate$ = this.lobbyPrivate$$.asObservable();
+  private lobbiesNameContains$$ = new BehaviorSubject<string>('');
+  public lobbiesNameContains$ = this.lobbiesNameContains$$.asObservable();
+  private chunkOptions = {
+    page: 0,
+    limit: 8,
+  };
+  private lobbiesOptions = {
+    chunk: this.chunkOptions,
+    privacy: this.lobbyPrivate$$.value,
+    nameContains: this.lobbiesNameContains$$.value,
+  };
+  private lobbiesPrivacy = this.lobbyPrivate$.subscribe(
+    (privacy) => (this.lobbiesOptions.privacy = privacy)
+  );
+  private lobbiesNames = this.lobbiesNameContains$.subscribe(
+    (name) => (this.lobbiesOptions.nameContains = name)
+  );
 
   constructor(
-    private http: HttpClient,
     private localStorage: LocalStorageService,
-    private lobbyModal: LobbyModalService,
+    private socket: Socket,
     private router: Router
   ) {}
 
+  get lobbbiesLimit() {
+    return this.chunkOptions.limit;
+  }
+
+  incrementLimit() {
+    ++this.lobbbiesLimit;
+  }
+
+  set lobbbiesLimit(limit: number) {
+    this.lobbbiesLimit = limit;
+  }
+
   get currentPage(): number {
-    return this.page;
+    return this.chunkOptions.page;
   }
 
-  getLobbies(page: number): Observable<LobbyInfo[]> {
-    return this.http.get<LobbyInfo[]>(`${this.URL}?_page=${page}&per_page=5`);
+  incrementPage(): void {
+    ++this.chunkOptions.page;
   }
 
-  getLobby(id: string): Observable<LobbyInfo> {
-    return this.http.get<LobbyInfo>(`${this.URL}/${id}`);
+  changeNameContains(value: string) {
+    this.lobbiesNameContains$$.next(value);
   }
 
-  getLobbyByName(name: string) {
-    return this.http.get(`${this.URL}/${name}`);
-  } // TODO
+  changePrivate(value: string) {
+    this.lobbyPrivate$$.next(this.formatToEnumValues(value));
+  }
 
-  createNewLobby(lobby: LobbyInfo) {
-    return this.http.post<LobbyInfo>(this.URL, lobby).pipe(
-      tap((lobby) => {
-        this.router.navigate([`/game/${lobby.id}`], { replaceUrl: true });
-      })
+  formatToEnumValues(value: string) {
+    if (value === '') return LobbiesPrivate.all;
+    return value === 'true' ? LobbiesPrivate.private : LobbiesPrivate.public;
+  }
+
+  joinLobby(data: LobbyState) {
+    this.socket.emit(EventName.joinLobbyRequest, data);
+  }
+
+  createLobby(options: LobbyOptions) {
+    this.socket.emit(
+      EventName.createLobbyRequest,
+      { lobby: options },
+      (data: LobbyState) => {
+        this.joinLobby(data);
+        this.router.navigate([`/game/${data.uuid}`], { replaceUrl: true });
+      }
     );
   }
 
-  isValidPassword(password: string) {
-    return this.http.get(`${this.URL}/${password}`);
+  getLobbiesList() {
+    this.socket.emit(
+      EventName.getLobbyList,
+      this.lobbiesOptions,
+      (lobbies: [string, LobbyState][]) => {
+        this.lobbies$$.next(lobbies);
+      }
+    );
   }
 
-  deleteLobby(id: string): Observable<LobbyInfo> {
-    return this.http.delete<LobbyInfo>(`${this.URL}/${id}`).pipe(
-      tap((lobby) => {
-        return (this.lobbies = this.lobbies.filter(
-          (item) => item.id !== lobby.id
-        ));
-      })
+  updateLobbiesList() {
+    this.socket.emit(
+      EventName.getLobbyList,
+      this.lobbiesOptions,
+      (lobbies: [string, LobbyState][]) => {
+        this.lobbies$$.next([...this.lobbies$$.value, ...lobbies]);
+      }
     );
+  }
+
+  getInitialLobbiesList() {
+    this.socket.emit(
+      EventName.getLobbyList,
+      this.lobbiesOptions,
+      (lobbies: [string, LobbyState][]) => {
+        this.lobbies$$.next(lobbies);
+      }
+    );
+  }
+
+  isValidPassword(uuid: string, password: string) {
+    return new Promise((resolve) => {
+      this.socket.emit(
+        EventName.isPasswordCorrectRequest,
+        { uuid, password },
+        (res: boolean) => {
+          resolve(res === true ? { isPasswordCorrect: true } : null);
+        }
+      );
+    });
+  }
+
+  isUniqueLobbyName(lobbyName: string) {
+    return new Promise((resolve) => {
+      this.socket.emit(
+        EventName.isLobbyNameUniqueRequest,
+        lobbyName,
+        (res: any) => {
+          resolve(res === true ? { isLobbyUnique: true } : null);
+        }
+      );
+    });
   }
 
   extractCreateLobby() {

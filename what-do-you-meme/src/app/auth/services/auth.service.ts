@@ -5,6 +5,7 @@ import { JwtHelperService } from '@auth0/angular-jwt';
 import { Injectable } from '@angular/core';
 import { HttpClient } from '@angular/common/http';
 import { distinctUntilChanged, map } from 'rxjs';
+import { ConfigService } from '../../shared/storage/services/config/config.service';
 
 @Injectable({
   providedIn: 'root',
@@ -24,7 +25,7 @@ export class AuthService {
     }),
     distinctUntilChanged()
   );
-  private URL = 'https://wdym-js-er-sd.onrender.com';
+  private URL = ConfigService.SERVER_URL;
 
   constructor(
     private httpClient: HttpClient,
@@ -78,11 +79,7 @@ export class AuthService {
   changeUserData(userData: Partial<AuthData>) {
     return this.httpClient.patch<AuthData>(`${this.URL}/users/`, userData);
   }
-
-  getAvatars() {
-    return this.httpClient.get(`${this.URL}/file/images/avatars`);
-  }
-
+  
   setNewUsername(id: number, newLogin: string) {
     return this.httpClient.put<AuthData>(`${this.URL}/users/id/${id}`, {
       username: newLogin,

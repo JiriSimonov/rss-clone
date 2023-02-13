@@ -1,7 +1,8 @@
-import { LobbyModalService } from './../../services/lobby-modal.service';
 import { LobbyService } from 'src/app/lobbies/services/lobby.service';
+import { LobbyModalService } from '../../services/lobby-modal/lobby-modal.service';
 import { Component, ElementRef, OnInit } from '@angular/core';
 import { FormControl, FormGroup, Validators } from '@angular/forms';
+import { LobbyPasswordValidator } from '../../validators/lobby-password-validator';
 
 @Component({
   selector: 'app-lobby-join-modal',
@@ -14,7 +15,8 @@ export class LobbyJoinModalComponent implements OnInit {
 
   constructor(
     private lobbyModal: LobbyModalService,
-    private lobbyModalElem: ElementRef
+    private lobbyModalElem: ElementRef,
+    private lobbyService: LobbyService
   ) {
     this.element = this.lobbyModalElem.nativeElement;
   }

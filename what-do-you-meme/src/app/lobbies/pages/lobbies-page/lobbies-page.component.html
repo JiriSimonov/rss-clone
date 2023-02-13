@@ -1,16 +1,30 @@
 <div class="container">
   <div class="lobbies">
     <app-lobby-search></app-lobby-search>
-    <ul class="lobbies__list">
-      <app-lobby-info *ngFor="let lobby of lobbiesService.lobbies" [lobby]="lobby">
-      </app-lobby-info>
-    </ul>
-    <button class="btn lobbies__btn" (click)="changeCreateModalState()" [disabled]="isCreatedLobby">
+    <span class="form__error lobbies__error" *ngIf="isCreatedLobby"
+    >Вы уже создали лобби</span
+  >
+    <button
+      class="btn lobbies__btn"
+      (click)="changeCreateModalState()"
+      [disabled]="isCreatedLobby"
+    >
       Создать Лобби
     </button>
-    <span class="form__error lobbies__error" *ngIf="isCreatedLobby">Вы уже создали лобби</span>
+    <ul
+      class="lobbies__list"
+      infinite-scroll
+      (scrolled)="onScroll()"
+      [infiniteScrollThrottle]="throttle"
+      [infiniteScrollDistance]="distance"
+    >
+      <app-lobby-info *ngFor="let lobby of lobbies$ | async" [lobby]="lobby[1]">
+      </app-lobby-info>
+    </ul>
   </div>
-  <app-lobby-modal *ngIf="createModalState" (onClosed)="changeCreateModalState()"
-    (onCreated)="createLobby($event)"></app-lobby-modal>
+  <app-lobby-modal
+    *ngIf="createModalState"
+    (onClosed)="changeCreateModalState()"
+  ></app-lobby-modal>
   <app-lobby-join-modal *ngIf="joinModalState"></app-lobby-join-modal>
 </div>
