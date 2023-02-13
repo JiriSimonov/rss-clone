@@ -7,14 +7,11 @@ import { ConfigService } from '../storage/services/config/config.service';
   providedIn: 'root',
 })
 export class UserAvatarService {
-  public images = '';
+  public images: any;
   constructor(private httpClient: HttpClient) {}
 
   getRandomAvatar() {
     this.httpClient
-      .get(`${ConfigService.SERVER_URL}/file/random-avatar`)
-      .subscribe((image: any) => {
-        console.log(image);
-      });
+      .get(`${ConfigService.SERVER_URL}/file/random-avatar`);
   }
 }

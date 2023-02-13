@@ -1,3 +1,4 @@
+import { LocalStorageService } from 'src/app/shared/storage/services/local-storage/local-storage.service';
 import { LobbyModalService } from './../../services/lobby-modal/lobby-modal.service';
 import {
   Component,
@@ -27,7 +28,8 @@ export class LobbyCreateModalComponent implements OnInit {
     private lobbyModalElem: ElementRef,
     private authService: AuthService,
     private lobbyService: LobbyService,
-    private lobbyModal: LobbyModalService
+    private lobbyModal: LobbyModalService,
+    private localStorage: LocalStorageService,
   ) {
     this.element = this.lobbyModalElem.nativeElement;
   }
@@ -93,6 +95,7 @@ export class LobbyCreateModalComponent implements OnInit {
       data.password = this.passwordControl?.value;
       this.lobbyService.createLobby(data);
       this.lobbyModal.toggleCreateModal();
+      this.localStorage.setItem('createdLobby', 'true');
     });
   }
 }

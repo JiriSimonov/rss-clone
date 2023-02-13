@@ -1,6 +1,9 @@
 <div class="container">
   <div class="lobbies">
     <app-lobby-search></app-lobby-search>
+    <span class="form__error lobbies__error" *ngIf="isCreatedLobby"
+    >Вы уже создали лобби</span
+  >
     <button
       class="btn lobbies__btn"
       (click)="changeCreateModalState()"
@@ -15,15 +18,9 @@
       [infiniteScrollThrottle]="throttle"
       [infiniteScrollDistance]="distance"
     >
-      <app-lobby-info
-        *ngFor="let lobby of (lobbies$ | async)"
-        [lobby]="lobby[1]"
-      >
+      <app-lobby-info *ngFor="let lobby of lobbies$ | async" [lobby]="lobby[1]">
       </app-lobby-info>
     </ul>
-    <span class="form__error lobbies__error" *ngIf="isCreatedLobby"
-      >Вы уже создали лобби</span
-    >
   </div>
   <app-lobby-modal
     *ngIf="createModalState"

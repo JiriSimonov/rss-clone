@@ -79,11 +79,7 @@ export class AuthService {
   changeUserData(userData: Partial<AuthData>) {
     return this.httpClient.patch<AuthData>(`${this.URL}/users/`, userData);
   }
-
-  getAvatars() {
-    return this.httpClient.get(`${this.URL}/file/images/avatars`);
-  }
-
+  
   setNewUsername(id: number, newLogin: string) {
     return this.httpClient.put<AuthData>(`${this.URL}/users/id/${id}`, {
       username: newLogin,

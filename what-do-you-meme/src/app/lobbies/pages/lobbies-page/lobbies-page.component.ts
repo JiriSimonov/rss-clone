@@ -46,6 +46,6 @@ export class LobbiesPageComponent implements OnInit {
 
   onScroll(): void {
     this.lobbiesService.incrementPage()
-    this.lobbiesService.updateLobbiesList({chunk: this.lobbiesService.chunkOptions});
+    this.lobbiesService.updateLobbiesList();
   }
 }

@@ -19,34 +19,33 @@ export class LobbySearchComponent implements OnInit {
     });
   }
 
-  get searchField() {
-    return this.searchForm.get('searсh');
+  get searchFieldValue() {
+    return this.searchForm.get('searсh')?.value;
   }
 
-  get privateField() {
-    return this.searchForm.get('private');
+  get privateFieldValue() {
+    return this.searchForm.get('private')?.value;
   }
 
-  get privateFieldBooleanValue() {
-    return this.privateField?.value === 'false' ? false : true;
-  }
+  getLobbies() {
+    this.lobbyService.changePrivate(this.privateFieldValue);
+    this.lobbyService.changeNameContains(this.searchFieldValue);
+    this.lobbyService.getLobbiesList();
 
-  onSubmit() {
-    if (this.privateField?.value === '') {
-      this.lobbyService.getLobbiesList({
-        chunk: { page: 0, limit: this.lobbyService.chunkOptions.limit },
-        nameContains: this.searchField?.value,
-      });
-    } else {
-      this.lobbyService.getLobbiesList({
-        chunk: { page: 0, limit: this.lobbyService.chunkOptions.limit },
-        isPrivate: this.privateFieldBooleanValue,
-        nameContains: this.searchField?.value,
-      });
-    }
+    
+    // if (this.privateField?.value === '') {
+    //   this.lobbyService.getLobbiesList(
+    //     this.searchField?.value,
+    //   );
+    // } else {
+    //   this.lobbyService.getLobbiesList(
+    //     this.searchField?.value,
+    //     this.privateFieldBooleanValue
+    //   );
+    // }
   }
 
   updateLobbies() {
-    this.onSubmit()
+    this.getLobbies();
   }
 }

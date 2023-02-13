@@ -2,13 +2,10 @@ import { EventName } from './../../shared/model/sockets-events';
 import { Router } from '@angular/router';
 import { LocalStorageService } from './../../shared/storage/services/local-storage/local-storage.service';
 import { Injectable } from '@angular/core';
-import { BehaviorSubject, filter, fromEvent, map, scan } from 'rxjs';
-import {
-  LobbyListOptions,
-  LobbyOptions,
-  LobbyState,
-} from '../models/lobbie-info.model';
+import { BehaviorSubject, filter, fromEvent, map } from 'rxjs';
+import { LobbyOptions, LobbyState } from '../models/lobbie-info.model';
 import { Socket } from 'ngx-socket-io';
+import { LobbiesPrivate } from '../models/lobbies-private.model';
 
 @Injectable({
   providedIn: 'root',
@@ -16,11 +13,27 @@ import { Socket } from 'ngx-socket-io';
 export class LobbyService {
   private lobbies$$ = new BehaviorSubject<[string, LobbyState][]>([]);
   public lobbies$ = this.lobbies$$.asObservable();
-  // public lobbies: [string, LobbyState][] = [];
-  public chunkOptions = {
+  private lobbyPrivate$$ = new BehaviorSubject<LobbiesPrivate>(
+    LobbiesPrivate.all
+  );
+  public lobbyPrivate$ = this.lobbyPrivate$$.asObservable();
+  private lobbiesNameContains$$ = new BehaviorSubject<string>('');
+  public lobbiesNameContains$ = this.lobbiesNameContains$$.asObservable();
+  private chunkOptions = {
     page: 0,
     limit: 8,
   };
+  private lobbiesOptions = {
+    chunk: this.chunkOptions,
+    privacy: this.lobbyPrivate$$.value,
+    nameContains: this.lobbiesNameContains$$.value,
+  };
+  private lobbiesPrivacy = this.lobbyPrivate$.subscribe(
+    (privacy) => (this.lobbiesOptions.privacy = privacy)
+  );
+  private lobbiesNames = this.lobbiesNameContains$.subscribe(
+    (name) => (this.lobbiesOptions.nameContains = name)
+  );
 
   constructor(
     private localStorage: LocalStorageService,
@@ -28,12 +41,37 @@ export class LobbyService {
     private router: Router
   ) {}
 
+  get lobbbiesLimit() {
+    return this.chunkOptions.limit;
+  }
+
+  incrementLimit() {
+    ++this.lobbbiesLimit;
+  }
+
+  set lobbbiesLimit(limit: number) {
+    this.lobbbiesLimit = limit;
+  }
+
   get currentPage(): number {
     return this.chunkOptions.page;
   }
 
   incrementPage(): void {
     ++this.chunkOptions.page;
+  }
+
+  changeNameContains(value: string) {
+    this.lobbiesNameContains$$.next(value);
+  }
+
+  changePrivate(value: string) {
+    this.lobbyPrivate$$.next(this.formatToEnumValues(value));
+  }
+
+  formatToEnumValues(value: string) {
+    if (value === '') return LobbiesPrivate.all;
+    return value === 'true' ? LobbiesPrivate.private : LobbiesPrivate.public;
   }
 
   joinLobby(data: LobbyState) {
@@ -51,23 +89,22 @@ export class LobbyService {
     );
   }
 
-  getLobbiesList(options: LobbyListOptions) {
+  getLobbiesList() {
     this.socket.emit(
       EventName.getLobbyList,
-      options,
-      (res: [string, LobbyState][]) => {
-        this.lobbies$$.next(res);
+      this.lobbiesOptions,
+      (lobbies: [string, LobbyState][]) => {
+        this.lobbies$$.next(lobbies);
       }
     );
   }
 
-  updateLobbiesList(options: LobbyListOptions) {
+  updateLobbiesList() {
     this.socket.emit(
       EventName.getLobbyList,
-      options,
-      (res: [string, LobbyState][]) => {
-        // this.lobbies$$.pipe(scan((prev, current) => [...prev, ...current]));
-        this.lobbies$$.next([...this.lobbies$$.value, ...res]);
+      this.lobbiesOptions,
+      (lobbies: [string, LobbyState][]) => {
+        this.lobbies$$.next([...this.lobbies$$.value, ...lobbies]);
       }
     );
   }
@@ -75,9 +112,9 @@ export class LobbyService {
   getInitialLobbiesList() {
     this.socket.emit(
       EventName.getLobbyList,
-      this.chunkOptions,
-      (res: [string, LobbyState][]) => {
-        this.lobbies$$.next(res.slice(0, this.chunkOptions.limit));
+      this.lobbiesOptions,
+      (lobbies: [string, LobbyState][]) => {
+        this.lobbies$$.next(lobbies);
       }
     );
   }
@@ -103,12 +140,6 @@ export class LobbyService {
           resolve(res === true ? { isLobbyUnique: true } : null);
         }
       );
-    });
-  }
-
-  getLobby(uuid: string) {
-    this.socket.emit(EventName.getLobbyData, uuid, (res: LobbyState) => {
-      console.log(res);
     });
   }
 
