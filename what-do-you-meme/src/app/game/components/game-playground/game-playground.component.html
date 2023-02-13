@@ -22,12 +22,17 @@
       <app-meme-card *ngFor='let memeImage of gameService.usedMeme; index as i' [memeImage]="memeImage" />
     </div>
 
-    <div class="meme-cards" cdkDropList [cdkDropListData]="gameService.memes"
-      [cdkDropListConnectedTo]="gameService.usedMeme" (cdkDropListDropped)="drop($event)"
+    <div class="meme-cards"
+      cdkDropList [cdkDropListData]="gameService.memes"
+      [cdkDropListConnectedTo]="gameService.usedMeme"
+      (cdkDropListDropped)="drop($event)"
       cdkDropListOrientation="horizontal">
 
-      <app-meme-card *ngFor='let memeImage of gameService.memes; index as i' [memeImage]="memeImage"
-        [RotationDegree]="rotateMemeCard(i)" [distance]="calcDistance(i)" />
+      <app-meme-card
+        *ngFor='let memeImage of gameService.memes; index as i'
+        [memeImage]="memeImage"
+        [RotationDegree]="rotateMemeCard(i)"
+        [distance]="calcDistance(i)" />
     </div>
   </div>
 </div>

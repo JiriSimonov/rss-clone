@@ -9,7 +9,11 @@ import { GameService } from '../../services/game.service';
 export class GameJoinedUsersComponent {
   isClosed: boolean = false;
 
-  constructor(public gameService: GameService) { }
+  constructor(public gameService: GameService) {
+    this.gameService.joinLobbyEvent().subscribe((data: any) => {
+      this.gameService.players.push(data);
+    });
+  }
 
   togglePlayers() {
     this.isClosed = !this.isClosed;

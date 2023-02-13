@@ -1,5 +1,6 @@
-import { Component, OnInit } from '@angular/core';
-import { ActivatedRoute } from '@angular/router';
+import { Component, HostListener, OnInit } from '@angular/core';
+import { ActivatedRoute, NavigationStart, Router, RoutesRecognized } from '@angular/router';
+import { filter, pairwise, tap } from 'rxjs';
 import { GameService } from '../../services/game.service';
 
 @Component({
@@ -11,16 +12,27 @@ export class GamePageComponent implements OnInit {
   gameId: string;
 
 
-  constructor(private activateRoute: ActivatedRoute, private gameService: GameService) {
+  constructor(
+    private activateRoute: ActivatedRoute,
+    private gameService: GameService,
+    private router: Router,
+  ) {
     this.gameId = this.activateRoute.snapshot.params['id'];
   }
 
   ngOnInit() {
-    this.gameService.getPlayers(this.gameId);
     this.gameService.joinLobbyRequest(this.gameId);
+    this.gameService.getPlayers(this.gameId);
 
-    this.gameService.joinLobbyEvent().subscribe((data: any) => {
-      console.log('name');
+    this.router.events.pipe(
+      filter((event) => event instanceof NavigationStart),
+    ).subscribe((event: any) => {
+      console.log('routed');
     });
+  }
+
+  @HostListener('window:beforeunload', ['$event'])
+  onUnloadHandler(event: Event) {
+    sessionStorage.setItem('url', this.router.url);
   }
 }

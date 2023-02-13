@@ -29,6 +29,7 @@ export class GameChatComponent implements OnInit {
     });
 
     this.chatService.getMessage().subscribe(message => {
+
       this.chatMessages.push(message);
     });
   }

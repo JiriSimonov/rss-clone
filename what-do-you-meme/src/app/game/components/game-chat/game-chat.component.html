@@ -4,8 +4,8 @@
       <h2 class="game-aside__title chat__title">Chat?</h2>
       <button class="game-aside__close-btn chat__close-btn" (click)="toggleChat()"></button>
     </div>
-    <div class="chat__field" *ngFor="let message of chatMessages">
-      <div class="chat__message">
+    <div class="chat__field">
+      <div class="chat__message" *ngFor="let message of chatMessages">
         <span class="chat__username">{{ message.username }}</span>
         <span class="chat__text">{{ message.message }}</span>
         <time class="chat__time">{{ message.timestamp }}</time>
