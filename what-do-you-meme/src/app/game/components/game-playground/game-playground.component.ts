@@ -1,5 +1,5 @@
 import { CdkDragDrop, transferArrayItem } from '@angular/cdk/drag-drop';
-import { Component } from '@angular/core';
+import { Component, OnInit } from '@angular/core';
 import { GameService } from '../../services/game.service';
 
 @Component({
@@ -7,11 +7,14 @@ import { GameService } from '../../services/game.service';
   templateUrl: './game-playground.component.html',
   styleUrls: ['./game-playground.component.scss']
 })
-export class GamePlaygroundComponent {
+export class GamePlaygroundComponent implements OnInit {
   roundNumber = 1;
-  playgroundCards: string[] = [];
 
   constructor(public gameService: GameService) { }
+
+  ngOnInit(): void {
+    this.gameService.getMemes();
+  }
 
   rotateMemeCard(index: number, arr: string[] = this.gameService.memes) {
     const middleCard = Math.floor(arr.length / 2);
@@ -23,7 +26,11 @@ export class GamePlaygroundComponent {
   }
 
   drop(event: CdkDragDrop<string[]>) {
-    transferArrayItem(this.gameService.memes,
-      this.playgroundCards,event.previousIndex, event.currentIndex);
+    transferArrayItem(
+      event.container.data,
+      this.gameService.usedMeme,
+      event.previousIndex,
+      event.currentIndex,
+    );
   }
 }

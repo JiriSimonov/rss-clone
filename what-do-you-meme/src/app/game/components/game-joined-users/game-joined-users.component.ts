@@ -1,4 +1,4 @@
-import { Component } from '@angular/core';
+import { Component  } from '@angular/core';
 import { GameService } from '../../services/game.service';
 
 @Component({
@@ -10,8 +10,9 @@ export class GameJoinedUsersComponent {
   isClosed: boolean = false;
 
   constructor(public gameService: GameService) {
-    gameService.getLobby();
-    console.log(gameService.players);
+    this.gameService.joinLobbyEvent().subscribe((data: any) => {
+      this.gameService.players.push(data);
+    });
   }
 
   togglePlayers() {

@@ -39,7 +39,7 @@ export class LobbyService {
     private localStorage: LocalStorageService,
     private socket: Socket,
     private router: Router
-  ) {}
+  ) { }
 
   get lobbbiesLimit() {
     return this.chunkOptions.limit;

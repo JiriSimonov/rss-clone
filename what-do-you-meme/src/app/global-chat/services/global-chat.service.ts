@@ -6,7 +6,7 @@ import { MessageData } from '../models/messageData';
   providedIn: 'root',
 })
 export class GlobalChatService {
-  constructor(private socket: Socket) {}
+  constructor(private socket: Socket) { }
 
   sendMessage(data: MessageData) {
     this.socket.emit('messageToServer', data);

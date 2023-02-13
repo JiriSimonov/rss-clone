@@ -6,8 +6,8 @@
     </div>
     <ul class="players__list">
       <li class="players__list-item" *ngFor="let player of gameService.players">
-        <p class="players__list-item-name">player[0]</p>
-        <span class="players__list-item-score">player[1]</span>
+        <p class="players__list-item-name">{{ player.username }}</p>
+        <span class="players__list-item-score">{{ player.score }}</span>
       </li>
     </ul>
     <button class="form__btn players__btn">Покинуть</button>
