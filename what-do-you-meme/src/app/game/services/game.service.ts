@@ -2,11 +2,11 @@ import { Injectable } from '@angular/core';
 import { Socket } from 'ngx-socket-io';
 import { LobbyState, Player } from 'src/app/lobbies/models/lobbie-info.model';
 
+
 @Injectable({
   providedIn: 'root'
 })
 export class GameService {
-  private readonly Url = `https://wdym-js-er-sd.onrender.com/file/images/meme`
   memes: string[] = [];
   usedMeme: string[] = [];
   players: Player[] = [];
@@ -44,5 +44,11 @@ export class GameService {
 
   joinLobbyEvent() {
     return this.socket.fromEvent<Player>('joinLobby');
+  }
+
+  getLobby() {
+    this.socket.emit('getLobbyData', { uuid: this.activatedRoute.snapshot.params['id'] }, (data: any) => {
+      this.players = Object.values(data.players);
+    });
   }
 }

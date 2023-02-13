@@ -12,7 +12,6 @@ import { EffectsModule } from '@ngrx/effects';
 import { SharedModule } from './shared/shared.module';
 import { SocketIoModule } from 'ngx-socket-io';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
-import { InfiniteScrollModule } from 'ngx-infinite-scroll';
 import { WINDOW } from './shared/storage/tokens/window.token';
 import { STORAGE_KEY_PREFIX } from './shared/storage/tokens/storage-key.token';
 
@@ -31,7 +30,6 @@ export const localStoragePrefix = 'WDYM';
     SharedModule,
     EffectsModule.forRoot([]),
     BrowserAnimationsModule,
-    InfiniteScrollModule,
   ],
   providers: [ {
     provide: WINDOW,

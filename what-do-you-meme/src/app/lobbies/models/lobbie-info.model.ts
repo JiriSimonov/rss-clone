@@ -5,6 +5,7 @@ export interface LobbyOptions {
   lobbyOwner: string;
   lobbyImage: string;
   password?: string;
+  private?: boolean;
 }
 
 export interface LobbyState extends LobbyOptions {
@@ -22,5 +23,6 @@ export interface LobbyListOptions {
     page: number;
     limit: number;
   };
-  private?: boolean;
+  isPrivate?: boolean | string;
+  nameContains?: string;
 }

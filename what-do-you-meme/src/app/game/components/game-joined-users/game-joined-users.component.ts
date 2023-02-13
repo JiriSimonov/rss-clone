@@ -18,4 +18,5 @@ export class GameJoinedUsersComponent {
   togglePlayers() {
     this.isClosed = !this.isClosed;
   }
+
 }

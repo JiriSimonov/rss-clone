@@ -12,8 +12,7 @@ import { LobbyService } from '../../services/lobby.service';
 export class LobbyInfoComponent implements OnInit {
   @Input() lobby?: LobbyState;
 
-  currentUsers: number = Object.values(this.lobby?.players ?? '').length;
-  // TODO переписать
+  currentUsers: number = 0;
 
   constructor(
     private router: Router,
@@ -21,7 +20,9 @@ export class LobbyInfoComponent implements OnInit {
     private lobbyService: LobbyService
   ) {}
 
-  ngOnInit(): void {}
+  ngOnInit(): void {
+    this.currentUsers = Object.keys(this.lobby?.players ?? '').length;
+  }
 
   get isPrivate() {
     return this.lobby?.password;
