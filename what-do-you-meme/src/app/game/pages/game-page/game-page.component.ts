@@ -1,6 +1,7 @@
+import { Location } from '@angular/common';
 import { Component, HostListener, OnInit } from '@angular/core';
 import { ActivatedRoute, NavigationStart, Router, RoutesRecognized } from '@angular/router';
-import { filter, pairwise, tap } from 'rxjs';
+import { filter } from 'rxjs';
 import { GameService } from '../../services/game.service';
 
 @Component({
@@ -16,6 +17,7 @@ export class GamePageComponent implements OnInit {
     private activateRoute: ActivatedRoute,
     private gameService: GameService,
     private router: Router,
+    location: Location,
   ) {
     this.gameId = this.activateRoute.snapshot.params['id'];
   }
@@ -29,6 +31,7 @@ export class GamePageComponent implements OnInit {
     ).subscribe((event: any) => {
       console.log('routed');
     });
+
   }
 
   @HostListener('window:beforeunload', ['$event'])
