@@ -16,6 +16,8 @@ export interface LobbyState extends LobbyOptions {
 export interface Player {
   username: string;
   score: number | string;
+  image: string;
+  meme: string;
 }
 
 export interface LobbyListOptions {
