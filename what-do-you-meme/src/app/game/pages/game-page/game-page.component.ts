@@ -1,5 +1,6 @@
 import { Component, OnInit } from '@angular/core';
 import { ActivatedRoute, Router } from '@angular/router';
+import { gameLobbyData, GamePlayer } from '../../models/game.model';
 import { GameService } from '../../services/game.service';
 
 @Component({
@@ -23,5 +24,10 @@ export class GamePageComponent implements OnInit {
     sessionStorage.setItem('url', this.router.url);
     this.gameService.joinLobbyRequest(this.gameId);
     this.gameService.getPlayers(this.gameId);
+
+    this.gameService.leaveLobbyEvent().subscribe((players: gameLobbyData['players']) => {
+      console.log(players);
+      this.gameService.players = Object.values(players);
+    });
   }
 }

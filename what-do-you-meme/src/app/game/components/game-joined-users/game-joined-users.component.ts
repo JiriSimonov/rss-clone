@@ -1,5 +1,5 @@
 import { Component  } from '@angular/core';
-import { GamePlayer } from '../../models/game.model';
+import { gameLobbyData, GamePlayer } from '../../models/game.model';
 import { GameService } from '../../services/game.service';
 
 @Component({
@@ -11,8 +11,8 @@ export class GameJoinedUsersComponent {
   isClosed: boolean = false;
 
   constructor(public gameService: GameService) {
-    this.gameService.joinLobbyEvent().subscribe((data: GamePlayer) => {
-      this.gameService.players = Object.values(data);
+    this.gameService.joinLobbyEvent().subscribe((players: gameLobbyData['players']) => {
+      this.gameService.players = Object.values(players);
     });
   }
 

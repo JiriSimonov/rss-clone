@@ -44,6 +44,14 @@ export class GameService {
   }
 
   joinLobbyEvent() {
-    return this.socket.fromEvent<GamePlayer>(IoOutput.joinLobby);
+    return this.socket.fromEvent<gameLobbyData['players']>(IoOutput.joinLobby);
+  }
+
+  leaveLobbyRequest(uuid: string) {
+    return this.socket.emit(IoInput.leaveLobbyRequest, {uuid});
+  }
+
+  leaveLobbyEvent() {
+    return this.socket.fromEvent<gameLobbyData['players']>(IoOutput.leaveLobby);
   }
 }

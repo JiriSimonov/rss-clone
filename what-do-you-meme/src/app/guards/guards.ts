@@ -1,6 +1,7 @@
 import { inject } from '@angular/core';
-import { Route, Router, RouterStateSnapshot, UrlSegment } from '@angular/router';
+import { ActivatedRouteSnapshot, Route, Router, RouterStateSnapshot, UrlSegment } from '@angular/router';
 import { map } from 'rxjs';
+import { GameService } from '../game/services/game.service';
 import { UserPermissionsService } from '../utils/user-permissions.service';
 
 export const isUserGuards = [
@@ -22,12 +23,12 @@ export const isGuestGuards = [
 ];
 
 export const isRoutingFromGameGuards = [
-  (route: Route, state: RouterStateSnapshot) => {
+  (route: ActivatedRouteSnapshot, state: RouterStateSnapshot) => {
+    const gameService = inject(GameService);
     if (sessionStorage.getItem('url') &&
         state.url !== sessionStorage.getItem('url')
        ) {
-        // leave lobby here
-        console.log(10);
+        gameService.leaveLobbyRequest((sessionStorage.getItem('url') ?? '').replace('/game/', ''));
         sessionStorage.clear();
     }
   }
