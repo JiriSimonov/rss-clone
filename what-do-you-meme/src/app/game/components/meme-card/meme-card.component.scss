@@ -3,6 +3,12 @@
   width: 200px;
   border: 2px solid blue;
   border-radius: 5px;
+  position: relative;
+
+  &:hover {
+    box-shadow: 2px 2px 2px 2px rgba(0, 0, 0, .5);
+    z-index: 2;
+  }
 
   &__inner {
     height: 100%;
@@ -11,4 +17,5 @@
     background-repeat: no-repeat;
     background-color: #382756;
   }
+
 }

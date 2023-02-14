@@ -10,7 +10,6 @@ export class GameService {
   memes: string[] = [];
   usedMeme: string[] = [];
   players: Player[] = [];
-  activatedRoute: any;
 
   constructor(private socket: Socket) { }
 
