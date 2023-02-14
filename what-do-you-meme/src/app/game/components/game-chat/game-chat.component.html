@@ -15,7 +15,7 @@
       <label class="form__label chat__label">
         <input type="text" placeholder="Введите сообщение" class="form__input chat__input" formControlName="chat">
       </label>
-      <button class="form__btn chat__btn" type="submit">Отправить</button>
+      <button class="form__btn chat__btn" type="submit" [disabled]="!chatControl?.valid">Отправить</button>
     </form>
   </div>
 </aside>
