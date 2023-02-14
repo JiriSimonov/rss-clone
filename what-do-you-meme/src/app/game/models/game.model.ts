@@ -1,28 +1,14 @@
-export interface LobbyData {
-  uuid: string;
+import { LobbyData, Player } from "src/app/shared/model/lobby-data";
+
+export interface gameLobbyData extends LobbyData {
   title: string;
   password: string;
-  owner: string;
-  image: string;
-  maxPlayers: number;
-  maxRounds: number;
-  players: Record<Player['username'], Player>;
+  players: Record<GamePlayer['username'], GamePlayer>;
   status: string;
   currentRound: number;
 }
 
-export interface Player {
-  username: string;
-  score: number | string;
+export interface GamePlayer extends Player {
   image: string;
   meme: string;
-}
-
-export interface LobbyListOptions {
-  chunk?: {
-    page: number;
-    limit: number;
-  };
-  isPrivate?: boolean | string;
-  nameContains?: string;
 }

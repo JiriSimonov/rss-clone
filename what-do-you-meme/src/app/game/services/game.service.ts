@@ -1,6 +1,8 @@
 import { Injectable } from '@angular/core';
 import { Socket } from 'ngx-socket-io';
-import { LobbyData, Player } from 'src/app/shared/model/lobby-data';
+import { LobbyData } from 'src/app/shared/model/lobby-data';
+import { IoInput, IoOutput } from 'src/app/shared/model/sockets-events';
+import { gameLobbyData, GamePlayer } from '../models/game.model';
 
 @Injectable({
   providedIn: 'root',
@@ -8,40 +10,40 @@ import { LobbyData, Player } from 'src/app/shared/model/lobby-data';
 export class GameService {
   memes: string[] = [];
   usedMeme: string[] = [];
-  players: Player[] = [];
+  players: GamePlayer[] = [];
 
   constructor(private socket: Socket) {}
 
   getMemes() {
-    this.socket.emit('getRandomMemes', { quantity: 5 }, (data: string[]) => {
+    this.socket.emit(IoInput.randomMemesRequest, { quantity: 5 }, (data: string[]) => {
       this.memes = data.map((item) => {
         return `http://${item}`;
       });
     });
   }
 
-  getLobby(uuid: string): Promise<any> {
+  getLobby(uuid: string): Promise<gameLobbyData> {
     return new Promise((resolve) => {
-      this.socket.emit('getLobbyData', { uuid }, (data: LobbyData) => {
+      this.socket.emit(IoInput.lobbyDataRequest, { uuid }, (data: gameLobbyData) => {
         resolve(data);
       });
     });
   }
 
-  async getPlayers(uuid: string): Promise<any> {
-    const players: any = Object.values((await this.getLobby(uuid)).players);
+  async getPlayers(uuid: string): Promise<GamePlayer[]> {
+    const players: GamePlayer[] = Object.values((await this.getLobby(uuid)).players);
     this.players = players;
     return players;
-  } // TODO РЕТЕПИЗИРУЙ, СОЗДАЙ СВОЙ ИНТЕРФЕЙС, ИЛИ ВЫНЕСИ В ШЭЙРД МОДУЛЬ ТО, ЧТО ОБЩЕЕ
+  }
 
   async joinLobbyRequest(uuid: string) {
-    this.socket.emit('joinLobbyRequest', {
+    this.socket.emit(IoInput.joinLobbyRequest, {
       uuid,
       password: (await this.getLobby(uuid)).password,
     });
   }
 
   joinLobbyEvent() {
-    return this.socket.fromEvent<Player>('joinLobby');
+    return this.socket.fromEvent<GamePlayer>(IoOutput.joinLobby);
   }
 }

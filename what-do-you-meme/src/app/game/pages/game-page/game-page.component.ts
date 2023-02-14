@@ -1,6 +1,5 @@
-import { Component, HostListener, OnInit } from '@angular/core';
-import { ActivatedRoute, NavigationStart, Router } from '@angular/router';
-import { filter, take } from 'rxjs';
+import { Component, OnInit } from '@angular/core';
+import { ActivatedRoute, Router } from '@angular/router';
 import { GameService } from '../../services/game.service';
 
 @Component({
@@ -21,16 +20,8 @@ export class GamePageComponent implements OnInit {
   }
 
   ngOnInit() {
-   sessionStorage.setItem('url', this.router.url);
-   this.gameService.joinLobbyRequest(this.gameId);
-   this.gameService.getPlayers(this.gameId);
-
-   // TODO: make it execute once
-    this.router.events.pipe(
-      take(1),
-      filter((event) => event instanceof NavigationStart),
-    ).subscribe((event: any) => {
-      console.log('routed');
-    });
+    sessionStorage.setItem('url', this.router.url);
+    this.gameService.joinLobbyRequest(this.gameId);
+    this.gameService.getPlayers(this.gameId);
   }
 }
