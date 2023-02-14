@@ -19,4 +19,9 @@ export class LocalStorageService extends StorageService {
     const data = window.localStorage.getItem(`[${localStoragePrefix}]authData`);
     return data ? JSON.parse(data).value.username : null;
   }
+
+  static get userAvatar() {
+    const data = window.localStorage.getItem(`[${localStoragePrefix}]authData`);
+    return data ? JSON.parse(data).value.image : null;
+  }
 }

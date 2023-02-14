@@ -1,8 +1,8 @@
-import { LobbyState } from './../../models/lobbie-info.model';
 import { LobbyModalService } from '../../services/lobby-modal/lobby-modal.service';
 import { Component, Input, OnInit } from '@angular/core';
 import { Router } from '@angular/router';
 import { LobbyService } from '../../services/lobby.service';
+import { LobbiesPrivate, LobbyData } from 'src/app/shared/model/lobby-data';
 
 @Component({
   selector: 'app-lobby-info',
@@ -10,9 +10,7 @@ import { LobbyService } from '../../services/lobby.service';
   styleUrls: ['./lobby-info.component.scss'],
 })
 export class LobbyInfoComponent implements OnInit {
-  @Input() lobby?: LobbyState;
-
-  currentUsers: number = 0;
+  @Input() lobby?: LobbyData;
 
   constructor(
     private router: Router,
@@ -21,11 +19,10 @@ export class LobbyInfoComponent implements OnInit {
   ) {}
 
   ngOnInit(): void {
-    this.currentUsers = Object.keys(this.lobby?.players ?? '').length;
   }
 
   get isPrivate() {
-    return this.lobby?.password;
+    return this.lobby?.privacyType === LobbiesPrivate.private;
   }
 
   checkPrivate() {
