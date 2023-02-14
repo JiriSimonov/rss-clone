@@ -8,6 +8,20 @@ export interface LobbyOptions {
   private?: boolean;
 }
 
+//! вот такое теперь отправляется при получении списка всех лобби.
+//! количество юзеров и тип приватности передаются уже вычисленными
+//! LobbyState/LobbyOptions
+/* export interface ILobbyData {
+  uuid: string;
+  lobbyImage: string;
+  lobbyOwner: string;
+  privacyType: LobbyPrivacyType; //! <---
+  lobbyName: string;
+  currentUsers: number; //! <---
+  maxUsers: number;
+  rounds: number;
+} */
+
 export interface LobbyState extends LobbyOptions {
   uuid: string;
   players: Record<Player['username'], Player>;
