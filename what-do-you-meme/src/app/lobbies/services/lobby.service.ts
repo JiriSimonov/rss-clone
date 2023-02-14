@@ -1,17 +1,17 @@
-import { EventName } from './../../shared/model/sockets-events';
+import { IoInput } from './../../shared/model/sockets-events';
 import { Router } from '@angular/router';
 import { LocalStorageService } from './../../shared/storage/services/local-storage/local-storage.service';
 import { Injectable } from '@angular/core';
-import { BehaviorSubject, filter, fromEvent, map } from 'rxjs';
-import { LobbyOptions, LobbyState } from '../models/lobbie-info.model';
+import { BehaviorSubject } from 'rxjs';
 import { Socket } from 'ngx-socket-io';
-import { LobbiesPrivate } from '../models/lobbies-private.model';
+import { LobbiesPrivate, LobbyData } from 'src/app/shared/model/lobby-data';
+import { createLobby } from '../model/create-lobby';
 
 @Injectable({
   providedIn: 'root',
 })
 export class LobbyService {
-  private lobbies$$ = new BehaviorSubject<[string, LobbyState][]>([]);
+  private lobbies$$ = new BehaviorSubject<[string, LobbyData][]>([]);
   public lobbies$ = this.lobbies$$.asObservable();
   private lobbyPrivate$$ = new BehaviorSubject<LobbiesPrivate>(
     LobbiesPrivate.all
@@ -39,7 +39,7 @@ export class LobbyService {
     private localStorage: LocalStorageService,
     private socket: Socket,
     private router: Router
-  ) { }
+  ) {}
 
   get lobbbiesLimit() {
     return this.chunkOptions.limit;
@@ -61,6 +61,10 @@ export class LobbyService {
     ++this.chunkOptions.page;
   }
 
+  resetPage() {
+    this.chunkOptions.page = 0;
+  }
+
   changeNameContains(value: string) {
     this.lobbiesNameContains$$.next(value);
   }
@@ -74,15 +78,21 @@ export class LobbyService {
     return value === 'true' ? LobbiesPrivate.private : LobbiesPrivate.public;
   }
 
-  joinLobby(data: LobbyState) {
-    this.socket.emit(EventName.joinLobbyRequest, data);
+  isLobbyCreated() {
+    this.socket.emit('event', (response: boolean) => {
+      if (!response) this.localStorage.removeItem('createdLobby');
+    });
   }
 
-  createLobby(options: LobbyOptions) {
+  joinLobby(data: LobbyData) {
+    this.socket.emit(IoInput.joinLobbyRequest, data);
+  }
+
+  createLobby(options: createLobby) {
     this.socket.emit(
-      EventName.createLobbyRequest,
+      IoInput.createLobbyRequest,
       { lobby: options },
-      (data: LobbyState) => {
+      (data: LobbyData) => {
         this.joinLobby(data);
         this.router.navigate([`/game/${data.uuid}`], { replaceUrl: true });
       }
@@ -91,68 +101,22 @@ export class LobbyService {
 
   getLobbiesList() {
     this.socket.emit(
-      EventName.getLobbyList,
+      IoInput.lobbyDataRequest,
       this.lobbiesOptions,
-      (lobbies: [string, LobbyState][]) => {
-        this.lobbies$$.next(lobbies);
-      }
-    );
-  }
-
-  updateLobbiesList() {
-    this.socket.emit(
-      EventName.getLobbyList,
-      this.lobbiesOptions,
-      (lobbies: [string, LobbyState][]) => {
+      (lobbies: [string, LobbyData][]) => {
         this.lobbies$$.next([...this.lobbies$$.value, ...lobbies]);
       }
     );
   }
 
-  getInitialLobbiesList() {
+  getNewLobbiesList() {
+    this.resetPage();
     this.socket.emit(
-      EventName.getLobbyList,
+      IoInput.lobbyDataRequest,
       this.lobbiesOptions,
-      (lobbies: [string, LobbyState][]) => {
+      (lobbies: [string, LobbyData][]) => {
         this.lobbies$$.next(lobbies);
       }
     );
-  }
-
-  isValidPassword(uuid: string, password: string) {
-    return new Promise((resolve) => {
-      this.socket.emit(
-        EventName.isPasswordCorrectRequest,
-        { uuid, password },
-        (res: boolean) => {
-          resolve(res === true ? { isPasswordCorrect: true } : null);
-        }
-      );
-    });
-  }
-
-  isUniqueLobbyName(lobbyName: string) {
-    return new Promise((resolve) => {
-      this.socket.emit(
-        EventName.isLobbyNameUniqueRequest,
-        lobbyName,
-        (res: any) => {
-          resolve(res === true ? { isLobbyUnique: true } : null);
-        }
-      );
-    });
-  }
-
-  extractCreateLobby() {
-    fromEvent<StorageEvent>(window, 'storage')
-      .pipe(
-        filter((event) => event.key === 'createdLobby' && event.key !== null),
-        map((event) => {
-          return event.newValue;
-        })
-      )
-      .subscribe((key) =>
-        this.localStorage.setItem('createdLobby', key ?? 'false')
-      );
   }
 }

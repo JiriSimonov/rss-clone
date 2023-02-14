@@ -14,6 +14,7 @@ export class ConfigService {
       options: {
         auth: {
           username: LocalStorageService.username,
+          image: LocalStorageService.userAvatar,
         },
       },
     };

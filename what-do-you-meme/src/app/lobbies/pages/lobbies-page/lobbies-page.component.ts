@@ -10,7 +10,7 @@ import { LobbyModalService } from '../../services/lobby-modal/lobby-modal.servic
 })
 export class LobbiesPageComponent implements OnInit {
   throttle = 0;
-  distance = 2;
+  distance = 6;
   lobbies$ = this.lobbiesService.lobbies$ 
 
   constructor(
@@ -20,8 +20,7 @@ export class LobbiesPageComponent implements OnInit {
   ) {}
 
   ngOnInit() {
-    this.lobbiesService.extractCreateLobby();
-    this.lobbiesService.getInitialLobbiesList();
+    this.lobbiesService.getNewLobbiesList()
   }
 
   get isCreatedLobby() {
@@ -46,6 +45,6 @@ export class LobbiesPageComponent implements OnInit {
 
   onScroll(): void {
     this.lobbiesService.incrementPage()
-    this.lobbiesService.updateLobbiesList();
+    this.lobbiesService.getLobbiesList();
   }
 }
