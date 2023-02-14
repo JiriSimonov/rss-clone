@@ -1,10 +1,9 @@
 .playground {
-  height: 60%;
+  height: 100%;
   &__inner {
     display: flex;
-    flex-direction: column;
     height: 100%;
-    justify-content: space-between;
+    flex-direction: column;
   }
 }
 
@@ -46,6 +45,8 @@
 }
 
 .playground__chosen {
+  height: 40%;
   display: flex;
   justify-content: center;
+  align-items: center;
 }

@@ -1,10 +1,9 @@
 import { Component, OnInit } from '@angular/core';
-import { FormControl, FormGroup } from '@angular/forms';
+import { FormControl, FormGroup, Validators } from '@angular/forms';
 import { ActivatedRoute } from '@angular/router';
 import { AuthService } from 'src/app/auth/services/auth.service';
 import { MessageData } from 'src/app/global-chat/models/messageData';
 import { GlobalChatService } from 'src/app/global-chat/services/global-chat.service';
-import { GameService } from '../../services/game.service';
 
 @Component({
   selector: 'app-game-chat',
@@ -25,11 +24,16 @@ export class GameChatComponent implements OnInit {
 
   ngOnInit() {
     this.chatForm = new FormGroup({
-      chat: new FormControl(''),
+      chat: new FormControl('', [
+        Validators.required,
+        Validators.maxLength(80),
+      ]),
     });
 
     this.chatService.getMessage().subscribe(message => {
-
+      message.timestamp = new Date(
+        message?.timestamp ?? ''
+      ).toLocaleTimeString('ru-RU');
       this.chatMessages.push(message);
     });
   }

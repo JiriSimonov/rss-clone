@@ -25,12 +25,10 @@ export class GamePlaygroundComponent implements OnInit {
     return `${(Math.ceil(arr.length / 2) * 50) - index * 50}% -100%`
   }
 
-  drop(event: CdkDragDrop<string[]>) {
-    transferArrayItem(
-      event.container.data,
-      this.gameService.usedMeme,
-      event.previousIndex,
-      event.currentIndex,
-    );
+  onDragExited(index: number, fromArr: string[], toArr: string[]) {
+      transferArrayItem(
+        fromArr,
+        toArr,
+        index, index);
   }
 }

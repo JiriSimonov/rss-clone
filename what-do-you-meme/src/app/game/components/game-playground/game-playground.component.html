@@ -1,10 +1,9 @@
-<div class="playground" cdkDropList [cdkDropListData]="gameService.usedMeme"
-  [cdkDropListConnectedTo]="gameService.memes">
+<div class="playground">
   <div class="playground__inner">
     <div class="playground__top">
       <div class="playground__info">
 
-        <div class="playground__info-rounds">Pаунд {{roundNumber}}</div>
+      <div class="playground__info-rounds">Pаунд {{roundNumber}}</div>
         <button class="form__btn playground__info-btn">Готов</button>
       </div>
 
@@ -18,21 +17,39 @@
       </div>
     </div>
 
-    <div class="playground__chosen">
-      <app-meme-card *ngFor='let memeImage of gameService.usedMeme; index as i' [memeImage]="memeImage" />
+    <div class="playground__chosen"
+      cdkDropList
+      #usedMeme="cdkDropList"
+      [cdkDropListData]="gameService.usedMeme"
+      [cdkDropListConnectedTo]="[memesCardsList]"
+      >
+
+      <app-meme-card
+        *ngFor='let memeImage of gameService.usedMeme; index as i'
+        [memeImage]="memeImage"
+        cdkDrag
+        (cdkDragExited)="onDragExited(
+        i, gameService.usedMeme, gameService.memes)"
+        />
     </div>
 
     <div class="meme-cards"
-      cdkDropList [cdkDropListData]="gameService.memes"
-      [cdkDropListConnectedTo]="gameService.usedMeme"
-      (cdkDropListDropped)="drop($event)"
-      cdkDropListOrientation="horizontal">
+      cdkDropList
+      #memesCardsList="cdkDropList"
+      [cdkDropListData]="gameService.memes"
+      [cdkDropListConnectedTo]="[usedMeme]"
+      >
 
       <app-meme-card
         *ngFor='let memeImage of gameService.memes; index as i'
         [memeImage]="memeImage"
         [RotationDegree]="rotateMemeCard(i)"
-        [distance]="calcDistance(i)" />
+        [distance]="calcDistance(i)"
+        cdkDrag
+        [cdkDragDisabled]="gameService.usedMeme.length !== 0"
+        (cdkDragExited)="onDragExited(
+        i, gameService.memes, gameService.usedMeme)"
+         />
     </div>
   </div>
 </div>

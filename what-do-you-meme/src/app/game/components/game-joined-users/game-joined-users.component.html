@@ -6,6 +6,8 @@
     </div>
     <ul class="players__list">
       <li class="players__list-item" *ngFor="let player of gameService.players">
+        <div alt="avatar" class="user__avatar players__list-item-avatar"
+          style="background-image: url({{player.image}});"></div>
         <p class="players__list-item-name">{{ player.username }}</p>
         <span class="players__list-item-score">{{ player.score }}</span>
       </li>
