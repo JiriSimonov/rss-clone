@@ -1,17 +1,36 @@
-import { HttpClient } from '@angular/common/http';
+import { BehaviorSubject } from 'rxjs';
+import { HttpClient, HttpHeaders } from '@angular/common/http';
 import { Injectable } from '@angular/core';
-import { EMPTY } from 'rxjs';
 import { ConfigService } from '../storage/services/config/config.service';
 
 @Injectable({
   providedIn: 'root',
 })
-export class UserAvatarService {
-  public images: any;
+export class AvatarService {
+  private avatar$$ = new BehaviorSubject<string>(
+    'http://wdym-js-er-sd.onrender.com/public/assets/images/avatars/4.webp'
+  );
+  public avatar$ = this.avatar$$.asObservable();
+
   constructor(private httpClient: HttpClient) {}
 
   getRandomAvatar() {
-    this.httpClient
-      .get(`${ConfigService.SERVER_URL}/file/random-avatar`);
+    const headers = new HttpHeaders().set(
+      'Content-Type',
+      'text/plain; charset=utf-8'
+    );
+    const requestOptions: Object = {
+      headers: headers,
+      responseType: 'text',
+    };
+    return this.httpClient
+      .get<string>(
+        `${ConfigService.SERVER_URL}/file/random-avatar`,
+        requestOptions
+      )
+      .subscribe((avatar) => {
+        this.avatar$$.next(avatar);
+        console.log(avatar);  
+      });
   }
 }

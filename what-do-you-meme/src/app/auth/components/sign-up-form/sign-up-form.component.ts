@@ -1,18 +1,12 @@
-import { UserAvatarService } from '../../../shared/services/user-avatar.service';
+import { AvatarService } from '../../../shared/services/user-avatar.service';
 import { Router } from '@angular/router';
-import { catchError, map } from 'rxjs/operators';
-import { UserData } from './../../models/user-data.model';
-import {
-  FormGroup,
-  FormControl,
-  Validators,
-} from '@angular/forms';
+import { catchError } from 'rxjs/operators';
+import { FormGroup, FormControl, Validators } from '@angular/forms';
 import {
   ChangeDetectionStrategy,
   Component,
   OnInit,
   ChangeDetectorRef,
-  Input,
 } from '@angular/core';
 import { AuthService } from '../../services/auth.service';
 import { EMPTY } from 'rxjs';
@@ -27,14 +21,19 @@ import { UsernameValidator } from 'src/app/shared/validators/username.validator'
 export class SignUpFormComponent implements OnInit {
   signUpForm!: FormGroup;
   errors: string[] = [];
+  private avatar = '';
   constructor(
     private authService: AuthService,
     private router: Router,
     private cdr: ChangeDetectorRef,
-    private userAvatarService: UserAvatarService
+    private avatarService: AvatarService
   ) {}
 
   ngOnInit(): void {
+    this.avatarService.avatar$.subscribe((avatar) => {
+      this.avatar = avatar;
+      console.log(avatar, 'в форме')
+    });
     this.signUpForm = new FormGroup({
       username: new FormControl(
         '',
@@ -58,31 +57,29 @@ export class SignUpFormComponent implements OnInit {
     });
   }
 
-  userData() {
-    // let data: UserData
-    // this.userAvatarService.getRandomAvatar().subscribe(image => {
-    //     data.username = this.signUpForm.value.username,
-    //     data.password = this.signUpForm.value.password,
-    //     data.image = image.toString()
-    //     return data;
-    // });
+  get userData() {
+    return {
+      username: this.signUpForm.value.username,
+      password: this.signUpForm.value.password,
+      image: this.avatar,
+    };
   }
 
   onSubmit() {
-    console.log(this.userData());
+    console.log(this.avatar);
     
     // this.authService
-      // .signUp(this.userData)
-      // .pipe(
-      //   catchError((error) => {
-      //     this.errors.push(error.message);
-      //     this.cdr.detectChanges();
-      //     return EMPTY;
-      //   })
-      // )
-      // .subscribe(() => {
-      //   this.router.navigate(['lobbies'], { replaceUrl: true });
-      // });
+    //   .signUp(this.userData)
+    //   .pipe(
+    //     catchError((error) => {
+    //       this.errors.push(error.message);
+    //       this.cdr.detectChanges();
+    //       return EMPTY;
+    //     })
+    //   )
+    //   .subscribe(() => {
+    //     this.router.navigate(['lobbies'], { replaceUrl: true });
+    //   });
   }
 
   get isPasswordEqual(): boolean {

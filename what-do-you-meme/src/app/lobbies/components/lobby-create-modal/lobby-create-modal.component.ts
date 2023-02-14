@@ -9,8 +9,9 @@ import {
 } from '@angular/core';
 import { FormGroup, FormControl, Validators } from '@angular/forms';
 import { AuthService } from 'src/app/auth/services/auth.service';
-import { LobbyOptions } from '../../models/lobbie-info.model';
 import { LobbyService } from '../../services/lobby.service';
+import { LobbyData } from 'src/app/shared/model/lobby-data';
+import { createLobby } from '../../model/create-lobby';
 
 @Component({
   selector: 'app-lobby-modal',
@@ -22,7 +23,7 @@ export class LobbyCreateModalComponent implements OnInit {
   private element: HTMLElement;
 
   @Output() onClosed = new EventEmitter<boolean>();
-  @Output() onCreated = new EventEmitter<LobbyOptions>();
+  @Output() onCreated = new EventEmitter<LobbyData>();
 
   constructor(
     private lobbyModalElem: ElementRef,
@@ -85,11 +86,11 @@ export class LobbyCreateModalComponent implements OnInit {
     return this.modalForm.get('private');
   }
 
-  onSubmit(data: LobbyOptions) {
+  onSubmit(data: createLobby) {
     this.authService.userData$.subscribe((user) => {
       if (user.image && user.username) {
-        data.lobbyImage = user.image;
-        data.lobbyOwner = user.username;
+        data.image = user.image;
+        data.owner = user.username;
       }
       delete data.private;
       data.password = this.passwordControl?.value;

@@ -28,21 +28,10 @@ export class LobbySearchComponent implements OnInit {
   }
 
   getLobbies() {
+    this.lobbyService.resetPage();
     this.lobbyService.changePrivate(this.privateFieldValue);
     this.lobbyService.changeNameContains(this.searchFieldValue);
-    this.lobbyService.getLobbiesList();
-
-    
-    // if (this.privateField?.value === '') {
-    //   this.lobbyService.getLobbiesList(
-    //     this.searchField?.value,
-    //   );
-    // } else {
-    //   this.lobbyService.getLobbiesList(
-    //     this.searchField?.value,
-    //     this.privateFieldBooleanValue
-    //   );
-    // }
+    this.lobbyService.getNewLobbiesList();
   }
 
   updateLobbies() {

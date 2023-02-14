@@ -10,7 +10,7 @@ import { HttpErrorResponse } from '@angular/common/http';
 import { UsernameValidator } from 'src/app/shared/validators/username.validator';
 import { UserData } from 'src/app/auth/models/user-data.model';
 import { PasswordValidator } from 'src/app/shared/validators/password.validator';
-import { UserAvatarService } from 'src/app/shared/services/user-avatar.service';
+import { AvatarService } from 'src/app/shared/services/user-avatar.service';
 import { getAuthData } from 'src/app/auth/store/auth.selectors';
 import { LocalStorageService } from 'src/app/shared/storage/services/local-storage/local-storage.service';
 
@@ -26,7 +26,7 @@ export class DashboardFormComponent implements OnInit {
     private store$: Store,
     private authService: AuthService,
     private router: Router,
-    private userAvatar: UserAvatarService,
+    private userAvatar: AvatarService,
     private localStorage: LocalStorageService,
   ) {}
 

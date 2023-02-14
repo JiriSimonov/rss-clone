@@ -39,7 +39,8 @@ export class GlobalChatComponent implements OnInit {
     return this.sendMessageForm.get('messageControl');
   }
 
-  sendMessage() {
+  onSubmit() {
     this.chatService.sendMessage({ message: this.messageControlValue });
+    this.messageControl?.setValue('');
   }
 }
