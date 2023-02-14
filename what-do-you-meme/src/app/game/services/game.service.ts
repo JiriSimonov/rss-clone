@@ -39,10 +39,12 @@ export class GameService {
     this.socket.emit('joinLobbyRequest', {
       uuid,
       password: (await this.getLobby(uuid)).password,
-    } );
+    });
   }
 
   joinLobbyEvent() {
     return this.socket.fromEvent<Player>('joinLobby');
   }
+
+
 }

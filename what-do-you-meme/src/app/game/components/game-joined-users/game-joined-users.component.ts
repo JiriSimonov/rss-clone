@@ -12,7 +12,7 @@ export class GameJoinedUsersComponent {
 
   constructor(public gameService: GameService) {
     this.gameService.joinLobbyEvent().subscribe((data: Player) => {
-      this.gameService.players.push(data);
+      this.gameService.players = Object.values(data);
     });
   }
 

@@ -2,7 +2,7 @@ import { NgModule } from '@angular/core';
 import { RouterModule, Routes } from '@angular/router';
 import { StoreModule } from '@ngrx/store';
 import { DEFAULT_ROUTER_FEATURENAME, routerReducer } from '@ngrx/router-store';
-import { isGuestGuards, isUserGuards } from './guards/guards';
+import { isGuestGuards, isRoutingFromGameGuards, isUserGuards } from './guards/guards';
 
 const routes: Routes = [
   { path: '', pathMatch: 'full', redirectTo: 'lobbies' },
@@ -17,12 +17,14 @@ const routes: Routes = [
     loadChildren: () =>
       import('./user/user.module').then((module) => module.UserModule),
     canMatch: isUserGuards,
+    canActivate: isRoutingFromGameGuards,
   },
   {
     path: 'game',
     loadChildren: () =>
       import('./game/game.module').then((module) => module.GameModule),
     canMatch: isUserGuards,
+    canActivate: isRoutingFromGameGuards,
   },
   {
     path: 'chat',
@@ -31,12 +33,14 @@ const routes: Routes = [
         (module) => module.GlobalChatModule
       ),
     canMatch: isUserGuards,
+    canActivate: isRoutingFromGameGuards,
   },
   {
     path: 'lobbies',
     loadChildren: () =>
       import('./lobbies/lobbies.module').then((module) => module.LobbiesModule),
     canMatch: isUserGuards,
+    canActivate: isRoutingFromGameGuards,
   },
   {
     path: 'not-found',
@@ -45,7 +49,9 @@ const routes: Routes = [
         (module) => module.NotFoundModule
       ),
   },
-  { path: '**', redirectTo: 'not-found' },
+  { path: '**',
+    redirectTo: 'not-found',
+  },
 ];
 
 @NgModule({
