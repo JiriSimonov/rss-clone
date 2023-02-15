@@ -9,14 +9,14 @@ export class LobbyValidatorsService {
   constructor(private http: HttpClient) {}
 
   isUniqueLobbyName(name: string) {
-    return this.http.get(`${ConfigService.SERVER_URL}`);
+    return this.http.get<boolean>(`${ConfigService.SERVER_URL}/lobbies/is-title-unique?title=${name}`);
   }
 
-  isCorrectLobbyPassword(password: string) {
-    return this.http.get(`${ConfigService.SERVER_URL}`);
+  isCorrectLobbyPassword(uuid: string, password: string) {
+    return this.http.get<boolean>(`${ConfigService.SERVER_URL}/lobbies/is-password-correct?uuid=${uuid}&password=${password}`);
   }
 
-  isUserCreatedLobby() {
-    return this.http.get(`${ConfigService.SERVER_URL}`);
+  isUserCreatedLobby(owner: string) {
+    return this.http.get<boolean>(`${ConfigService.SERVER_URL}/lobbies/is-lobby-owner?username=${owner}`);
   }
 }

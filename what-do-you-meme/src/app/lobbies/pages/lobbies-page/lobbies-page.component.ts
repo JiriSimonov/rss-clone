@@ -1,3 +1,4 @@
+import { LobbyValidatorsService } from './../../services/lobby-validators/lobby-validators.service';
 import { LobbyService } from 'src/app/lobbies/services/lobby.service';
 import { LocalStorageService } from './../../../shared/storage/services/local-storage/local-storage.service';
 import { Component, OnInit } from '@angular/core';
@@ -11,20 +12,29 @@ import { LobbyModalService } from '../../services/lobby-modal/lobby-modal.servic
 export class LobbiesPageComponent implements OnInit {
   throttle = 0;
   distance = 6;
-  lobbies$ = this.lobbiesService.lobbies$ 
+  lobbies$ = this.lobbiesService.lobbies$;
+  isCreatedLobby!: boolean;
 
   constructor(
     private lobbiesService: LobbyService,
     private lobbyModal: LobbyModalService,
-    private localStorage: LocalStorageService
+    private localStorage: LocalStorageService,
+    private lobbyValidators: LobbyValidatorsService
   ) {}
 
   ngOnInit() {
-    this.lobbiesService.getNewLobbiesList()
+    this.checkCreatedLobby();
+    this.lobbiesService.resetPrivacy();
+    this.lobbiesService.getNewLobbiesList();
   }
 
-  get isCreatedLobby() {
-    return this.localStorage.getItem('createdLobby') === 'true';
+  checkCreatedLobby() {
+    this.lobbyValidators
+      .isUserCreatedLobby(LocalStorageService.username)
+      .subscribe((response) => {
+        this.isCreatedLobby = response;
+        this.localStorage.setItem('createdLobby', response);
+      });
   }
 
   get createModalState() {
@@ -44,7 +54,7 @@ export class LobbiesPageComponent implements OnInit {
   }
 
   onScroll(): void {
-    this.lobbiesService.incrementPage()
+    this.lobbiesService.incrementPage();
     this.lobbiesService.getLobbiesList();
   }
 }

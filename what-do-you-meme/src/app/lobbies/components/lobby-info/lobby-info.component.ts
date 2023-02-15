@@ -19,6 +19,7 @@ export class LobbyInfoComponent implements OnInit {
   ) {}
 
   ngOnInit(): void {
+
   }
 
   get isPrivate() {
@@ -26,6 +27,7 @@ export class LobbyInfoComponent implements OnInit {
   }
 
   checkPrivate() {
+    this.lobbyModal.currentLobbyId(this.lobby?.uuid ?? '');
     if (this.isPrivate) {
       this.lobbyModal.toggleJoinModal();
     } else {
