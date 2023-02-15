@@ -10,8 +10,9 @@ import { LobbyModalService } from '../../services/lobby-modal/lobby-modal.servic
   styleUrls: ['./lobbies-page.component.scss'],
 })
 export class LobbiesPageComponent implements OnInit {
+  scrollUpDistance = 4;
+  scrollDistance = 2;
   throttle = 0;
-  distance = 6;
   lobbies$ = this.lobbiesService.lobbies$;
   isCreatedLobby!: boolean;
 
@@ -53,8 +54,13 @@ export class LobbiesPageComponent implements OnInit {
     this.lobbyModal.toggleCreateModal();
   }
 
-  onScroll(): void {
+  onScrollDown() {
     this.lobbiesService.incrementPage();
+    this.lobbiesService.getLobbiesList();
+  }
+
+  onScrollUp() {
+    this.lobbiesService.decrementPage();
     this.lobbiesService.getLobbiesList();
   }
 }

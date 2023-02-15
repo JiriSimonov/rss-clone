@@ -26,6 +26,10 @@ export class LobbyInfoComponent implements OnInit {
     return this.lobby?.privacyType === LobbiesPrivate.private;
   }
 
+  get isFullLobby() {
+    return this.lobby?.playersQuantity === this.lobby?.maxPlayers;
+  }
+
   checkPrivate() {
     this.lobbyModal.currentLobbyId(this.lobby?.uuid ?? '');
     if (this.isPrivate) {

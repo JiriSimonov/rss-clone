@@ -1,5 +1,5 @@
 import { IoInput } from './../../shared/model/sockets-events';
-import { Router } from '@angular/router';
+import { Router } from '@angular/router'; 
 import { LocalStorageService } from './../../shared/storage/services/local-storage/local-storage.service';
 import { Injectable } from '@angular/core';
 import { BehaviorSubject } from 'rxjs';
@@ -63,6 +63,10 @@ export class LobbyService {
 
   incrementPage(): void {
     ++this.chunkOptions.page;
+  }
+
+  decrementPage(): void {
+    --this.chunkOptions.page;
   }
 
   resetPage() {

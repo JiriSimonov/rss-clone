@@ -1,5 +1,6 @@
 import { Injectable } from '@angular/core';
 import { Socket } from 'ngx-socket-io';
+import { IoInput, IoOutput } from '../../shared/model/sockets-events';
 import { MessageData } from '../models/messageData';
 
 @Injectable({
@@ -9,10 +10,10 @@ export class GlobalChatService {
   constructor(private socket: Socket) { }
 
   sendMessage(data: MessageData) {
-    this.socket.emit('messageToServer', data);
+    this.socket.emit(IoInput.chatMessageRequest, data);
   }
 
   getMessage() {
-    return this.socket.fromEvent<MessageData>('globalChatMessage');
+    return this.socket.fromEvent<MessageData>(IoOutput.chatMessage);
   }
 }
