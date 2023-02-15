@@ -1,8 +1,10 @@
-import { LobbyService } from 'src/app/lobbies/services/lobby.service';
+import { LobbyValidatorsService } from './../../services/lobby-validators/lobby-validators.service';
 import { LobbyModalService } from '../../services/lobby-modal/lobby-modal.service';
-import { Component, ElementRef, OnInit } from '@angular/core';
+import { Component, ElementRef, Input, OnInit } from '@angular/core';
 import { FormControl, FormGroup, Validators } from '@angular/forms';
 import { LobbyPasswordValidator } from '../../validators/lobby-password-validator';
+import { LobbyData } from 'src/app/shared/model/lobby-data';
+import { Router } from '@angular/router';
 
 @Component({
   selector: 'app-lobby-join-modal',
@@ -10,18 +12,24 @@ import { LobbyPasswordValidator } from '../../validators/lobby-password-validato
   styleUrls: ['./lobby-join-modal.component.scss'],
 })
 export class LobbyJoinModalComponent implements OnInit {
+  @Input() lobby?: LobbyData;
   joinForm!: FormGroup;
   private element: HTMLElement;
+  private currentId!: string;
 
   constructor(
     private lobbyModal: LobbyModalService,
     private lobbyModalElem: ElementRef,
-    private lobbyService: LobbyService
+    private validatorsService: LobbyValidatorsService,
+    private router: Router,
   ) {
     this.element = this.lobbyModalElem.nativeElement;
   }
 
   ngOnInit() {
+    this.lobbyModal.currentId$.subscribe((id: string) => {
+      this.currentId = id;
+    });
     this.element.addEventListener('click', (e: Event) => {
       const target = e.target;
       if (
@@ -35,9 +43,25 @@ export class LobbyJoinModalComponent implements OnInit {
       password: new FormControl(
         '',
         [Validators.required, Validators.minLength(3)],
-        []
+        [
+          LobbyPasswordValidator.isValidPassword(
+            this.validatorsService,
+            this.currentId
+          ),
+        ]
       ),
     });
+  }
+
+  onSubmit() {
+    this.changeJoinModalState();
+    this.router.navigate([`/game/${this.currentId}`], {
+      replaceUrl: true,
+    });
+  }
+
+  get passwordControl() {
+    return this.joinForm.get('password');
   }
 
   changeJoinModalState() {

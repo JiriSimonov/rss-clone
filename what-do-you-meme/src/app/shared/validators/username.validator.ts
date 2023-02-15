@@ -7,9 +7,7 @@ export class UsernameValidator {
     return (control: AbstractControl) => {
       return authService.isUniqueUsername(control.value).pipe(
         map((result) => {
-          return Object.values(result).join('') === 'true'
-            ? { isUserExist: true }
-            : null;
+          return result ? { isUserExist: true } : null;
         })
       );
     };

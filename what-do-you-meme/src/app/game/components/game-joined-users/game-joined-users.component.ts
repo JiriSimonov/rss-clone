@@ -1,5 +1,4 @@
 import { Component  } from '@angular/core';
-import { Player } from 'src/app/lobbies/models/lobbie-info.model';
 import { GameService } from '../../services/game.service';
 
 @Component({
@@ -11,7 +10,7 @@ export class GameJoinedUsersComponent {
   isClosed: boolean = false;
 
   constructor(public gameService: GameService) {
-    this.gameService.joinLobbyEvent().subscribe((data: Player) => {
+    this.gameService.joinLobbyEvent().subscribe((data: any) => {
       this.gameService.players = Object.values(data);
     });
   }

@@ -1,3 +1,4 @@
+import { BehaviorSubject } from 'rxjs';
 import { Injectable } from '@angular/core';
 
 @Injectable({
@@ -6,16 +7,13 @@ import { Injectable } from '@angular/core';
 export class LobbyModalService {
   public isOpenCreateModal: boolean = false;
   public isOpenJoinModal: boolean = false;
-  currentId?: number;
+  private currentId$$ = new BehaviorSubject<string>('');
+  public currentId$ = this.currentId$$.asObservable();
 
   constructor() {}
 
-  get currentLobbyId() {
-    return this.currentId;
-  }
-
-  set currentLobbyId(value: number | undefined) {
-    this.currentId = value;
+  currentLobbyId(uuid: string) {
+    this.currentId$$.next(uuid);
   }
 
   toggleCreateModal() {

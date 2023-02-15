@@ -11,7 +11,7 @@ import { createLobby } from '../model/create-lobby';
   providedIn: 'root',
 })
 export class LobbyService {
-  private lobbies$$ = new BehaviorSubject<[string, LobbyData][]>([]);
+  private lobbies$$ = new BehaviorSubject<LobbyData[]>([]);
   public lobbies$ = this.lobbies$$.asObservable();
   private lobbyPrivate$$ = new BehaviorSubject<LobbiesPrivate>(
     LobbiesPrivate.all
@@ -38,8 +38,12 @@ export class LobbyService {
   constructor(
     private localStorage: LocalStorageService,
     private socket: Socket,
-    private router: Router
+    private router: Router,
   ) {}
+
+  resetPrivacy() {
+    this.lobbyPrivate$$.next(LobbiesPrivate.all);
+  }
 
   get lobbbiesLimit() {
     return this.chunkOptions.limit;
@@ -101,9 +105,9 @@ export class LobbyService {
 
   getLobbiesList() {
     this.socket.emit(
-      IoInput.lobbyDataRequest,
+      IoInput.lobbyListRequest,
       this.lobbiesOptions,
-      (lobbies: [string, LobbyData][]) => {
+      (lobbies: LobbyData[]) => {
         this.lobbies$$.next([...this.lobbies$$.value, ...lobbies]);
       }
     );
@@ -112,9 +116,9 @@ export class LobbyService {
   getNewLobbiesList() {
     this.resetPage();
     this.socket.emit(
-      IoInput.lobbyDataRequest,
+      IoInput.lobbyListRequest,
       this.lobbiesOptions,
-      (lobbies: [string, LobbyData][]) => {
+      (lobbies: LobbyData[]) => {
         this.lobbies$$.next(lobbies);
       }
     );

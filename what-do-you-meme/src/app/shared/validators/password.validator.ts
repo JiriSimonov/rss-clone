@@ -7,9 +7,7 @@ export class PasswordValidator {
     return (control: AbstractControl) => {
       return authService.isValidPassword(control.value).pipe(
         map((result) => {
-          return Object.values(result).join('') === 'true'
-            ? null
-            : { isPasswordValid: true };
+          return result ? null : { isPasswordValid: true };
         })
       );
     };

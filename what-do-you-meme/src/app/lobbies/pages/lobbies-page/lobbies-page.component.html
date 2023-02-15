@@ -18,7 +18,7 @@
       [infiniteScrollThrottle]="throttle"
       [infiniteScrollDistance]="distance"
     >
-      <app-lobby-info *ngFor="let lobby of lobbies$ | async" [lobby]="lobby[1]">
+      <app-lobby-info *ngFor="let lobby of lobbies$ | async" [lobby]="lobby">
       </app-lobby-info>
     </ul>
   </div>
