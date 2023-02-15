@@ -1,5 +1,5 @@
 import { Component  } from '@angular/core';
-import { gameLobbyData, GamePlayer } from '../../models/game.model';
+import { gameLobbyData } from '../../models/game.model';
 import { GameService } from '../../services/game.service';
 
 @Component({

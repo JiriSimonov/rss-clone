@@ -29,7 +29,7 @@ export class LobbySearchComponent implements OnInit {
 
   getLobbies() {
     this.lobbyService.resetPage();
-    this.lobbyService.changePrivate(this.privateFieldValue);
+    this.lobbyService.changePrivate(this.privateFieldValue ?? '');
     this.lobbyService.changeNameContains(this.searchFieldValue);
     this.lobbyService.getNewLobbiesList();
   }
