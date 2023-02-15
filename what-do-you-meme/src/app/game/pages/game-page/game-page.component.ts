@@ -1,4 +1,4 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, HostListener, OnInit } from '@angular/core';
 import { ActivatedRoute, Router } from '@angular/router';
 import { gameLobbyData, GamePlayer } from '../../models/game.model';
 import { GameService } from '../../services/game.service';
@@ -10,7 +10,7 @@ import { GameService } from '../../services/game.service';
 })
 export class GamePageComponent implements OnInit {
   gameId: string;
-
+  isClosed: boolean = false;
 
   constructor(
     private activateRoute: ActivatedRoute,
@@ -26,8 +26,18 @@ export class GamePageComponent implements OnInit {
     this.gameService.getPlayers(this.gameId);
 
     this.gameService.leaveLobbyEvent().subscribe((players: gameLobbyData['players']) => {
-      console.log(players);
       this.gameService.players = Object.values(players);
     });
+  }
+
+  @HostListener('window:beforeunload')
+  onBeforeUnload() {
+    if (document.visibilityState === 'hidden') {
+
+    }
+  }
+
+  @HostListener('window:unload')
+  onUnload() {
   }
 }
