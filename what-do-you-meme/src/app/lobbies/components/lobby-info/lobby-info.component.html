@@ -11,5 +11,5 @@
     {{ lobby?.playersQuantity }} / {{ lobby?.maxPlayers }}
     <div class="lobbie__rounds">{{ lobby?.maxRounds }} Раундов</div>
   </div>
-  <button class="btn lobbie__btn" (click)="checkPrivate()">Присоединиться</button>
+  <button class="btn lobbie__btn" (click)="checkPrivate()" [disabled]="isFullLobby">Присоединиться</button>
 </li>
