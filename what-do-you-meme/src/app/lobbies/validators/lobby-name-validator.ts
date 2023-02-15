@@ -7,7 +7,6 @@ export class LobbyPasswordValidator {
     return (control: AbstractControl) => {
       return validation.isUniqueLobbyName(control.value).pipe(
         map((result) => {
-          console.log(result);
           return result === true ? null : { isLobbyNameUnique: true };
         })
       );

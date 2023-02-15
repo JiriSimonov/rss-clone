@@ -30,7 +30,6 @@ export class AvatarService {
       )
       .subscribe((avatar) => {
         this.avatar$$.next(avatar);
-        console.log(avatar);
       });
   }
 }

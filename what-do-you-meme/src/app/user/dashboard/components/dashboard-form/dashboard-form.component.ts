@@ -4,8 +4,6 @@ import { AuthService } from '../../../../auth/services/auth.service';
 import { Store } from '@ngrx/store';
 import { Component, OnInit } from '@angular/core';
 import { FormControl, FormGroup, Validators } from '@angular/forms';
-import { catchError, EMPTY } from 'rxjs';
-import { HttpErrorResponse } from '@angular/common/http';
 import { UsernameValidator } from 'src/app/shared/validators/username.validator';
 import { UserData } from 'src/app/auth/models/user-data.model';
 import { PasswordValidator } from 'src/app/shared/validators/password.validator';
@@ -77,17 +75,6 @@ export class DashboardFormComponent implements OnInit {
   deleteUser() {
     this.authService
       .deleteUser()
-      .pipe(
-        catchError((err) => {
-          if (err instanceof HttpErrorResponse) {
-            if (err.status === 404) {
-              console.log('404 NOT FOUND');
-              return EMPTY;
-            }
-          }
-          throw err;
-        })
-      )
       .subscribe(() => {
         this.store$.dispatch(logoutSuccess());
         this.localStorage.clear();
