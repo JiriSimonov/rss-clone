@@ -1,17 +1,13 @@
-import { AuthData } from './../../../../auth/store/auth.reducer';
 import { Router } from '@angular/router';
 import { logoutSuccess } from './../../../../auth/store/auth.actions';
 import { AuthService } from '../../../../auth/services/auth.service';
 import { Store } from '@ngrx/store';
 import { Component, OnInit } from '@angular/core';
 import { FormControl, FormGroup, Validators } from '@angular/forms';
-import { catchError, EMPTY } from 'rxjs';
-import { HttpErrorResponse } from '@angular/common/http';
 import { UsernameValidator } from 'src/app/shared/validators/username.validator';
 import { UserData } from 'src/app/auth/models/user-data.model';
 import { PasswordValidator } from 'src/app/shared/validators/password.validator';
 import { AvatarService } from 'src/app/shared/services/user-avatar.service';
-import { getAuthData } from 'src/app/auth/store/auth.selectors';
 import { LocalStorageService } from 'src/app/shared/storage/services/local-storage/local-storage.service';
 
 @Component({
@@ -21,13 +17,17 @@ import { LocalStorageService } from 'src/app/shared/storage/services/local-stora
 })
 export class DashboardFormComponent implements OnInit {
   changeUserDataForm!: FormGroup;
+  newAvatar!: string;
+  currentAvatar = this.userAvatar.avatar$.subscribe(
+    (avatar) => (this.newAvatar = avatar)
+  );
 
   constructor(
     private store$: Store,
     private authService: AuthService,
     private router: Router,
     private userAvatar: AvatarService,
-    private localStorage: LocalStorageService,
+    private localStorage: LocalStorageService
   ) {}
 
   ngOnInit(): void {
@@ -75,17 +75,6 @@ export class DashboardFormComponent implements OnInit {
   deleteUser() {
     this.authService
       .deleteUser()
-      .pipe(
-        catchError((err) => {
-          if (err instanceof HttpErrorResponse) {
-            if (err.status === 404) {
-              console.log('404 NOT FOUND');
-              return EMPTY;
-            }
-          }
-          throw err;
-        })
-      )
       .subscribe(() => {
         this.store$.dispatch(logoutSuccess());
         this.localStorage.clear();
@@ -94,24 +83,13 @@ export class DashboardFormComponent implements OnInit {
   }
 
   changeUserAvatar() {
-    // this.authService
-    //   .changeUserData({ image: this.userAvatar.avatarPath })
-    //   .pipe(
-    //     catchError((err) => {
-    //       if (err instanceof HttpErrorResponse) {
-    //         if (err.status === 404) {
-    //           console.log('404 NOT FOUND');
-    //           return EMPTY;
-    //         }
-    //       }
-    //       throw err;
-    //     })
-    //   )
-    //   .subscribe(() => {
-    //     this.store$.dispatch(logoutSuccess());
-    //     this.localStorage.clear();
-    //     this.router.navigate(['auth'], { replaceUrl: true });
-    //   });
+    this.authService
+      .changeUserData({ image: this.newAvatar })
+      .subscribe(() => {
+        this.store$.dispatch(logoutSuccess());
+        this.localStorage.clear();
+        this.router.navigate(['auth'], { replaceUrl: true });
+      });
   }
 
   changeUserData() {
@@ -123,23 +101,10 @@ export class DashboardFormComponent implements OnInit {
       userData.password = this.confirmPasswordControl!.value;
     }
 
-    this.authService
-      .changeUserData(userData)
-      .pipe(
-        catchError((err) => {
-          if (err instanceof HttpErrorResponse) {
-            if (err.status === 404) {
-              console.log('404 NOT FOUND');
-              return EMPTY;
-            }
-          }
-          throw err;
-        })
-      )
-      .subscribe(() => {
-        this.store$.dispatch(logoutSuccess());
-        this.localStorage.clear();
-        this.router.navigate(['auth'], { replaceUrl: true });
-      });
+    this.authService.changeUserData(userData).subscribe(() => {
+      this.store$.dispatch(logoutSuccess());
+      this.localStorage.clear();
+      this.router.navigate(['auth'], { replaceUrl: true });
+    });
   }
 }

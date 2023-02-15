@@ -101,7 +101,6 @@ export class LobbyCreateModalComponent implements OnInit {
       this.lobbyService.createLobby(data);
       this.lobbyModal.toggleCreateModal();
       this.localStorage.setItem('createdLobby', 'true');
-      console.log(data)
     });
   }
 }
