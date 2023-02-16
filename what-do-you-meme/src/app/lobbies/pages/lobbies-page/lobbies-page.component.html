@@ -19,7 +19,6 @@
       [infiniteScrollThrottle]="throttle"
       (scrolled)="onScrollDown()"
       (scrolledUp)="onScrollUp()">
-    >
       <app-lobby-info *ngFor="let lobby of lobbies$ | async" [lobby]="lobby">
       </app-lobby-info>
     </ul>

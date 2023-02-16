@@ -14,13 +14,13 @@ export class LobbySearchComponent implements OnInit {
 
   ngOnInit() {
     this.searchForm = new FormGroup({
-      searсh: new FormControl('', [Validators.minLength(3)], []),
+      search: new FormControl('', [Validators.minLength(3)], []),
       private: new FormControl(),
     });
   }
 
   get searchFieldValue() {
-    return this.searchForm.get('searсh')?.value;
+    return this.searchForm.get('search')?.value;
   }
 
   get privateFieldValue() {

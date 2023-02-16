@@ -40,9 +40,8 @@ export class AuthFormComponent implements OnInit {
     });
   }
 
-  onSubmit() {
-    const loginPayload = this.authForm.value;
-    this.store$.dispatch(login(loginPayload));
+  onSubmit(data: { username: string, password: string}) {
+    this.store$.dispatch(login(data));
   }
 
   get loginControl() {

@@ -9,8 +9,8 @@ import { MessageData } from '../models/messageData';
 export class GlobalChatService {
   constructor(private socket: Socket) { }
 
-  sendMessage(data: MessageData) {
-    this.socket.emit(IoInput.chatMessageRequest, data);
+  sendMessage(message: MessageData) {
+    this.socket.emit(IoInput.chatMessageRequest, message);
   }
 
   getMessage() {
