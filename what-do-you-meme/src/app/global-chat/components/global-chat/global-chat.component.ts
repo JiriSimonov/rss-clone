@@ -1,4 +1,4 @@
-import { GlobalChatService } from './../../services/global-chat.service';
+import { GlobalChatService } from '../../services/global-chat/global-chat.service';
 import { Component, OnInit } from '@angular/core';
 import { FormControl, FormGroup, Validators } from '@angular/forms';
 import { MessageData } from '../../models/messageData';

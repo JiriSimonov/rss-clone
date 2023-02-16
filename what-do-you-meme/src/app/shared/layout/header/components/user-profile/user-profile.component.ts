@@ -3,7 +3,7 @@ import { Store } from '@ngrx/store';
 import { Component, OnDestroy, OnInit } from '@angular/core';
 import { Subscription } from 'rxjs';
 import { AuthService } from '../../../../../auth/services/auth.service';
-import { logout, logoutSuccess } from 'src/app/auth/store/auth.actions';
+import { logoutSuccess } from 'src/app/auth/store/auth.actions';
 
 @Component({
   selector: 'app-user-profile',

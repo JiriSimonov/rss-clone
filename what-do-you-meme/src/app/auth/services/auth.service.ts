@@ -1,16 +1,17 @@
-import { AuthData } from '../store/auth.reducer';
-import { getAuthData } from '../store/auth.selectors';
-import { Store } from '@ngrx/store';
-import { JwtHelperService } from '@auth0/angular-jwt';
-import { Injectable } from '@angular/core';
-import { HttpClient } from '@angular/common/http';
-import { distinctUntilChanged, map } from 'rxjs';
-import { ConfigService } from 'src/app/shared/storage/services/config/config.service';
+import {AuthData} from '../store/auth.reducer';
+import {getAuthData} from '../store/auth.selectors';
+import {Store} from '@ngrx/store';
+import {JwtHelperService} from '@auth0/angular-jwt';
+import {Injectable} from '@angular/core';
+import {HttpClient} from '@angular/common/http';
+import {distinctUntilChanged, map} from 'rxjs';
+import {ConfigService} from "../../shared/services/config/config.service";
 
 @Injectable({
   providedIn: 'root',
 })
 export class AuthService {
+  private URL = ConfigService.SERVER_URL;
   public user$ = this.store$.select(getAuthData);
   public username$ = this.user$.pipe(
     map((userData) => userData?.username),
@@ -25,13 +26,13 @@ export class AuthService {
     }),
     distinctUntilChanged()
   );
-  private URL = ConfigService.SERVER_URL;
 
   constructor(
     private httpClient: HttpClient,
     private store$: Store,
     private jwtHelperService: JwtHelperService
-  ) {}
+  ) {
+  }
 
   login(body: { username: string; password: string }) {
     return this.httpClient.post<AuthData>(`${this.URL}/auth/login`, body).pipe(
@@ -78,17 +79,5 @@ export class AuthService {
 
   changeUserData(userData: Partial<AuthData>) {
     return this.httpClient.patch<AuthData>(`${this.URL}/users/`, userData);
-  }
-  
-  setNewUsername(id: number, newLogin: string) {
-    return this.httpClient.put<AuthData>(`${this.URL}/users/id/${id}`, {
-      username: newLogin,
-    });
-  }
-
-  setNewPassword(id: number, newPassword: string) {
-    return this.httpClient.put<AuthData>(`${this.URL}/users/id/${id}`, {
-      password: newPassword,
-    });
   }
 }

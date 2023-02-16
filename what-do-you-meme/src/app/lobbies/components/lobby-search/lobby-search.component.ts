@@ -1,6 +1,6 @@
 import { Component, OnInit } from '@angular/core';
 import { FormGroup, FormControl, Validators } from '@angular/forms';
-import { LobbyService } from '../../services/lobby.service';
+import { LobbyService } from '../../services/lobby/lobby.service';
 
 @Component({
   selector: 'app-lobby-search',
