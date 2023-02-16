@@ -3,6 +3,7 @@ import { RouterModule, Routes } from '@angular/router';
 import { StoreModule } from '@ngrx/store';
 import { DEFAULT_ROUTER_FEATURENAME, routerReducer } from '@ngrx/router-store';
 import { isGuestGuards, isRoutingFromGameGuards, isUserGuards } from './guards/guards';
+import {NotFoundComponent} from "./shared/components/not-found/not-found.component";
 
 const routes: Routes = [
   { path: '', pathMatch: 'full', redirectTo: 'lobbies' },
@@ -42,15 +43,8 @@ const routes: Routes = [
     canMatch: isUserGuards,
     canActivate: isRoutingFromGameGuards,
   },
-  {
-    path: 'not-found',
-    loadChildren: () =>
-      import('./not-found/not-found.module').then(
-        (module) => module.NotFoundModule
-      ),
-  },
   { path: '**',
-    redirectTo: 'not-found',
+    component: NotFoundComponent,
   },
 ];
 

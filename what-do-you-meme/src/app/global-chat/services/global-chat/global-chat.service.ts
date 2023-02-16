@@ -7,10 +7,15 @@ import { MessageData } from '../../models/messageData';
   providedIn: 'root',
 })
 export class GlobalChatService {
-  constructor(private socket: Socket) { }
+  constructor(private socket: Socket) {}
 
   sendMessage(message: MessageData) {
     this.socket.emit(IoInput.chatMessageRequest, message);
+    this.socket.emit('kek', (arg: any) => {
+      console.log('kekedback1');
+      console.log(arg);
+      console.log('kekedback2');
+    });
   }
 
   getMessage() {
