@@ -5,5 +5,4 @@ export interface createLobby {
   owner: string;
   image: string;
   password: string;
-  private?: string;
 }
