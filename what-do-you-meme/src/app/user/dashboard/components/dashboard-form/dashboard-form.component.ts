@@ -73,23 +73,19 @@ export class DashboardFormComponent implements OnInit {
   }
 
   deleteUser() {
-    this.authService
-      .deleteUser()
-      .subscribe(() => {
-        this.store$.dispatch(logoutSuccess());
-        this.localStorage.clear();
-        this.router.navigate(['auth'], { replaceUrl: true });
-      });
+    this.authService.deleteUser().subscribe(() => {
+      this.store$.dispatch(logoutSuccess());
+      this.localStorage.clear();
+      this.router.navigate(['auth'], { replaceUrl: true });
+    });
   }
 
   changeUserAvatar() {
-    this.authService
-      .changeUserData({ image: this.newAvatar })
-      .subscribe(() => {
-        this.store$.dispatch(logoutSuccess());
-        this.localStorage.clear();
-        this.router.navigate(['auth'], { replaceUrl: true });
-      });
+    this.authService.changeUserData({ image: this.newAvatar }).subscribe(() => {
+      this.store$.dispatch(logoutSuccess());
+      this.localStorage.clear();
+      this.router.navigate(['auth'], { replaceUrl: true });
+    });
   }
 
   changeUserData() {

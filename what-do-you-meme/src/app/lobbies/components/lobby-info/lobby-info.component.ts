@@ -18,9 +18,7 @@ export class LobbyInfoComponent implements OnInit {
     private lobbyService: LobbyService
   ) {}
 
-  ngOnInit(): void {
-
-  }
+  ngOnInit() {}
 
   get isPrivate() {
     return this.lobby?.privacyType === LobbiesPrivate.private;

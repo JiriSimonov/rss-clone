@@ -21,7 +21,7 @@ export class LobbyJoinModalComponent implements OnInit {
     private lobbyModal: LobbyModalService,
     private lobbyModalElem: ElementRef,
     private validatorsService: LobbyValidatorsService,
-    private router: Router,
+    private router: Router
   ) {
     this.element = this.lobbyModalElem.nativeElement;
   }

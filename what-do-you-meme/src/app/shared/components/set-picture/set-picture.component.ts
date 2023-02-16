@@ -13,8 +13,7 @@ export class SetPictureComponent implements OnInit {
   });
   constructor(private avatarService: AvatarService) {}
 
-  ngOnInit(): void {
-  }
+  ngOnInit(): void {}
 
   changeAvatar() {
     this.avatarService.getRandomAvatar();

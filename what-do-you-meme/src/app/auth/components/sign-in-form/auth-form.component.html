@@ -1,7 +1,7 @@
 <div class="form">
   <form
     class="form__form"
-    (ngSubmit)="onSubmit()"
+    (ngSubmit)="onSubmit(authForm.value)"
     [formGroup]="authForm"
     *ngIf="loaded$ | async as loaded"
   >
@@ -15,9 +15,7 @@
   </mat-form-field>
     <span class="form__error" *ngIf="(loginControl?.invalid && loginControl?.dirty )|| (serverError$ | async)">Неправильный логин или пароль</span>
     <button
-      color="primary"
       class="btn"
-      type="submit"
       [disabled]="authForm.invalid || disabled || (loading$ | async)"
     >
       Войти
