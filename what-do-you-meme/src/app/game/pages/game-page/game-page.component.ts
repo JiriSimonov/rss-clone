@@ -1,6 +1,6 @@
 import { Component, HostListener, OnInit } from '@angular/core';
 import { ActivatedRoute, Router } from '@angular/router';
-import { gameLobbyData, GamePlayer } from '../../models/game.model';
+import { gameLobbyData } from '../../models/game.model';
 import { GameService } from '../../services/game.service';
 
 @Component({
@@ -25,19 +25,8 @@ export class GamePageComponent implements OnInit {
     this.gameService.joinLobbyRequest(this.gameId);
     this.gameService.getPlayers(this.gameId);
 
-    this.gameService.leaveLobbyEvent().subscribe((players: gameLobbyData['players']) => {
-      this.gameService.players = Object.values(players);
+    this.gameService.changePhaseEvent().subscribe((data) => {
+      console.log(10923);
     });
-  }
-
-  @HostListener('window:beforeunload')
-  onBeforeUnload() {
-    if (document.visibilityState === 'hidden') {
-
-    }
-  }
-
-  @HostListener('window:unload')
-  onUnload() {
   }
 }

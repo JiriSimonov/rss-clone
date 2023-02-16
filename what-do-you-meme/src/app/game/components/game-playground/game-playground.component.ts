@@ -1,5 +1,6 @@
 import { CdkDragDrop, transferArrayItem } from '@angular/cdk/drag-drop';
 import { Component, OnInit } from '@angular/core';
+import { ActivatedRoute } from '@angular/router';
 import { GameService } from '../../services/game.service';
 
 @Component({
@@ -8,9 +9,13 @@ import { GameService } from '../../services/game.service';
   styleUrls: ['./game-playground.component.scss']
 })
 export class GamePlaygroundComponent implements OnInit {
-  roundNumber = 1;
+  currentRound: number = 1;
+  isReady: boolean = false;
+  gameId: string;
 
-  constructor(public gameService: GameService) { }
+  constructor(public gameService: GameService, activatedRoute: ActivatedRoute) {
+    this.gameId = activatedRoute.snapshot.params['id'];
+  }
 
   ngOnInit(): void {
     this.gameService.getMemes();
@@ -30,5 +35,13 @@ export class GamePlaygroundComponent implements OnInit {
         fromArr,
         toArr,
         index, index);
+  }
+
+  ready() {
+    this.gameService.pickMemeRequest(
+      this.gameId,
+    );
+
+    this.isReady = true;
   }
 }

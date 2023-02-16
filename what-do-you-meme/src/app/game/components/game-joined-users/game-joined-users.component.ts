@@ -1,4 +1,4 @@
-import { Component  } from '@angular/core';
+import { Component, OnInit  } from '@angular/core';
 import { gameLobbyData } from '../../models/game.model';
 import { GameService } from '../../services/game.service';
 
@@ -7,12 +7,18 @@ import { GameService } from '../../services/game.service';
   templateUrl: './game-joined-users.component.html',
   styleUrls: ['./game-joined-users.component.scss']
 })
-export class GameJoinedUsersComponent {
+export class GameJoinedUsersComponent implements OnInit {
   isClosed: boolean = false;
 
-  constructor(public gameService: GameService) {
+  constructor(public gameService: GameService) { }
+
+  ngOnInit() {
     this.gameService.joinLobbyEvent().subscribe((players: gameLobbyData['players']) => {
-      this.gameService.players = Object.values(players);
+      this.gameService.playersList = players;
+    });
+
+    this.gameService.leaveLobbyEvent().subscribe((players: gameLobbyData['players']) => {
+      this.gameService.playersList = players;
     });
   }
 

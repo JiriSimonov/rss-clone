@@ -1,6 +1,5 @@
 import { Injectable } from '@angular/core';
 import { Socket } from 'ngx-socket-io';
-import { LobbyData } from 'src/app/shared/model/lobby-data';
 import { IoInput, IoOutput } from 'src/app/shared/model/sockets-events';
 import { gameLobbyData, GamePlayer } from '../models/game.model';
 
@@ -12,7 +11,7 @@ export class GameService {
   usedMeme: string[] = [];
   players: GamePlayer[] = [];
 
-  constructor(private socket: Socket) {}
+  constructor(private socket: Socket) { }
 
   getMemes() {
     this.socket.emit(IoInput.randomMemesRequest, { quantity: 5 }, (data: string[]) => {
@@ -31,9 +30,12 @@ export class GameService {
   }
 
   async getPlayers(uuid: string): Promise<GamePlayer[]> {
-    const players: GamePlayer[] = Object.values((await this.getLobby(uuid)).players);
-    this.players = players;
-    return players;
+    this.playersList = ((await this.getLobby(uuid)).players);
+    return this.players;
+  }
+
+  set playersList(players: gameLobbyData['players']) {
+    this.players = Object.values(players);
   }
 
   async joinLobbyRequest(uuid: string) {
@@ -43,15 +45,27 @@ export class GameService {
     });
   }
 
+  leaveLobbyRequest(uuid: string) {
+    return this.socket.emit(IoInput.leaveLobbyRequest, { uuid });
+  }
+
+  pickMemeRequest(uuid: string, meme: string = this.usedMeme[0]) {
+    this.socket.emit(IoInput.pickMeme, {
+      uuid,
+      meme,
+    }, console.log);
+  }
+
   joinLobbyEvent() {
     return this.socket.fromEvent<gameLobbyData['players']>(IoOutput.joinLobby);
   }
 
-  leaveLobbyRequest(uuid: string) {
-    return this.socket.emit(IoInput.leaveLobbyRequest, {uuid});
-  }
 
   leaveLobbyEvent() {
     return this.socket.fromEvent<gameLobbyData['players']>(IoOutput.leaveLobby);
+  }
+
+  changePhaseEvent() {
+    return this.socket.fromEvent(IoOutput.changePhase);
   }
 }
