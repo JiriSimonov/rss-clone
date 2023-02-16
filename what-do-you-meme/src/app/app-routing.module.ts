@@ -9,7 +9,7 @@ const routes: Routes = [
   {
     path: 'auth',
     loadChildren: () =>
-      import('./auth/user-auth.module').then((module) => module.UserAuthModule),
+      import('./auth/auth.module').then((module) => module.AuthModule),
     canMatch: isGuestGuards,
   },
   {

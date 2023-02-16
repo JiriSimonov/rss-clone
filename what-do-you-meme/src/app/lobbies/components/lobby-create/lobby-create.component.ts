@@ -9,7 +9,7 @@ import {
 } from '@angular/core';
 import { FormGroup, FormControl, Validators } from '@angular/forms';
 import { AuthService } from 'src/app/auth/services/auth.service';
-import { LobbyService } from '../../services/lobby.service';
+import { LobbyService } from '../../services/lobby/lobby.service';
 import { LobbyData } from 'src/app/shared/model/lobby-data';
 import { createLobby } from '../../model/create-lobby';
 import { LobbyPasswordValidator } from '../../validators/lobby-name-validator';
@@ -17,10 +17,10 @@ import { LobbyValidatorsService } from '../../services/lobby-validators/lobby-va
 
 @Component({
   selector: 'app-lobby-modal',
-  templateUrl: './lobby-create-modal.component.html',
-  styleUrls: ['./lobby-create-modal.component.scss'],
+  templateUrl: './lobby-create.component.html',
+  styleUrls: ['./lobby-create.component.scss'],
 })
-export class LobbyCreateModalComponent implements OnInit {
+export class LobbyCreateComponent implements OnInit {
   modalForm!: FormGroup;
   private element: HTMLElement;
 

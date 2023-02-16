@@ -1,7 +1,7 @@
 import { BehaviorSubject } from 'rxjs';
 import { HttpClient, HttpHeaders } from '@angular/common/http';
 import { Injectable } from '@angular/core';
-import { ConfigService } from '../storage/services/config/config.service';
+import {ConfigService} from "../config/config.service";
 
 @Injectable({
   providedIn: 'root',

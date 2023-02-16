@@ -1,4 +1,4 @@
-import { AvatarService } from '../../../shared/services/user-avatar.service';
+import { AvatarService } from '../../../shared/services/avatar/avatar.service';
 import { Router } from '@angular/router';
 import { FormGroup, FormControl, Validators } from '@angular/forms';
 import {
