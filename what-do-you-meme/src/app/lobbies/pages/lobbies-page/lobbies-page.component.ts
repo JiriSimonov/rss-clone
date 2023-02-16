@@ -1,5 +1,5 @@
 import { LobbyValidatorsService } from './../../services/lobby-validators/lobby-validators.service';
-import { LobbyService } from 'src/app/lobbies/services/lobby.service';
+import { LobbyService } from 'src/app/lobbies/services/lobby/lobby.service';
 import { LocalStorageService } from './../../../shared/storage/services/local-storage/local-storage.service';
 import { Component, OnInit } from '@angular/core';
 import { LobbyModalService } from '../../services/lobby-modal/lobby-modal.service';
@@ -10,8 +10,9 @@ import { LobbyModalService } from '../../services/lobby-modal/lobby-modal.servic
   styleUrls: ['./lobbies-page.component.scss'],
 })
 export class LobbiesPageComponent implements OnInit {
+  scrollUpDistance = 4;
+  scrollDistance = 2;
   throttle = 0;
-  distance = 6;
   lobbies$ = this.lobbiesService.lobbies$;
   isCreatedLobby!: boolean;
 
@@ -53,8 +54,13 @@ export class LobbiesPageComponent implements OnInit {
     this.lobbyModal.toggleCreateModal();
   }
 
-  onScroll(): void {
+  onScrollDown() {
     this.lobbiesService.incrementPage();
+    this.lobbiesService.getLobbiesList();
+  }
+
+  onScrollUp() {
+    this.lobbiesService.decrementPage();
     this.lobbiesService.getLobbiesList();
   }
 }

@@ -3,23 +3,12 @@
   justify-content: space-between;
   align-items: flex-start;
   margin-bottom: 20px;
-  width: 100%;
 }
 
 .lobbies__search {
   display: flex;
+  align-items: flex-start;
   gap: 20px;
-}
-
-.lobbies__input {
-  all: unset;
-  padding: 8px 10px 8px 0;
-  border: 2px solid #382756;
-  border-radius: 5px;
-  font-size: 18px;
-  color: #fff;
-  text-align: initial;
-  text-indent: 4px;
 }
 
 .lobbies__btn { // replace 
