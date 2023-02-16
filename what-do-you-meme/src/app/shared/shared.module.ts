@@ -6,6 +6,7 @@ import { RouterLink } from '@angular/router';
 import { UserProfileComponent } from './layout/header/components/user-profile/user-profile.component';
 import { NavigationComponent } from './layout/header/components/navigation/navigation.component';
 import { SetPictureComponent } from './components/set-picture/set-picture.component';
+import { NotFoundComponent } from './components/not-found/not-found.component';
 
 @NgModule({
   declarations: [
@@ -14,8 +15,9 @@ import { SetPictureComponent } from './components/set-picture/set-picture.compon
     UserProfileComponent,
     NavigationComponent,
     SetPictureComponent,
+    NotFoundComponent,
   ],
   imports: [CommonModule, RouterLink],
-  exports: [HeaderComponent, FooterComponent, SetPictureComponent],
+  exports: [HeaderComponent, FooterComponent, SetPictureComponent, NotFoundComponent],
 })
 export class SharedModule {}

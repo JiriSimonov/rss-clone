@@ -1,6 +1,6 @@
-import { AbstractControl, AsyncValidatorFn, ValidatorFn } from '@angular/forms';
-import { map } from 'rxjs';
-import { LobbyValidatorsService } from '../services/lobby-validators/lobby-validators.service';
+import {AbstractControl, AsyncValidatorFn} from '@angular/forms';
+import {map} from 'rxjs';
+import {LobbyValidatorsService} from '../services/lobby-validators/lobby-validators.service';
 
 export class LobbyPasswordValidator {
   static isValidPassword(
@@ -10,7 +10,7 @@ export class LobbyPasswordValidator {
     return (control: AbstractControl) => {
       return validation.isCorrectLobbyPassword(uuid, control.value).pipe(
         map((result) => {
-          return result ? null : { isPasswordValid: true };
+          return result ? null : {isPasswordValid: true};
         })
       );
     };

@@ -1,7 +1,7 @@
 import { LobbyModalService } from '../../services/lobby-modal/lobby-modal.service';
 import { Component, Input, OnInit } from '@angular/core';
 import { Router } from '@angular/router';
-import { LobbyService } from '../../services/lobby.service';
+import { LobbyService } from '../../services/lobby/lobby.service';
 import { LobbiesPrivate, LobbyData } from 'src/app/shared/model/lobby-data';
 
 @Component({

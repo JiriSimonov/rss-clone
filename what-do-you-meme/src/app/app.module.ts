@@ -10,7 +10,7 @@ import { EffectsModule } from '@ngrx/effects';
 import { SharedModule } from './shared/shared.module';
 import { SocketIoModule } from 'ngx-socket-io';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
-import { ConfigService } from './shared/storage/services/config/config.service';
+import { SocketConfigService } from './shared/services/socket-config/socket-config.service';
 import { WINDOW } from './shared/storage/tokens/window.token';
 import { STORAGE_KEY_PREFIX } from './shared/storage/tokens/storage-key.token';
 
@@ -22,7 +22,7 @@ export const localStoragePrefix = 'WDYM';
     BrowserModule,
     AppRoutingModule,
     StoreModule.forRoot({}, {}),
-    SocketIoModule.forRoot(ConfigService.socketConfig),
+    SocketIoModule.forRoot(SocketConfigService.socketConfig),
     StoreDevtoolsModule.instrument({ maxAge: 25, logOnly: !isDevMode() }),
     StoreRouterConnectingModule.forRoot(),
     AuthStoreModule,

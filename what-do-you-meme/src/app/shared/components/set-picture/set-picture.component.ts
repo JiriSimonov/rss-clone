@@ -1,4 +1,4 @@
-import { AvatarService } from '../../services/user-avatar.service';
+import { AvatarService } from '../../services/avatar/avatar.service';
 import { Component, OnInit } from '@angular/core';
 
 @Component({

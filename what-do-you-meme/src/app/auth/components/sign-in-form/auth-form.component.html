@@ -3,15 +3,14 @@
     class="form__form"
     (ngSubmit)="onSubmit(authForm.value)"
     [formGroup]="authForm"
-    *ngIf="loaded$ | async as loaded"
   >
   <mat-form-field appearance="fill">
     <mat-label >Введите логин:</mat-label>
-    <input matInput placeholder="medoed" formControlName="username">
+    <input matInput placeholder="логин" formControlName="username">
   </mat-form-field>
   <mat-form-field appearance="fill">
     <mat-label >Введите пароль:</mat-label>
-    <input matInput placeholder="medoed" type="password" formControlName="password">
+    <input matInput placeholder="пароль" type="password" formControlName="password">
   </mat-form-field>
     <span class="form__error" *ngIf="(loginControl?.invalid && loginControl?.dirty )|| (serverError$ | async)">Неправильный логин или пароль</span>
     <button

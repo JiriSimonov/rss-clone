@@ -1,14 +1,14 @@
 import { NgModule } from '@angular/core';
 import { RouterModule, Routes } from '@angular/router';
-import { GamePageComponent } from '../game/pages/game-page/game-page.component';
+import { GamePageComponent } from './pages/game-page/game-page.component';
 import { isValidLobbyIdGuard } from './guards/is-valid-lobby-id.guard';
-import { NotFoundPageComponent } from '../not-found/pages/not-found-page/not-found-page.component';
+import {NotFoundComponent} from "../shared/components/not-found/not-found.component";
 
 const routes: Routes = [
   {
     path: '',
     pathMatch: 'full',
-    component: NotFoundPageComponent,
+    component: NotFoundComponent,
   },
   {
     path: ':id',

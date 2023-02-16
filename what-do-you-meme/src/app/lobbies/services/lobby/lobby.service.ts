@@ -1,11 +1,11 @@
-import { IoInput } from './../../shared/model/sockets-events';
-import { Router } from '@angular/router'; 
-import { LocalStorageService } from './../../shared/storage/services/local-storage/local-storage.service';
-import { Injectable } from '@angular/core';
-import { BehaviorSubject } from 'rxjs';
-import { Socket } from 'ngx-socket-io';
-import { LobbiesPrivate, LobbyData } from 'src/app/shared/model/lobby-data';
-import { createLobby } from '../model/create-lobby';
+import {IoInput} from '../../../shared/model/sockets-events';
+import {Router} from '@angular/router';
+import {LocalStorageService} from '../../../shared/storage/services/local-storage/local-storage.service';
+import {Injectable} from '@angular/core';
+import {BehaviorSubject} from 'rxjs';
+import {Socket} from 'ngx-socket-io';
+import {LobbiesPrivate, LobbyData} from 'src/app/shared/model/lobby-data';
+import {createLobby} from '../../model/create-lobby';
 
 @Injectable({
   providedIn: 'root',
@@ -39,26 +39,11 @@ export class LobbyService {
     private localStorage: LocalStorageService,
     private socket: Socket,
     private router: Router,
-  ) {}
+  ) {
+  }
 
   resetPrivacy() {
     this.lobbyPrivate$$.next(LobbiesPrivate.all);
-  }
-
-  get lobbbiesLimit() {
-    return this.chunkOptions.limit;
-  }
-
-  incrementLimit() {
-    ++this.lobbbiesLimit;
-  }
-
-  set lobbbiesLimit(limit: number) {
-    this.lobbbiesLimit = limit;
-  }
-
-  get currentPage(): number {
-    return this.chunkOptions.page;
   }
 
   incrementPage(): void {
@@ -86,12 +71,6 @@ export class LobbyService {
     return value === 'true' ? LobbiesPrivate.private : LobbiesPrivate.public;
   }
 
-  isLobbyCreated() {
-    this.socket.emit('event', (response: boolean) => {
-      if (!response) this.localStorage.removeItem('createdLobby');
-    });
-  }
-
   joinLobby(data: LobbyData) {
     this.socket.emit(IoInput.joinLobbyRequest, data);
   }
@@ -99,10 +78,10 @@ export class LobbyService {
   createLobby(options: createLobby) {
     this.socket.emit(
       IoInput.createLobbyRequest,
-      { lobby: options },
+      {lobby: options},
       (data: LobbyData) => {
         this.joinLobby(data);
-        this.router.navigate([`/game/${data.uuid}`], { replaceUrl: true });
+        this.router.navigate([`/game/${data.uuid}`], {replaceUrl: true});
       }
     );
   }

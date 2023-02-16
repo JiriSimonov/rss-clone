@@ -7,7 +7,7 @@ import { FormControl, FormGroup, Validators } from '@angular/forms';
 import { UsernameValidator } from 'src/app/shared/validators/username.validator';
 import { UserData } from 'src/app/auth/models/user-data.model';
 import { PasswordValidator } from 'src/app/shared/validators/password.validator';
-import { AvatarService } from 'src/app/shared/services/user-avatar.service';
+import { AvatarService } from 'src/app/shared/services/avatar/avatar.service';
 import { LocalStorageService } from 'src/app/shared/storage/services/local-storage/local-storage.service';
 
 @Component({
