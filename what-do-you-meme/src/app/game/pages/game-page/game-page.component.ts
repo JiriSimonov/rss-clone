@@ -1,6 +1,6 @@
 import { Component, HostListener, OnInit } from '@angular/core';
-import { ActivatedRoute, NavigationStart, Router } from '@angular/router';
-import { filter, take } from 'rxjs';
+import { ActivatedRoute, Router } from '@angular/router';
+import { gameLobbyData } from '../../models/game.model';
 import { GameService } from '../../services/game.service';
 
 @Component({
@@ -10,7 +10,7 @@ import { GameService } from '../../services/game.service';
 })
 export class GamePageComponent implements OnInit {
   gameId: string;
-
+  isClosed: boolean = false;
 
   constructor(
     private activateRoute: ActivatedRoute,
@@ -21,16 +21,12 @@ export class GamePageComponent implements OnInit {
   }
 
   ngOnInit() {
-   sessionStorage.setItem('url', this.router.url);
-   this.gameService.joinLobbyRequest(this.gameId);
-   this.gameService.getPlayers(this.gameId);
+    sessionStorage.setItem('url', this.router.url);
+    this.gameService.joinLobbyRequest(this.gameId);
+    this.gameService.getPlayers(this.gameId);
 
-   // TODO: make it execute once
-    this.router.events.pipe(
-      take(1),
-      filter((event) => event instanceof NavigationStart),
-    ).subscribe((event: any) => {
-      console.log('routed');
+    this.gameService.changePhaseEvent().subscribe((data) => {
+      console.log(10923);
     });
   }
 }

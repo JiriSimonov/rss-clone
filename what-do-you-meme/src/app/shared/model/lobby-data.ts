@@ -10,12 +10,13 @@ export interface Player {
 }
 
 export interface LobbyData {
-  uuid: string; 
+  uuid: string;
   image: string;
   owner: string;
-  privacyType: LobbiesPrivate; 
-  title: string; 
-  playersQuantity: number; 
-  maxPlayers: number; 
-  maxRounds: number; 
+  title: string;
+  maxPlayers: number;
+  maxRounds: number;
+  playersQuantity: number;
+  privacyType: LobbiesPrivate;
 }
+

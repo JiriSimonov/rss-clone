@@ -3,8 +3,11 @@
     <div class="playground__top">
       <div class="playground__info">
 
-      <div class="playground__info-rounds">Pаунд {{roundNumber}}</div>
-        <button class="form__btn playground__info-btn">Готов</button>
+      <div class="playground__info-rounds">Pаунд {{currentRound}}</div>
+        <button class="form__btn playground__info-btn"
+          (click)="ready()"
+          [disabled]="isReady"
+          >Готов</button>
       </div>
 
       <div class="playground__card">

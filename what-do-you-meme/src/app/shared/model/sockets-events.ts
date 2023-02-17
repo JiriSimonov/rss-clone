@@ -9,6 +9,7 @@ export enum IoInput {
   isLobbyTitleUniqueRequest = 'is-lobby-name-unique-request',
   leaveLobbyRequest = 'leave-lobby-request',
   randomMemesRequest = 'random-memes-request',
+  pickMeme = 'pick-meme-request',
 }
 
 export enum IoOutput {
@@ -17,4 +18,5 @@ export enum IoOutput {
   joinLobby = 'join-lobby',
   leaveLobby = 'leave-lobby',
   deleteLobby = 'delete-lobby',
+  changePhase = 'change-phase',
 }

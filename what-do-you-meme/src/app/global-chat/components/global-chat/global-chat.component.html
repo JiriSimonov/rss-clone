@@ -14,7 +14,7 @@
         </mat-form-field>
         <span class="form__error" *ngIf="messageControl?.errors?.['maxLength']">Макисмальная длина 308 символов</span>
       </div>
-      <button class="btn chat__btn" [disabled]="sendMessageForm.invalid">Отправить</button>
+      <button class="btn chat__btn" type="submit" [disabled]="sendMessageForm.invalid">Отправить</button>
     </form>
     <ul class="rules">
       Правила чата:
