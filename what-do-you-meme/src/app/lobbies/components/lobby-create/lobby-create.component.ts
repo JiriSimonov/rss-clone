@@ -9,7 +9,7 @@ import {
 } from '@angular/core';
 import { FormGroup, FormControl, Validators } from '@angular/forms';
 import { AuthService } from 'src/app/auth/services/auth.service';
-import { LobbyService } from '../../services/lobby.service';
+import { LobbyService } from '../../services/lobby/lobby.service';
 import { LobbyData } from 'src/app/shared/model/lobby-data';
 import { createLobby } from '../../model/create-lobby';
 import { LobbyPasswordValidator } from '../../validators/lobby-name-validator';
@@ -17,10 +17,10 @@ import { LobbyValidatorsService } from '../../services/lobby-validators/lobby-va
 
 @Component({
   selector: 'app-lobby-modal',
-  templateUrl: './lobby-create-modal.component.html',
-  styleUrls: ['./lobby-create-modal.component.scss'],
+  templateUrl: './lobby-create.component.html',
+  styleUrls: ['./lobby-create.component.scss'],
 })
-export class LobbyCreateModalComponent implements OnInit {
+export class LobbyCreateComponent implements OnInit {
   modalForm!: FormGroup;
   private element: HTMLElement;
 
@@ -33,7 +33,7 @@ export class LobbyCreateModalComponent implements OnInit {
     private lobbyService: LobbyService,
     private lobbyModal: LobbyModalService,
     private localStorage: LocalStorageService,
-    private lobbyValidators: LobbyValidatorsService,
+    private lobbyValidators: LobbyValidatorsService
   ) {
     this.element = this.lobbyModalElem.nativeElement;
   }
@@ -52,11 +52,15 @@ export class LobbyCreateModalComponent implements OnInit {
     this.modalForm = new FormGroup({
       maxPlayers: new FormControl('2', [Validators.required]),
       maxRounds: new FormControl('1', [Validators.required]),
-      title: new FormControl('', [
-        Validators.required,
-        Validators.minLength(3),
-        Validators.maxLength(18),
-      ], [LobbyPasswordValidator.isUniqueLobbyName(this.lobbyValidators)]),
+      title: new FormControl(
+        '',
+        [
+          Validators.required,
+          Validators.minLength(3),
+          Validators.maxLength(18),
+        ],
+        [LobbyPasswordValidator.isUniqueLobbyName(this.lobbyValidators)]
+      ),
       private: new FormControl(''),
       password: new FormControl('', [
         Validators.minLength(4),
@@ -65,11 +69,7 @@ export class LobbyCreateModalComponent implements OnInit {
     });
   }
 
-  get isPrivate() {
-    return this.privateControl?.value;
-  }
-
-  get roundsControl() {
+  get maxRoundsControl() {
     return this.modalForm.get('maxRounds');
   }
 
@@ -77,11 +77,11 @@ export class LobbyCreateModalComponent implements OnInit {
     return this.modalForm.get('password');
   }
 
-  get maxUsersControl() {
+  get maxPlayersControl() {
     return this.modalForm.get('maxPlayers');
   }
 
-  get nameControl() {
+  get titleControl() {
     return this.modalForm.get('title');
   }
 
@@ -89,18 +89,26 @@ export class LobbyCreateModalComponent implements OnInit {
     return this.modalForm.get('private');
   }
 
+  get LobbyOption() {
+    return {
+      maxPlayers: this.maxPlayersControl?.value,
+      maxRounds: this.maxRoundsControl?.value,
+      title: this.titleControl?.value,
+      owner: '',
+      image: '',
+      password: this.passwordControl?.value,
+    };
+  }
+
   onSubmit(data: createLobby) {
     this.authService.userData$.subscribe((user) => {
       if (user.image && user.username) {
         data.image = user.image;
         data.owner = user.username;
+        this.lobbyService.createLobby(data);
+        this.lobbyModal.toggleCreateModal();
+        this.localStorage.setItem('createdLobby', 'true');
       }
-      data.title = this.nameControl?.value;
-      delete data.private;
-      data.password = this.passwordControl?.value;
-      this.lobbyService.createLobby(data);
-      this.lobbyModal.toggleCreateModal();
-      this.localStorage.setItem('createdLobby', 'true');
     });
   }
 }

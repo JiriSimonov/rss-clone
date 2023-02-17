@@ -1,4 +1,4 @@
-import { LobbyValidatorsService } from './../../services/lobby-validators/lobby-validators.service';
+import { LobbyValidatorsService } from '../../services/lobby-validators/lobby-validators.service';
 import { LobbyModalService } from '../../services/lobby-modal/lobby-modal.service';
 import { Component, ElementRef, Input, OnInit } from '@angular/core';
 import { FormControl, FormGroup, Validators } from '@angular/forms';
@@ -8,10 +8,10 @@ import { Router } from '@angular/router';
 
 @Component({
   selector: 'app-lobby-join-modal',
-  templateUrl: './lobby-join-modal.component.html',
-  styleUrls: ['./lobby-join-modal.component.scss'],
+  templateUrl: './lobby-join.component.html',
+  styleUrls: ['./lobby-join.component.scss'],
 })
-export class LobbyJoinModalComponent implements OnInit {
+export class LobbyJoinComponent implements OnInit {
   @Input() lobby?: LobbyData;
   joinForm!: FormGroup;
   private element: HTMLElement;
@@ -21,7 +21,7 @@ export class LobbyJoinModalComponent implements OnInit {
     private lobbyModal: LobbyModalService,
     private lobbyModalElem: ElementRef,
     private validatorsService: LobbyValidatorsService,
-    private router: Router,
+    private router: Router
   ) {
     this.element = this.lobbyModalElem.nativeElement;
   }

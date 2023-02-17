@@ -5,7 +5,7 @@ import { GameService } from '../game/services/game.service';
 import { UserPermissionsService } from '../utils/user-permissions.service';
 
 export const isUserGuards = [
-  (route: Route, segments: UrlSegment[]) => {
+  (_route: Route, _segments: UrlSegment[]) => {
     const router = inject(Router);
     return inject(UserPermissionsService).isUser$.pipe(
       map((isUser) => isUser || router.createUrlTree(['auth']))
@@ -14,7 +14,7 @@ export const isUserGuards = [
 ];
 
 export const isGuestGuards = [
-  (route: Route, segments: UrlSegment[]) => {
+  (_route: Route, _segments: UrlSegment[]) => {
     const router = inject(Router);
     return inject(UserPermissionsService).isUser$.pipe(
       map((isUser) => !isUser || router.createUrlTree(['lobbies']))
@@ -31,5 +31,5 @@ export const isRoutingFromGameGuards = [
         gameService.leaveLobbyRequest((sessionStorage.getItem('url') ?? '').replace('/game/', ''));
         sessionStorage.clear();
     }
-  }
-]
+  },
+];

@@ -3,7 +3,7 @@ import { FormControl, FormGroup, Validators } from '@angular/forms';
 import { ActivatedRoute } from '@angular/router';
 import { AuthService } from 'src/app/auth/services/auth.service';
 import { MessageData } from 'src/app/global-chat/models/messageData';
-import { GlobalChatService } from 'src/app/global-chat/services/global-chat.service';
+import { GlobalChatService } from 'src/app/global-chat/services/global-chat/global-chat.service';
 
 @Component({
   selector: 'app-game-chat',

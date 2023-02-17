@@ -1,7 +1,5 @@
-import { BehaviorSubject } from 'rxjs';
-import { AvatarService } from '../../services/user-avatar.service';
-import { ChangeDetectorRef, Component, OnInit } from '@angular/core';
-import { ConfigService } from '../../storage/services/config/config.service';
+import { AvatarService } from '../../services/avatar/avatar.service';
+import { Component, OnInit } from '@angular/core';
 
 @Component({
   selector: 'app-set-picture',
@@ -9,14 +7,13 @@ import { ConfigService } from '../../storage/services/config/config.service';
   styleUrls: ['./set-picture.component.scss'],
 })
 export class SetPictureComponent implements OnInit {
-  avatar = '';
+  avatar!: string;
+  currentAvatar = this.avatarService.avatar$.subscribe((avatar) => {
+    this.avatar = avatar;
+  });
   constructor(private avatarService: AvatarService) {}
 
-  ngOnInit(): void {
-    this.avatarService.avatar$.subscribe((avatar) => {
-      this.avatar = avatar;
-    });
-  }
+  ngOnInit(): void {}
 
   changeAvatar() {
     this.avatarService.getRandomAvatar();

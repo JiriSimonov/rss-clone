@@ -1,7 +1,7 @@
 import { LobbyModalService } from '../../services/lobby-modal/lobby-modal.service';
 import { Component, Input, OnInit } from '@angular/core';
 import { Router } from '@angular/router';
-import { LobbyService } from '../../services/lobby.service';
+import { LobbyService } from '../../services/lobby/lobby.service';
 import { LobbiesPrivate, LobbyData } from 'src/app/shared/model/lobby-data';
 
 @Component({
@@ -18,12 +18,14 @@ export class LobbyInfoComponent implements OnInit {
     private lobbyService: LobbyService
   ) {}
 
-  ngOnInit(): void {
-
-  }
+  ngOnInit() {}
 
   get isPrivate() {
     return this.lobby?.privacyType === LobbiesPrivate.private;
+  }
+
+  get isFullLobby() {
+    return this.lobby?.playersQuantity === this.lobby?.maxPlayers;
   }
 
   checkPrivate() {

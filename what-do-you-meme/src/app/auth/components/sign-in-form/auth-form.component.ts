@@ -1,13 +1,13 @@
-import { Component, OnInit, Input } from '@angular/core';
-import { Observable } from 'rxjs';
-import { select, Store } from '@ngrx/store';
+import {Component, OnInit, Input} from '@angular/core';
+import {Observable} from 'rxjs';
+import {select, Store} from '@ngrx/store';
 import {
   getLoaded,
   getLoading,
   getServerError,
 } from '../../store/auth.selectors';
-import { login } from '../../store/auth.actions';
-import { FormControl, FormGroup, Validators } from '@angular/forms';
+import {login} from '../../store/auth.actions';
+import {FormControl, FormGroup, Validators} from '@angular/forms';
 
 @Component({
   selector: 'app-auth-form',
@@ -19,11 +19,11 @@ export class AuthFormComponent implements OnInit {
   loading$: Observable<boolean> = this.store$.pipe(select(getLoading));
   loaded$: Observable<boolean> = this.store$.pipe(select(getLoaded));
   serverError$: Observable<string> = this.store$.pipe(select(getServerError));
-  serverError = '';
 
   @Input() disabled!: boolean;
 
-  constructor(private store$: Store) {}
+  constructor(private store$: Store) {
+  }
 
   ngOnInit(): void {
     this.authForm = new FormGroup({
@@ -40,16 +40,11 @@ export class AuthFormComponent implements OnInit {
     });
   }
 
-  onSubmit() {
-    const loginPayload = this.authForm.value;
-    this.store$.dispatch(login(loginPayload));
+  onSubmit(data: { username: string, password: string }) {
+    this.store$.dispatch(login(data));
   }
 
   get loginControl() {
     return this.authForm.get('username');
-  }
-
-  get passwordControl() {
-    return this.authForm.get('password');
   }
 }
