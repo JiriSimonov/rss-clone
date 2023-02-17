@@ -2,7 +2,7 @@ import { NgModule } from '@angular/core';
 import { RouterModule, Routes } from '@angular/router';
 import { StoreModule } from '@ngrx/store';
 import { DEFAULT_ROUTER_FEATURENAME, routerReducer } from '@ngrx/router-store';
-import { isGuestGuards, isRoutingFromGameGuards, isUserGuards } from './guards/guards';
+import { isGuestGuards, isGameRouteGuard, isUserGuards } from './guards/guards';
 import {NotFoundComponent} from "./shared/components/not-found/not-found.component";
 
 const routes: Routes = [
@@ -18,14 +18,14 @@ const routes: Routes = [
     loadChildren: () =>
       import('./user/user.module').then((module) => module.UserModule),
     canMatch: isUserGuards,
-    canActivate: isRoutingFromGameGuards,
+    canActivate: isGameRouteGuard,
   },
   {
     path: 'game',
     loadChildren: () =>
       import('./game/game.module').then((module) => module.GameModule),
     canMatch: isUserGuards,
-    canActivate: isRoutingFromGameGuards,
+    canActivate: isGameRouteGuard,
   },
   {
     path: 'chat',
@@ -34,14 +34,14 @@ const routes: Routes = [
         (module) => module.GlobalChatModule
       ),
     canMatch: isUserGuards,
-    canActivate: isRoutingFromGameGuards,
+    canActivate: isGameRouteGuard,
   },
   {
     path: 'lobbies',
     loadChildren: () =>
       import('./lobbies/lobbies.module').then((module) => module.LobbiesModule),
     canMatch: isUserGuards,
-    canActivate: isRoutingFromGameGuards,
+    canActivate: isGameRouteGuard,
   },
   { path: '**',
     component: NotFoundComponent,
