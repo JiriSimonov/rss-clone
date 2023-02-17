@@ -16,7 +16,7 @@ export interface LobbyData {
   title: string;
   maxPlayers: number;
   maxRounds: number;
-  playersQuantity: number;
+  playersCount: number;
   privacyType: LobbiesPrivate;
 }
 

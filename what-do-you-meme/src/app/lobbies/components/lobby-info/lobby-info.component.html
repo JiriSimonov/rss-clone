@@ -8,7 +8,7 @@
     <span>{{ lobby?.title }}</span>
     <div class="lobbie__users-number">
     </div>
-    {{ lobby?.playersQuantity }} / {{ lobby?.maxPlayers }}
+    {{ lobby?.playersCount }} / {{ lobby?.maxPlayers }}
     <div class="lobbie__rounds">{{ lobby?.maxRounds }} Раундов</div>
   </div>
   <button class="btn lobbie__btn" (click)="checkPrivate()" [disabled]="isFullLobby">Присоединиться</button>
