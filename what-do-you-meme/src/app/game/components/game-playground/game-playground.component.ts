@@ -9,7 +9,6 @@ import { GameService } from '../../services/game.service';
   styleUrls: ['./game-playground.component.scss']
 })
 export class GamePlaygroundComponent implements OnInit {
-  currentRound: number = 1;
   isReady: boolean = false;
   gameId: string;
 

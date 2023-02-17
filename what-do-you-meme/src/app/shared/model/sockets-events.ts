@@ -9,7 +9,9 @@ export enum IoInput {
   isLobbyTitleUniqueRequest = 'is-lobby-name-unique-request',
   leaveLobbyRequest = 'leave-lobby-request',
   randomMemesRequest = 'random-memes-request',
+  startGame = 'start-game-request',
   pickMeme = 'pick-meme-request',
+  getVote = 'get-vote-request',
 }
 
 export enum IoOutput {

@@ -1,7 +1,8 @@
 import { Injectable } from '@angular/core';
 import { Socket } from 'ngx-socket-io';
+import { Observable } from 'rxjs';
 import { IoInput, IoOutput } from 'src/app/shared/model/sockets-events';
-import { gameLobbyData, GamePlayer } from '../models/game.model';
+import { GameCurrentData, GameLobbyData, GamePlayer } from '../models/game.model';
 
 @Injectable({
   providedIn: 'root',
@@ -10,6 +11,7 @@ export class GameService {
   memes: string[] = [];
   usedMeme: string[] = [];
   players: GamePlayer[] = [];
+  gameData?: GameCurrentData;
 
   constructor(private socket: Socket) { }
 
@@ -21,20 +23,15 @@ export class GameService {
     });
   }
 
-  getLobby(uuid: string): Promise<gameLobbyData> {
+  getLobby(uuid: string): Promise<GameLobbyData> {
     return new Promise((resolve) => {
-      this.socket.emit(IoInput.lobbyDataRequest, { uuid }, (data: gameLobbyData) => {
+      this.socket.emit(IoInput.lobbyDataRequest, { uuid }, (data: GameLobbyData) => {
         resolve(data);
       });
     });
   }
 
-  async getPlayers(uuid: string): Promise<GamePlayer[]> {
-    this.playersList = ((await this.getLobby(uuid)).players);
-    return this.players;
-  }
-
-  set playersList(players: gameLobbyData['players']) {
+  set playersList(players: GameLobbyData['players']) {
     this.players = Object.values(players);
   }
 
@@ -42,7 +39,7 @@ export class GameService {
     this.socket.emit(IoInput.joinLobbyRequest, {
       uuid,
       password: (await this.getLobby(uuid)).password,
-    });
+    }, (data: any) => console.log(data));
   }
 
   leaveLobbyRequest(uuid: string) {
@@ -50,22 +47,36 @@ export class GameService {
   }
 
   pickMemeRequest(uuid: string, meme: string = this.usedMeme[0]) {
-    this.socket.emit(IoInput.pickMeme, {
+    return this.socket.emit(IoInput.pickMeme, {
       uuid,
       meme,
-    }, console.log);
+    });
   }
 
-  joinLobbyEvent() {
-    return this.socket.fromEvent<gameLobbyData['players']>(IoOutput.joinLobby);
+  getVote(uuid: string, vote: string) {
+    this.socket.emit(IoInput.getVote, {
+      uuid,
+      vote,
+    })
   }
 
-
-  leaveLobbyEvent() {
-    return this.socket.fromEvent<gameLobbyData['players']>(IoOutput.leaveLobby);
+  startGameRequest(uuid: string) {
+    this.socket.emit(IoInput.startGame, uuid);
   }
 
-  changePhaseEvent() {
-    return this.socket.fromEvent(IoOutput.changePhase);
+  joinLobbyEvent(): Observable<GameLobbyData['players']> {
+    return this.socket.fromEvent<GameLobbyData['players']>(IoOutput.joinLobby);
+  }
+
+  leaveLobbyEvent(): Observable<GameLobbyData['players']> {
+    return this.socket.fromEvent<GameLobbyData['players']>(IoOutput.leaveLobby);
+  }
+
+  changePhaseEvent(): Observable<GameCurrentData> {
+    return this.socket.fromEvent<GameCurrentData>(IoOutput.changePhase);
+  }
+
+  errorSocketEvent() {
+    return this.socket.fromEvent('error');
   }
 }
