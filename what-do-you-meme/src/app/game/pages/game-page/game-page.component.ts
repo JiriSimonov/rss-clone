@@ -11,7 +11,6 @@ import { ModalPhasesService } from '../../services/modal-phases.service';
 })
 export class GamePageComponent implements OnInit {
   gameId: string;
-  isClosed: boolean = false;
 
   constructor(
     private gameService: GameService,
@@ -24,28 +23,35 @@ export class GamePageComponent implements OnInit {
 
   ngOnInit() {
     sessionStorage.setItem('url', this.router.url);
-    this.gameService.joinLobbyRequest(this.gameId);
-    console.log(this.gameService.players);
-
 
     this.gameService.changePhaseEvent().subscribe((data: GameCurrentData) => {
-      console.log(data);
-
       switch (data.status) {
         case GameStatus.Prepare:
           console.log('prepare');
           break;
+
         case GameStatus.Situation:
-          console.log('situation');
+          this.gameService.gameData = data;
+          this.gameService.getMemes();
+          this.modalPhasesService.closeVotingResultsModal();
+          console.log('Situation');
           break;
+
         case GameStatus.Vote:
-          this.modalPhasesService.toggleVotingModal();
+          this.modalPhasesService.openVotingModal();
+          this.gameService.gameData = data;
           break;
+
         case GameStatus.Vote_results:
-          console.log('vote-results');
+          console.log(data);
+          this.modalPhasesService.closeVotingModal();
+          this.modalPhasesService.openVotingResultsModal();
           break
+
         case GameStatus.End:
+          this.modalPhasesService.closeVotingResultsModal();
           console.log('The End D:');
+          console.log(data);
           break;
       }
     });
@@ -55,8 +61,8 @@ export class GamePageComponent implements OnInit {
     });
 
     // Move to preload screen with "READY" button later
-    // setTimeout(() => {
-    //   this.gameService.startGameRequest(this.gameId);
-    // }, 30000);
+    setTimeout(() => {
+      this.gameService.startGameRequest(this.gameId);
+    }, 10000);
   }
 }

@@ -1,5 +1,5 @@
 import { Component, OnInit  } from '@angular/core';
-import { GameLobbyData } from '../../models/game.model';
+import { GameLobbyData, GameCurrentData } from '../../models/game.model';
 import { GameService } from '../../services/game.service';
 
 @Component({
@@ -13,13 +13,14 @@ export class GameJoinedUsersComponent implements OnInit {
   constructor(public gameService: GameService) { }
 
   ngOnInit() {
-    this.gameService.joinLobbyEvent().subscribe((players: GameLobbyData['players']) => {
-      console.log(players);
+    this.gameService.joinLobbyEvent().subscribe((gameData: GameCurrentData) => {
+      console.log('joined');
+      this.gameService.playersList = gameData.players;
     });
 
-    this.gameService.leaveLobbyEvent().subscribe((players: GameLobbyData['players']) => {
-      console.log(players);
-      // this.gameService.playersList = players;
+    this.gameService.leaveLobbyEvent().subscribe((gameData: GameCurrentData) => {
+      console.log('left');
+      this.gameService.playersList = gameData.players;
     });
   }
 

@@ -1,0 +1,11 @@
+<div class="modal vote-results-modal">
+  <div class="modal__overlay vote-results-modal__overlay">
+    <div class="vote-results-modal__container">
+      <div class="vote-results-modal__meme" *ngFor="let meme of gameService.gameData?.memes | keyvalue">
+        <app-meme-card [memeImage]="meme.key" />
+          <div class="vote-results-modal__results">{{ meme.value.length * 50 }}</div>
+      </div>
+    </div>
+  </div>
+</div>
+

@@ -5,9 +5,24 @@ import { Injectable } from '@angular/core';
 })
 export class ModalPhasesService {
   isOpenedVotingModal: boolean = false;
+  isOpenedVotingResultsModal: boolean = false;
   constructor() { }
 
-  toggleVotingModal(): void {
-    this.isOpenedVotingModal = !this.isOpenedVotingModal;
+  //TODO: DRY + Toggle
+
+  closeVotingModal(): void {
+    this.isOpenedVotingModal = false;
+  }
+
+  openVotingModal(): void {
+    this.isOpenedVotingModal = true;
+  }
+
+  closeVotingResultsModal(): void {
+    this.isOpenedVotingResultsModal = false;
+  }
+
+  openVotingResultsModal(): void {
+    this.isOpenedVotingResultsModal = true;
   }
 }

@@ -9,6 +9,7 @@ import { MemeCardComponent } from './components/meme-card/meme-card.component';
 import { ReactiveFormsModule } from '@angular/forms';
 import {DragDropModule} from '@angular/cdk/drag-drop';
 import { GameVotingPhaseComponent } from './components/game-voting-phase/game-voting-phase.component';
+import { GameVotingResultsPhaseComponent } from './components/game-voting-results-phase/game-voting-results-phase.component';
 
 @NgModule({
   declarations: [
@@ -17,7 +18,8 @@ import { GameVotingPhaseComponent } from './components/game-voting-phase/game-vo
     GameJoinedUsersComponent,
     GamePlaygroundComponent,
     MemeCardComponent,
-    GameVotingPhaseComponent
+    GameVotingPhaseComponent,
+    GameVotingResultsPhaseComponent
   ],
   imports: [
     CommonModule,

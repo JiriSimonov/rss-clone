@@ -23,23 +23,25 @@ export class GameService {
     });
   }
 
-  getLobby(uuid: string): Promise<GameLobbyData> {
-    return new Promise((resolve) => {
-      this.socket.emit(IoInput.lobbyDataRequest, { uuid }, (data: GameLobbyData) => {
-        resolve(data);
-      });
-    });
-  }
+  // Обсудить
+
+  // getLobby(uuid: string): Promise<GameLobbyData> {
+  //   return new Promise((resolve) => {
+  //     this.socket.emit(IoInput.lobbyDataRequest, { uuid }, (data: GameLobbyData) => {
+  //       console.log(data)
+  //     });
+  //   });
+  // }
+
+  // async joinLobbyRequest(uuid: string) {
+  //   this.socket.emit(IoInput.joinLobbyRequest, {
+  //     uuid,
+  //     password: (await this.getLobby(uuid)).password,
+  //   }, (data: any) => console.log(data));
+  // }
 
   set playersList(players: GameLobbyData['players']) {
     this.players = Object.values(players);
-  }
-
-  async joinLobbyRequest(uuid: string) {
-    this.socket.emit(IoInput.joinLobbyRequest, {
-      uuid,
-      password: (await this.getLobby(uuid)).password,
-    }, (data: any) => console.log(data));
   }
 
   leaveLobbyRequest(uuid: string) {
@@ -64,12 +66,12 @@ export class GameService {
     this.socket.emit(IoInput.startGame, uuid);
   }
 
-  joinLobbyEvent(): Observable<GameLobbyData['players']> {
-    return this.socket.fromEvent<GameLobbyData['players']>(IoOutput.joinLobby);
+  joinLobbyEvent(): Observable<GameCurrentData> {
+    return this.socket.fromEvent<GameCurrentData>(IoOutput.joinLobby);
   }
 
-  leaveLobbyEvent(): Observable<GameLobbyData['players']> {
-    return this.socket.fromEvent<GameLobbyData['players']>(IoOutput.leaveLobby);
+  leaveLobbyEvent(): Observable<GameCurrentData> {
+    return this.socket.fromEvent<GameCurrentData>(IoOutput.leaveLobby);
   }
 
   changePhaseEvent(): Observable<GameCurrentData> {
