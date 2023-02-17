@@ -14,7 +14,7 @@ import { SocketConfigService } from './shared/services/socket-config/socket-conf
 import { WINDOW } from './shared/storage/tokens/window.token';
 import { STORAGE_KEY_PREFIX } from './shared/storage/tokens/storage-key.token';
 
-export const localStoragePrefix = 'WDYM';
+export const StoragePrefix = 'WDYM';
 
 @NgModule({
   declarations: [AppComponent],
@@ -37,7 +37,7 @@ export const localStoragePrefix = 'WDYM';
     },
     {
       provide: STORAGE_KEY_PREFIX,
-      useValue: localStoragePrefix,
+      useValue: StoragePrefix,
     },
   ],
   exports: [],
