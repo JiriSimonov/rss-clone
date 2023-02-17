@@ -1,6 +1,6 @@
-import { LobbyData, Player } from "src/app/shared/model/lobby-data";
+import {Player} from "src/app/lobbies/model/lobby-data";
 
-export interface gameLobbyData extends LobbyData {
+export interface gameLobbyData {
   title: string;
   password: string;
   players: Record<GamePlayer['username'], GamePlayer>;

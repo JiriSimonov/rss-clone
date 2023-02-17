@@ -18,5 +18,12 @@ export interface LobbyData {
   maxRounds: number;
   playersCount: number;
   privacyType: LobbiesPrivate;
+  players: userSocketData[];
+  isFull: boolean;
+}
+
+export interface userSocketData {
+  username: string;
+  image: string
 }
 
