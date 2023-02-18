@@ -1,7 +1,8 @@
 import { Component, HostListener, OnInit } from '@angular/core';
-import {ActivatedRoute, Router, UrlSegment} from '@angular/router';
-import { gameLobbyData } from '../../models/game.model';
+import { ActivatedRoute, Router, UrlSegment } from '@angular/router';
+import { GameCurrentData, GameStatus } from '../../models/game.model';
 import { GameService } from '../../services/game.service';
+import { ModalPhasesService } from '../../services/modal-phases.service';
 import {SessionStorageService} from "../../../shared/storage/services/session-storage.service";
 
 @Component({
@@ -11,11 +12,11 @@ import {SessionStorageService} from "../../../shared/storage/services/session-st
 })
 export class GamePageComponent implements OnInit {
   gameId: string;
-  isClosed: boolean = false;
 
   constructor(
-    private activateRoute: ActivatedRoute,
     private gameService: GameService,
+    public modalPhasesService: ModalPhasesService,
+    private activateRoute: ActivatedRoute,
     private router: Router,
     private sessionStorage: SessionStorageService,
   ) {
@@ -26,10 +27,46 @@ export class GamePageComponent implements OnInit {
     this.sessionStorage.setItem('url', this.router.url.replace('/game/', ''));
 
     this.gameService.joinLobbyRequest(this.gameId);
-    this.gameService.getPlayers(this.gameId);
 
-    this.gameService.changePhaseEvent().subscribe((data) => {
-      console.log(10923);
+    this.gameService.changePhaseEvent().subscribe((data: GameCurrentData) => {
+      switch (data.status) {
+        case GameStatus.Prepare:
+          console.log('prepare');
+          break;
+
+        case GameStatus.Situation:
+          this.gameService.gameData = data;
+          this.gameService.getMemes();
+          this.modalPhasesService.closeVotingResultsModal();
+          console.log('Situation');
+          break;
+
+        case GameStatus.Vote:
+          this.modalPhasesService.openVotingModal();
+          this.gameService.gameData = data;
+          break;
+
+        case GameStatus.Vote_results:
+          console.log(data);
+          this.modalPhasesService.closeVotingModal();
+          this.modalPhasesService.openVotingResultsModal();
+          break
+
+        case GameStatus.End:
+          this.modalPhasesService.closeVotingResultsModal();
+          console.log('The End D:');
+          console.log(data);
+          break;
+      }
     });
+
+    this.gameService.errorSocketEvent().subscribe((data) => {
+      console.log(data);
+    });
+
+    // Move to preload screen with "READY" button later
+    setTimeout(() => {
+      this.gameService.startGameRequest(this.gameId);
+    }, 10000);
   }
 }

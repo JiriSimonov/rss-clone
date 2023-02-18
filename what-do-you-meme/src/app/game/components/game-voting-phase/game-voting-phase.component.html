@@ -1,1 +1,10 @@
-<p>game-voting-phase works!</p>
+<div class="modal vote-modal">
+  <div class="modal__overlay vote-modal__overlay">
+    <div class="vote-modal__container">
+      <div class="vote-modal__meme" *ngFor="let meme of gameService.gameData?.memes | keyvalue">
+        <app-meme-card [memeImage]="meme.key" />
+        <div class="vote-modal__button form__btn" (click)="gameService.getVote(gameId, meme.key)">Голосовать</div>
+      </div>
+    </div>
+  </div>
+</div>

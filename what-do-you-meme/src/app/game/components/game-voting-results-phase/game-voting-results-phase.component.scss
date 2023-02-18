@@ -1,4 +1,4 @@
-.vote-modal {
+.vote-results-modal {
   &__container {
     display: flex;
     flex-wrap: wrap;
@@ -8,6 +8,12 @@
   &__meme {
     display: flex;
     flex-direction: column;
-    gap: 10px;
+    align-items: center;
+    gap: 15px;
+  }
+
+  &__results {
+    color: #fff;
+    font-size: 32px;
   }
 }

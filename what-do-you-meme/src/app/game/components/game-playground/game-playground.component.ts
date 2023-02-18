@@ -8,17 +8,12 @@ import { GameService } from '../../services/game.service';
   templateUrl: './game-playground.component.html',
   styleUrls: ['./game-playground.component.scss']
 })
-export class GamePlaygroundComponent implements OnInit {
-  currentRound: number = 1;
+export class GamePlaygroundComponent {
   isReady: boolean = false;
   gameId: string;
 
   constructor(public gameService: GameService, activatedRoute: ActivatedRoute) {
     this.gameId = activatedRoute.snapshot.params['id'];
-  }
-
-  ngOnInit(): void {
-    this.gameService.getMemes();
   }
 
   rotateMemeCard(index: number, arr: string[] = this.gameService.memes) {

@@ -3,7 +3,7 @@
     <div class="playground__top">
       <div class="playground__info">
 
-      <div class="playground__info-rounds">Pаунд {{currentRound}}</div>
+      <div class="playground__info-rounds">Pаунд {{gameService.gameData?.currentRound}}</div>
         <button class="form__btn playground__info-btn"
           (click)="ready()"
           [disabled]="isReady"
@@ -12,10 +12,7 @@
 
       <div class="playground__card">
         <div class="playground__card-inner">
-          <p class="playground__card-text">Lorem, ipsum dolor sit amet consectetur adipisicing elit. Iure libero id
-            impedit vero ducimus debitis ab fugiat! Reiciendis sint, repellendus eligendi aperiam alias repudiandae
-            unde!
-          </p>
+          <p class="playground__card-text">{{gameService.gameData?.rounds?.slice(-1)}}</p>
         </div>
       </div>
     </div>
