@@ -64,7 +64,11 @@ export class AuthService {
   }
 
   isUniqueUsername(username: string) {
-    return this.httpClient.get(`${this.URL}/users/has?username=${username}`);
+    return this.httpClient.get(`${this.URL}/users/has`, {
+      params: {
+        username
+      }
+    });
   }
 
   isValidPassword(password: string) {

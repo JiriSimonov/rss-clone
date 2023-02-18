@@ -2,7 +2,7 @@ import { Component, OnInit } from '@angular/core';
 import { FormControl, FormGroup, Validators } from '@angular/forms';
 import { ActivatedRoute } from '@angular/router';
 import { AuthService } from 'src/app/auth/services/auth.service';
-import { MessageData } from 'src/app/global-chat/models/messageData';
+import { MessageData } from 'src/app/shared/model/messageData';
 import { GlobalChatService } from 'src/app/global-chat/services/global-chat/global-chat.service';
 
 @Component({
@@ -44,12 +44,9 @@ export class GameChatComponent implements OnInit {
   }
 
   onSubmit() {
-    this.authService.username$.subscribe((username) => {
-      this.chatService.sendMessage({
-        username: username,
-        message: this.chatControl?.value,
-        roomname: this.gameId,
-      });
+    this.chatService.sendMessage({
+      message: this.chatControl?.value,
+      roomName: this.gameId,
     });
   }
 

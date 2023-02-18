@@ -1,8 +1,9 @@
 import { Component, HostListener, OnInit } from '@angular/core';
-import { ActivatedRoute, Router } from '@angular/router';
+import { ActivatedRoute, Router, UrlSegment } from '@angular/router';
 import { GameCurrentData, GameStatus } from '../../models/game.model';
 import { GameService } from '../../services/game.service';
 import { ModalPhasesService } from '../../services/modal-phases.service';
+import {SessionStorageService} from "../../../shared/storage/services/session-storage.service";
 
 @Component({
   selector: 'app-game-page',
@@ -17,12 +18,14 @@ export class GamePageComponent implements OnInit {
     public modalPhasesService: ModalPhasesService,
     private activateRoute: ActivatedRoute,
     private router: Router,
+    private sessionStorage: SessionStorageService,
   ) {
     this.gameId = this.activateRoute.snapshot.params['id'];
   }
 
   ngOnInit() {
-    sessionStorage.setItem('url', this.router.url);
+    this.sessionStorage.setItem('url', this.router.url.replace('/game/', ''));
+
     this.gameService.joinLobbyRequest(this.gameId);
 
     this.gameService.changePhaseEvent().subscribe((data: GameCurrentData) => {
