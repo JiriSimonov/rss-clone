@@ -15,12 +15,12 @@ export class GameJoinedUsersComponent implements OnInit {
   ngOnInit() {
     this.gameService.joinLobbyEvent().subscribe((gameData: GameCurrentData) => {
       console.log('joined');
-      this.gameService.playersList = gameData.players;
+      this.gameService.gameData = gameData;
     });
 
     this.gameService.leaveLobbyEvent().subscribe((gameData: GameCurrentData) => {
       console.log('left');
-      this.gameService.playersList = gameData.players;
+      this.gameService.gameData = gameData;
     });
   }
 

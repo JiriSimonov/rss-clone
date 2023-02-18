@@ -23,6 +23,7 @@ export class GamePageComponent implements OnInit {
 
   ngOnInit() {
     sessionStorage.setItem('url', this.router.url);
+    this.gameService.joinLobbyRequest(this.gameId);
 
     this.gameService.changePhaseEvent().subscribe((data: GameCurrentData) => {
       switch (data.status) {

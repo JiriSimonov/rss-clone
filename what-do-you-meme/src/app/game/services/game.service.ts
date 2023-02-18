@@ -10,7 +10,6 @@ import { GameCurrentData, GameLobbyData, GamePlayer } from '../models/game.model
 export class GameService {
   memes: string[] = [];
   usedMeme: string[] = [];
-  players: GamePlayer[] = [];
   gameData?: GameCurrentData;
 
   constructor(private socket: Socket) { }
@@ -23,25 +22,18 @@ export class GameService {
     });
   }
 
-  // Обсудить
-
-  // getLobby(uuid: string): Promise<GameLobbyData> {
-  //   return new Promise((resolve) => {
-  //     this.socket.emit(IoInput.lobbyDataRequest, { uuid }, (data: GameLobbyData) => {
-  //       console.log(data)
-  //     });
-  //   });
+  // set playersList(players: GameLobbyData['players']) {
+  //   this.players = Object.values(players);
   // }
 
-  // async joinLobbyRequest(uuid: string) {
-  //   this.socket.emit(IoInput.joinLobbyRequest, {
-  //     uuid,
-  //     password: (await this.getLobby(uuid)).password,
-  //   }, (data: any) => console.log(data));
-  // }
-
-  set playersList(players: GameLobbyData['players']) {
-    this.players = Object.values(players);
+  joinLobbyRequest(uuid: string) {
+    this.socket.emit(IoInput.joinLobbyRequest, {
+      uuid,
+      password: '',
+    }, (gameData: GameCurrentData) => {
+      console.log(gameData);
+      this.gameData = gameData;
+    });
   }
 
   leaveLobbyRequest(uuid: string) {

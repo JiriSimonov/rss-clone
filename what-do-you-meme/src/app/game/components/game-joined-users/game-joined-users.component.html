@@ -5,11 +5,11 @@
       <h2 class="game-aside__title players__title">Score?</h2>
     </div>
     <ul class="players__list">
-      <li class="players__list-item" *ngFor="let player of gameService.players">
+      <li class="players__list-item" *ngFor="let player of gameService.gameData?.players | keyvalue">
         <div alt="avatar" class="user__avatar players__list-item-avatar"
-          style="background-image: url({{player.image}});"></div>
-        <p class="players__list-item-name">{{ player.username }}</p>
-        <span class="players__list-item-score">{{ player.score }}</span>
+          style="background-image: url({{player.value.image}});"></div>
+        <p class="players__list-item-name">{{ player.value.username }}</p>
+        <span class="players__list-item-score">{{ player.value.score }}</span>
       </li>
     </ul>
     <button class="form__btn players__btn">Покинуть</button>
