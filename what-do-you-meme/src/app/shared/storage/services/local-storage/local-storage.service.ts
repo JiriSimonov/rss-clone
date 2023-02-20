@@ -1,5 +1,5 @@
 import { Inject, Injectable } from '@angular/core';
-import { StoragePrefix } from '../../../../app.module';
+import { STORAGE_PREFIX } from '../../../../app.module';
 import { STORAGE_KEY_PREFIX } from '../../tokens/storage-key.token';
 import { WINDOW } from '../../tokens/window.token';
 import { StorageService } from '../storage/storage.service';
@@ -16,12 +16,12 @@ export class LocalStorageService extends StorageService {
   }
 
   static get username() {
-    const data = window.localStorage.getItem(`[${StoragePrefix}]authData`);
+    const data = window.localStorage.getItem(`[${STORAGE_PREFIX}]authData`);
     return data ? JSON.parse(data).value.username : null;
   }
 
   static get userAvatar() {
-    const data = window.localStorage.getItem(`[${StoragePrefix}]authData`);
+    const data = window.localStorage.getItem(`[${STORAGE_PREFIX}]authData`);
     return data ? JSON.parse(data).value.image : null;
   }
 }

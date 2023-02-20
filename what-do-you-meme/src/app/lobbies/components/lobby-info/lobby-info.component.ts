@@ -1,5 +1,5 @@
 import {LobbyModalService} from '../../services/lobby-modal/lobby-modal.service';
-import {Component, Input, OnInit} from '@angular/core';
+import {Component, Input} from '@angular/core';
 import {Router} from '@angular/router';
 import {LobbyService} from '../../services/lobby/lobby.service';
 import {LobbiesPrivate, LobbyData} from 'src/app/lobbies/model/lobby-data';
@@ -9,7 +9,7 @@ import {LobbiesPrivate, LobbyData} from 'src/app/lobbies/model/lobby-data';
   templateUrl: './lobby-info.component.html',
   styleUrls: ['./lobby-info.component.scss'],
 })
-export class LobbyInfoComponent implements OnInit {
+export class LobbyInfoComponent {
   @Input() lobby!: LobbyData;
 
   constructor(
@@ -17,9 +17,6 @@ export class LobbyInfoComponent implements OnInit {
     private lobbyModal: LobbyModalService,
     private lobbyService: LobbyService
   ) {
-  }
-
-  ngOnInit() {
   }
 
   get isPrivate() {
@@ -35,7 +32,7 @@ export class LobbyInfoComponent implements OnInit {
         this.lobbyService.joinLobby(this.lobby);
         this.router.navigate([`/game/${this.lobby.uuid}`], {
           replaceUrl: true,
-        });
+        }).catch();
       }
     }
   }

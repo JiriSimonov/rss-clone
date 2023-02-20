@@ -1,6 +1,6 @@
-import { loginFailed } from './../store/auth.actions';
+import { loginFailed } from '../store/auth.actions';
 import { catchError, mergeMap } from 'rxjs/operators';
-import { getAccessToken } from './../store/auth.selectors';
+import { getAccessToken } from '../store/auth.selectors';
 import { select } from '@ngrx/store';
 import { Store } from '@ngrx/store';
 import { Injectable } from '@angular/core';

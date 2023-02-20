@@ -81,7 +81,7 @@ export class LobbyService {
       {lobby: options},
       (data: LobbyData) => {
         this.joinLobby(data);
-        this.router.navigate([`/game/${data.uuid}`], {replaceUrl: true});
+        this.router.navigate([`/game/${data.uuid}`], {replaceUrl: true}).catch();
       }
     );
   }

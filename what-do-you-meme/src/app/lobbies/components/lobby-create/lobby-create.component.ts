@@ -1,5 +1,5 @@
 import { LocalStorageService } from 'src/app/shared/storage/services/local-storage/local-storage.service';
-import { LobbyModalService } from './../../services/lobby-modal/lobby-modal.service';
+import { LobbyModalService } from '../../services/lobby-modal/lobby-modal.service';
 import {
   Component,
   ElementRef,

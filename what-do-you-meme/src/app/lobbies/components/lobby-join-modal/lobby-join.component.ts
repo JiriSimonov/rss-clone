@@ -57,7 +57,7 @@ export class LobbyJoinComponent implements OnInit {
     this.changeJoinModalState();
     this.router.navigate([`/game/${this.currentId}`], {
       replaceUrl: true,
-    });
+    }).catch();
   }
 
   get passwordControl() {

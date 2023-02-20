@@ -1,6 +1,6 @@
-import { LobbyValidatorsService } from './../../services/lobby-validators/lobby-validators.service';
+import { LobbyValidatorsService } from '../../services/lobby-validators/lobby-validators.service';
 import { LobbyService } from 'src/app/lobbies/services/lobby/lobby.service';
-import { LocalStorageService } from './../../../shared/storage/services/local-storage/local-storage.service';
+import { LocalStorageService } from '../../../shared/storage/services/local-storage/local-storage.service';
 import { Component, OnInit } from '@angular/core';
 import { LobbyModalService } from '../../services/lobby-modal/lobby-modal.service';
 
@@ -47,10 +47,6 @@ export class LobbiesPageComponent implements OnInit {
   }
 
   changeCreateModalState() {
-    this.lobbyModal.toggleCreateModal();
-  }
-
-  createLobby() {
     this.lobbyModal.toggleCreateModal();
   }
 
