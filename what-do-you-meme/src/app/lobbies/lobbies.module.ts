@@ -10,6 +10,7 @@ import { LobbyJoinComponent } from './components/lobby-join-modal/lobby-join.com
 import { MaterialModule } from '../shared/material/material.module';
 import {MatCheckboxModule} from '@angular/material/checkbox';
 import { InfiniteScrollModule } from 'ngx-infinite-scroll';
+import {SharedModule} from "../shared/shared.module";
 
 @NgModule({
   declarations: [
@@ -19,14 +20,15 @@ import { InfiniteScrollModule } from 'ngx-infinite-scroll';
     LobbySearchComponent,
     LobbyJoinComponent
   ],
-  imports: [
-    CommonModule,
-    LobbiesRoutingModule,
-    FormsModule,
-    ReactiveFormsModule,
-    MaterialModule,
-    MatCheckboxModule,
-    InfiniteScrollModule,
-  ]
+    imports: [
+        CommonModule,
+        LobbiesRoutingModule,
+        FormsModule,
+        ReactiveFormsModule,
+        MaterialModule,
+        MatCheckboxModule,
+        InfiniteScrollModule,
+        SharedModule,
+    ]
 })
 export class LobbiesModule { }

@@ -55,7 +55,7 @@ export class LobbyJoinComponent implements OnInit {
     });
     this.joinForm.valueChanges.pipe(
       debounceTime(800),
-      filter((value: {passsword: string}) => value.passsword.length > 3)
+      filter((value: {password: string}) => value.password.length > 3)
     ).subscribe();
   }
 
