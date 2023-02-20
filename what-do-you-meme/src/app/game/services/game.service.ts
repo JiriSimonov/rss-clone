@@ -1,3 +1,4 @@
+import { HttpClient } from '@angular/common/http';
 import { Injectable } from '@angular/core';
 import { Socket } from 'ngx-socket-io';
 import { Observable } from 'rxjs';
@@ -8,11 +9,16 @@ import { GameCurrentData, GameLobbyData, GamePlayer } from '../models/game.model
   providedIn: 'root',
 })
 export class GameService {
+  private readonly URL = 'https://wdym-js-er-sd.onrender.com';
   memes: string[] = [];
   usedMeme: string[] = [];
   gameData?: GameCurrentData;
 
-  constructor(private socket: Socket) { }
+  constructor(private http: HttpClient, private socket: Socket) { }
+
+  isLobbyOwner(username: string, uuid: string) {
+    return this.http.get<boolean>(`${this.URL}/lobbies/is-lobby-owner?username=${username}&uuid=${uuid}`);
+  }
 
   getMemes() {
     this.socket.emit(IoInput.randomMemesRequest, { quantity: 5 }, (data: string[]) => {
@@ -21,10 +27,6 @@ export class GameService {
       });
     });
   }
-
-  // set playersList(players: GameLobbyData['players']) {
-  //   this.players = Object.values(players);
-  // }
 
   joinLobbyRequest(uuid: string) {
     this.socket.emit(IoInput.joinLobbyRequest, {
@@ -56,6 +58,10 @@ export class GameService {
 
   startGameRequest(uuid: string) {
     this.socket.emit(IoInput.startGame, uuid);
+  }
+
+  forceChangeRequest(uuid: string) {
+    this.socket.emit(IoInput.forcedChangePhase, uuid);
   }
 
   joinLobbyEvent(): Observable<GameCurrentData> {
