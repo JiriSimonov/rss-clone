@@ -2,7 +2,7 @@ import { Injectable } from '@angular/core';
 import { Socket } from 'ngx-socket-io';
 import { Observable } from 'rxjs';
 import { IoInput, IoOutput } from 'src/app/shared/model/sockets-events';
-import { GameCurrentData, GameLobbyData, GamePlayer } from '../models/game.model';
+import { GameCurrentData } from '../models/game.model';
 
 @Injectable({
   providedIn: 'root',

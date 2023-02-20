@@ -11,10 +11,10 @@ import {FormControl, FormGroup, Validators} from '@angular/forms';
 
 @Component({
   selector: 'app-auth-form',
-  templateUrl: './auth-form.component.html',
-  styleUrls: ['./auth-form.component.scss'],
+  templateUrl: './sign-in-form.component.html',
+  styleUrls: ['./sign-in-form.component.scss'],
 })
-export class AuthFormComponent implements OnInit {
+export class SignInFormComponent implements OnInit {
   authForm!: FormGroup;
   loading$: Observable<boolean> = this.store$.pipe(select(getLoading));
   loaded$: Observable<boolean> = this.store$.pipe(select(getLoaded));

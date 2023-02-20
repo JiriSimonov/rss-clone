@@ -6,7 +6,7 @@ export abstract class StorageService implements Storage {
     return this.api.length;
   }
 
-  public constructor(
+  protected constructor(
     protected readonly api: Storage,
     protected readonly prefix: string
   ) {}

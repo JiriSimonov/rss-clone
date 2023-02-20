@@ -1,5 +1,5 @@
-import { CdkDragDrop, transferArrayItem } from '@angular/cdk/drag-drop';
-import { Component, OnInit } from '@angular/core';
+import { transferArrayItem } from '@angular/cdk/drag-drop';
+import { Component } from '@angular/core';
 import { ActivatedRoute } from '@angular/router';
 import { GameService } from '../../services/game.service';
 
