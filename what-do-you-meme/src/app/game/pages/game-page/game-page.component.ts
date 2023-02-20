@@ -1,5 +1,6 @@
 import { Component, OnInit } from '@angular/core';
 import { ActivatedRoute, Router } from '@angular/router';
+import { AuthService } from 'src/app/auth/services/auth.service';
 import { GameCurrentData, GameStatus } from '../../models/game.model';
 import { GameService } from '../../services/game.service';
 import { ModalPhasesService } from '../../services/modal-phases.service';
@@ -18,6 +19,7 @@ export class GamePageComponent implements OnInit {
     public modalPhasesService: ModalPhasesService,
     private activateRoute: ActivatedRoute,
     private router: Router,
+    private authService: AuthService,
     private sessionStorage: SessionStorageService,
   ) {
     this.gameId = this.activateRoute.snapshot.params['id'];
@@ -65,8 +67,13 @@ export class GamePageComponent implements OnInit {
     });
 
     // Move to preload screen with "READY" button later
-    setTimeout(() => {
-      this.gameService.startGameRequest(this.gameId);
-    }, 10000);
+    this.authService.username$.subscribe((username) => {
+      if (username && this.gameService.isLobbyOwner(username, this.gameId)) {
+        console.log('owner');
+        setTimeout(() => {
+          this.gameService.startGameRequest(this.gameId);
+        }, 10000);
+      }
+    });
   }
 }
