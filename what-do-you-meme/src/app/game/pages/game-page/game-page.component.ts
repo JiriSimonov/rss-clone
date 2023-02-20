@@ -1,5 +1,5 @@
-import { Component, HostListener, OnInit } from '@angular/core';
-import { ActivatedRoute, Router, UrlSegment } from '@angular/router';
+import { Component, OnInit } from '@angular/core';
+import { ActivatedRoute, Router } from '@angular/router';
 import { GameCurrentData, GameStatus } from '../../models/game.model';
 import { GameService } from '../../services/game.service';
 import { ModalPhasesService } from '../../services/modal-phases.service';

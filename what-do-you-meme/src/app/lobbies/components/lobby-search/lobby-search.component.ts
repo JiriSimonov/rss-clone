@@ -1,6 +1,8 @@
 import { Component, OnInit } from '@angular/core';
 import { FormGroup, FormControl, Validators } from '@angular/forms';
 import { LobbyService } from '../../services/lobby/lobby.service';
+import {debounceTime} from "rxjs";
+import {filter} from "rxjs/operators";
 
 @Component({
   selector: 'app-lobby-search',
@@ -17,6 +19,10 @@ export class LobbySearchComponent implements OnInit {
       search: new FormControl('', [Validators.minLength(3)], []),
       private: new FormControl(),
     });
+    this.searchForm.valueChanges.pipe(
+      debounceTime(800),
+      filter((value: { search: string, private: string }) => value.search.length > 2),
+    ).subscribe()
   }
 
   get searchFieldValue() {

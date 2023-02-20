@@ -20,7 +20,7 @@ export interface GamePlayer extends Player {
 
 type playerObject = Record<GamePlayer['username'], GamePlayer>
 
-export interface GameLobbyData extends LobbyData {
+export interface GameLobbyData {
 
   title: string;
   password: string;

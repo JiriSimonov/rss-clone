@@ -22,7 +22,7 @@ export class SignUpFormComponent implements OnInit {
   currentAvatart = this.avatarService.avatar$.subscribe((avatar) => {
     this.avatar = avatar;
     this.cdr.markForCheck();
-  });
+  }); //TODO FIX
   constructor(
     private authService: AuthService,
     private router: Router,
@@ -64,7 +64,7 @@ export class SignUpFormComponent implements OnInit {
 
   onSubmit() {
     this.authService.signUp(this.userData).subscribe(() => {
-      this.router.navigate(['lobbies'], { replaceUrl: true });
+      this.router.navigate(['lobbies'], { replaceUrl: true }).catch();
     });
   }
 

@@ -1,5 +1,5 @@
 import { initAuth } from './auth.actions';
-import { AuthInterceptor } from './../interceptors/auth.interceptor';
+import { AuthInterceptor } from '../interceptors/auth.interceptor';
 import { NgModule } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { Store, StoreModule } from '@ngrx/store';
@@ -10,7 +10,6 @@ import { AuthEffects } from './auth.effects';
 import { JwtModule } from '@auth0/angular-jwt';
 
 @NgModule({
-  declarations: [],
   imports: [
     CommonModule,
     HttpClientModule,
