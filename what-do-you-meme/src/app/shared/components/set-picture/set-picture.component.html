@@ -1,4 +1,4 @@
 <div class="user">
-  <div class="user__avatar" style="background-image: url({{avatar}})"></div>
+  <div class="user__avatar" [appAvatar]="avatar$ | async"></div>
   <button class="btn user-btn" type="button" (click)="changeAvatar()">pepe</button>
 </div>

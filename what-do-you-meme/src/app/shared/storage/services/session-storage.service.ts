@@ -2,7 +2,7 @@ import {Inject, Injectable} from '@angular/core';
 import {WINDOW} from "../tokens/window.token";
 import {STORAGE_KEY_PREFIX} from "../tokens/storage-key.token";
 import {StorageService} from "./storage/storage.service";
-import {StoragePrefix} from "../../../app.module";
+import {STORAGE_PREFIX} from "../../../app.module";
 
 @Injectable({
   providedIn: 'root'
@@ -16,7 +16,7 @@ export class SessionStorageService extends StorageService {
   }
 
   static get previousGameUrl() {
-    const data = window.sessionStorage.getItem(`[${StoragePrefix}]url`);
+    const data = window.sessionStorage.getItem(`[${STORAGE_PREFIX}]url`);
     return data ? JSON.parse(data).value : null;
   }
 }

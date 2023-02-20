@@ -1,4 +1,4 @@
-import { LocalStorageService } from './../../shared/storage/services/local-storage/local-storage.service';
+import { LocalStorageService } from '../../shared/storage/services/local-storage/local-storage.service';
 import { select } from '@ngrx/store';
 import { isAuth } from './auth.selectors';
 import { Store } from '@ngrx/store';
@@ -13,7 +13,7 @@ import {
   initAuth,
   logoutSuccess,
   extractLoginData,
-  logout,
+
 } from './auth.actions';
 import { catchError, filter, map, switchMap, tap } from 'rxjs/operators';
 import { of, timer, first, fromEvent } from 'rxjs';

@@ -1,7 +1,7 @@
 <div class="chat">
   <div class="chat__window">
     <div class="chat__field" *ngFor="let message of messageList">
-      <div class="user__avatar" style="background-image: url({{message.image}})"></div>
+      <div class="user__avatar" appAvatar="{{message.image}}"></div>
       <div class="chat__message">
         <span class="span">{{message.username}}</span>
         <span class="span chat__text">{{message.message}}</span>

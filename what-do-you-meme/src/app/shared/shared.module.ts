@@ -7,6 +7,7 @@ import { UserProfileComponent } from './layout/header/components/user-profile/us
 import { NavigationComponent } from './layout/header/components/navigation/navigation.component';
 import { SetPictureComponent } from './components/set-picture/set-picture.component';
 import { NotFoundComponent } from './components/not-found/not-found.component';
+import {AvatarDirective} from "./directives/avatar.directive";
 
 @NgModule({
   declarations: [
@@ -16,8 +17,9 @@ import { NotFoundComponent } from './components/not-found/not-found.component';
     NavigationComponent,
     SetPictureComponent,
     NotFoundComponent,
+    AvatarDirective
   ],
   imports: [CommonModule, RouterLink],
-  exports: [HeaderComponent, FooterComponent, SetPictureComponent, NotFoundComponent],
+  exports: [HeaderComponent, FooterComponent, SetPictureComponent, NotFoundComponent, AvatarDirective],
 })
 export class SharedModule {}

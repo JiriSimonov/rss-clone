@@ -6,31 +6,32 @@ import { isGameRouteGuard } from './guards/guards';
 import {NotFoundComponent} from "./shared/components/not-found/not-found.component";
 import {IsUserGuard} from "./guards/is-user.guard";
 import {IsGuestGuard} from "./guards/is-guest.guard";
+import {RouterRoutes} from "./shared/model/router.routes";
 
 const routes: Routes = [
   { path: '', pathMatch: 'full', redirectTo: 'lobbies' },
   {
-    path: 'auth',
+    path: RouterRoutes.auth,
     loadChildren: () =>
       import('./auth/auth.module').then((module) => module.AuthModule),
     canMatch: [IsGuestGuard],
   },
   {
-    path: 'user',
+    path: RouterRoutes.user,
     loadChildren: () =>
       import('./user/user.module').then((module) => module.UserModule),
     canMatch: [IsUserGuard],
     canActivate: isGameRouteGuard,
   },
   {
-    path: 'game',
+    path: RouterRoutes.game,
     loadChildren: () =>
       import('./game/game.module').then((module) => module.GameModule),
     canMatch: [IsUserGuard],
     canActivate: isGameRouteGuard,
   },
   {
-    path: 'chat',
+    path: RouterRoutes.chat,
     loadChildren: () =>
       import('./global-chat/global-chat.module').then(
         (module) => module.GlobalChatModule
@@ -39,13 +40,13 @@ const routes: Routes = [
     canActivate: isGameRouteGuard,
   },
   {
-    path: 'lobbies',
+    path: RouterRoutes.lobbies,
     loadChildren: () =>
       import('./lobbies/lobbies.module').then((module) => module.LobbiesModule),
     canMatch: [IsUserGuard],
     canActivate: isGameRouteGuard,
   },
-  { path: '**',
+  { path: RouterRoutes.wildcard,
     component: NotFoundComponent,
   },
 ];

@@ -5,8 +5,6 @@ export enum IoInput {
   destroyLobbyRequest = 'destroy-lobby-request',
   lobbyDataRequest = 'lobby-data-request',
   lobbyListRequest = 'lobby-list-request',
-  isPasswordCorrectRequest = 'is-password-correct-request',
-  isLobbyTitleUniqueRequest = 'is-lobby-name-unique-request',
   leaveLobbyRequest = 'leave-lobby-request',
   randomMemesRequest = 'random-memes-request',
   startGame = 'start-game-request',
