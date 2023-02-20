@@ -4,7 +4,7 @@ import {LocalStorageService} from '../../../shared/storage/services/local-storag
 import {Injectable} from '@angular/core';
 import {BehaviorSubject} from 'rxjs';
 import {Socket} from 'ngx-socket-io';
-import {LobbiesPrivate, LobbyData} from 'src/app/shared/model/lobby-data';
+import {LobbiesPrivate, LobbyData} from 'src/app/lobbies/model/lobby-data';
 import {createLobby} from '../../model/create-lobby';
 
 @Injectable({

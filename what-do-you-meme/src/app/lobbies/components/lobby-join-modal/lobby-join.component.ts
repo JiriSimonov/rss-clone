@@ -3,7 +3,7 @@ import { LobbyModalService } from '../../services/lobby-modal/lobby-modal.servic
 import { Component, ElementRef, Input, OnInit } from '@angular/core';
 import { FormControl, FormGroup, Validators } from '@angular/forms';
 import { LobbyPasswordValidator } from '../../validators/lobby-password-validator';
-import { LobbyData } from 'src/app/shared/model/lobby-data';
+import { LobbyData } from 'src/app/lobbies/model/lobby-data';
 import { Router } from '@angular/router';
 
 @Component({

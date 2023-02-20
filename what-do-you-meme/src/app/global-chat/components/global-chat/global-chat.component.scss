@@ -18,7 +18,15 @@
     border-top: 1px solid #fff;
   }
 
+  &__window {
+    max-height: 500px;
+    overflow: auto;
+  }
+
   &__field {
+    display: flex;
+    gap: 10px;
+    align-items: flex-start;
     padding-bottom: 20px;
   }
 
@@ -43,7 +51,7 @@
   &__message {
     display: flex;
     flex-direction: column;
-    gap: 5px;
+    gap: 10px;
     font-size: 20px;
     color: #fff;
   }
@@ -63,6 +71,7 @@
 
   &__text {
     padding: 5px;
+    border-radius: 5px;
     background-color: #382756;
   }
 }

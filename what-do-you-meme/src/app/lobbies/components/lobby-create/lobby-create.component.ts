@@ -10,7 +10,7 @@ import {
 import { FormGroup, FormControl, Validators } from '@angular/forms';
 import { AuthService } from 'src/app/auth/services/auth.service';
 import { LobbyService } from '../../services/lobby/lobby.service';
-import { LobbyData } from 'src/app/shared/model/lobby-data';
+import { LobbyData } from 'src/app/lobbies/model/lobby-data';
 import { createLobby } from '../../model/create-lobby';
 import { LobbyPasswordValidator } from '../../validators/lobby-name-validator';
 import { LobbyValidatorsService } from '../../services/lobby-validators/lobby-validators.service';
