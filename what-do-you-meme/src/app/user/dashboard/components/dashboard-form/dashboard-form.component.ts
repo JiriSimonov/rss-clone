@@ -9,6 +9,8 @@ import { UserData } from 'src/app/auth/models/user-data.model';
 import { PasswordValidator } from 'src/app/shared/validators/password.validator';
 import { AvatarService } from 'src/app/shared/services/avatar/avatar.service';
 import { LocalStorageService } from 'src/app/shared/storage/services/local-storage/local-storage.service';
+import {debounceTime} from "rxjs";
+import {filter} from "rxjs/operators";
 
 @Component({
   selector: 'app-dashboard-form',
@@ -51,6 +53,10 @@ export class DashboardFormComponent implements OnInit {
         Validators.maxLength(20),
       ]),
     });
+    this.changeUserDataForm.valueChanges.pipe(
+      debounceTime(800),
+      filter((value: {password: string, login: string}) => value.login.length > 4 && value.password.length > 8)
+    ).subscribe();
   }
 
   isFormValid() {
@@ -100,7 +106,7 @@ export class DashboardFormComponent implements OnInit {
     this.authService.changeUserData(userData).subscribe(() => {
       this.store$.dispatch(logoutSuccess());
       this.localStorage.clear();
-      this.router.navigate(['auth'], { replaceUrl: true });
+      this.router.navigate(['auth'], { replaceUrl: true }).catch();
     });
   }
 }

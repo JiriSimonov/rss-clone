@@ -1,5 +1,5 @@
 <div class="user">
-  <div class="user__avatar" [style.background]="avatar$ | async"></div>
+  <div class="user__avatar" [style.background-image]="avatar$ | async"></div>
   <span>{{avatar$ | async}}</span>
   <button class="btn user-btn" type="button" (click)="changeAvatar()">pepe</button>
 </div>

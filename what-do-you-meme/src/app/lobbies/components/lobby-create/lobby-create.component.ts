@@ -1,19 +1,16 @@
-import { LocalStorageService } from 'src/app/shared/storage/services/local-storage/local-storage.service';
-import { LobbyModalService } from '../../services/lobby-modal/lobby-modal.service';
-import {
-  Component,
-  ElementRef,
-  EventEmitter,
-  OnInit,
-  Output,
-} from '@angular/core';
-import { FormGroup, FormControl, Validators } from '@angular/forms';
-import { AuthService } from 'src/app/auth/services/auth.service';
-import { LobbyService } from '../../services/lobby/lobby.service';
-import { LobbyData } from 'src/app/lobbies/model/lobby-data';
-import { createLobby } from '../../model/create-lobby';
-import { LobbyPasswordValidator } from '../../validators/lobby-name-validator';
-import { LobbyValidatorsService } from '../../services/lobby-validators/lobby-validators.service';
+import {LocalStorageService} from 'src/app/shared/storage/services/local-storage/local-storage.service';
+import {LobbyModalService} from '../../services/lobby-modal/lobby-modal.service';
+import {Component, ElementRef, EventEmitter, OnInit, Output,} from '@angular/core';
+import {FormControl, FormGroup, Validators} from '@angular/forms';
+import {AuthService} from 'src/app/auth/services/auth.service';
+import {LobbyService} from '../../services/lobby/lobby.service';
+import {LobbyData} from 'src/app/lobbies/model/lobby-data';
+import {createLobby} from '../../model/create-lobby';
+import {LobbyPasswordValidator} from '../../validators/lobby-name-validator';
+import {LobbyValidatorsService} from '../../services/lobby-validators/lobby-validators.service';
+import {filter} from "rxjs/operators";
+import {debounceTime} from "rxjs";
+import {LobbyMode} from "../../../shared/model/lobbyMode";
 
 @Component({
   selector: 'app-lobby-modal',
@@ -66,7 +63,12 @@ export class LobbyCreateComponent implements OnInit {
         Validators.minLength(4),
         Validators.maxLength(10),
       ]),
+      mode: new FormControl('', [])
     });
+    this.modalForm.valueChanges.pipe(
+      debounceTime(800),
+      filter((value: {title: string}) => value.title.length > 3)
+    ).subscribe();
   }
 
   get maxRoundsControl() {
@@ -89,6 +91,15 @@ export class LobbyCreateComponent implements OnInit {
     return this.modalForm.get('private');
   }
 
+  formatToEnumValues(value: string) {
+    if (value === '') return LobbyMode.default;
+    return value === 'true' ? LobbyMode.giphy : LobbyMode.tv;
+  }
+
+  get lobbyMode() {
+    return this.modalForm.get('mode')?.value;
+  }
+
   get LobbyOption() {
     return {
       maxPlayers: this.maxPlayersControl?.value,
@@ -96,6 +107,7 @@ export class LobbyCreateComponent implements OnInit {
       title: this.titleControl?.value,
       owner: '',
       image: '',
+      mode: this.formatToEnumValues(this.lobbyMode),
       password: this.passwordControl?.value,
     };
   }

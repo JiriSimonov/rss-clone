@@ -5,6 +5,8 @@ import { FormControl, FormGroup, Validators } from '@angular/forms';
 import { LobbyPasswordValidator } from '../../validators/lobby-password-validator';
 import { LobbyData } from 'src/app/lobbies/model/lobby-data';
 import { Router } from '@angular/router';
+import {filter} from "rxjs/operators";
+import {debounceTime} from "rxjs";
 
 @Component({
   selector: 'app-lobby-join-modal',
@@ -51,6 +53,10 @@ export class LobbyJoinComponent implements OnInit {
         ]
       ),
     });
+    this.joinForm.valueChanges.pipe(
+      debounceTime(800),
+      filter((value: {passsword: string}) => value.passsword.length > 3)
+    ).subscribe();
   }
 
   onSubmit() {

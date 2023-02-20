@@ -4,5 +4,6 @@ export interface createLobby {
   title: string;
   owner: string;
   image: string;
+  mode: string;
   password: string;
 }
