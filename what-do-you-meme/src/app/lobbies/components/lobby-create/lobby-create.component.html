@@ -19,9 +19,9 @@
           <span class="form__errror" *ngIf="titleControl?.errors?.['isLobbyNameUnique']">Такое лобби уже существует</span>
         </mat-form-field>
         <mat-radio-group formControlName="mode">
-          <mat-radio-button value="">Обычный</mat-radio-button>
-          <mat-radio-button value="true">Gihpy</mat-radio-button>
-          <mat-radio-button value="false">TV-mode</mat-radio-button>
+          <mat-radio-button value="default">Обычный</mat-radio-button>
+          <mat-radio-button value="giphy">Gihpy</mat-radio-button>
+          <mat-radio-button value="tv">TV-mode</mat-radio-button>
         </mat-radio-group>
         <mat-form-field appearance="fill" *ngIf="privateControl?.value">
           <mat-label>Введите пароль:</mat-label>

@@ -10,7 +10,6 @@ import {LobbyPasswordValidator} from '../../validators/lobby-name-validator';
 import {LobbyValidatorsService} from '../../services/lobby-validators/lobby-validators.service';
 import {filter} from "rxjs/operators";
 import {debounceTime} from "rxjs";
-import {LobbyMode} from "../../../shared/model/lobbyMode";
 
 @Component({
   selector: 'app-lobby-modal',
@@ -91,12 +90,7 @@ export class LobbyCreateComponent implements OnInit {
     return this.modalForm.get('private');
   }
 
-  formatToEnumValues(value: string) {
-    if (value === '') return LobbyMode.default;
-    return value === 'true' ? LobbyMode.giphy : LobbyMode.tv;
-  }
-
-  get lobbyMode() {
+  get modeControlValue() {
     return this.modalForm.get('mode')?.value;
   }
 
@@ -107,7 +101,7 @@ export class LobbyCreateComponent implements OnInit {
       title: this.titleControl?.value,
       owner: '',
       image: '',
-      mode: this.formatToEnumValues(this.lobbyMode),
+      mode: this.modeControlValue,
       password: this.passwordControl?.value,
     };
   }

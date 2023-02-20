@@ -1,6 +1,6 @@
 <li class="lobby">
   <div class="lobby__owner">
-    <div class="lobby__avatar" appAvatar="{{lobby.image}}"></div>
+    <div class="lobby__avatar" appImage="{{lobby.image}}"></div>
     <span>{{lobby.owner}}</span>
     <div class="lobby__avatar" *ngIf="isPrivate">Приватное лобби</div>
   </div>
@@ -13,7 +13,7 @@
   </div>
   <div class="lobby__players">
     <div class="lobby__player" *ngFor="let player of lobby.players">
-      <div class="lobby__avatar" appAvatar="{{player.image}}" title="{{player.username}}"></div>
+      <div class="lobby__avatar" appImage="{{player.image}}" title="{{player.username}}"></div>
     </div>
   </div>
   <button class="btn lobby__btn" (click)="checkPrivate()" [disabled]="lobby.isFull">Присоединиться</button>
