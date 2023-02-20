@@ -10,6 +10,7 @@ import { ReactiveFormsModule } from '@angular/forms';
 import {DragDropModule} from '@angular/cdk/drag-drop';
 import { GameVotingPhaseComponent } from './components/game-voting-phase/game-voting-phase.component';
 import { GameVotingResultsPhaseComponent } from './components/game-voting-results-phase/game-voting-results-phase.component';
+import {SharedModule} from "../shared/shared.module";
 
 @NgModule({
   declarations: [
@@ -26,6 +27,7 @@ import { GameVotingResultsPhaseComponent } from './components/game-voting-result
     GameRoutingModule,
     ReactiveFormsModule,
     DragDropModule,
+    SharedModule,
   ]
 })
 export class GameModule { }
