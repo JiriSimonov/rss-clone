@@ -1,4 +1,4 @@
-import {Player} from "src/app/lobbies/model/lobby-data";
+import { Player } from "src/app/lobbies/model/lobby-data";
 
 export enum GameStatus {
   Prepare = 'prepare',
@@ -21,7 +21,6 @@ export interface GamePlayer extends Player {
 type playerObject = Record<GamePlayer['username'], GamePlayer>
 
 export interface GameLobbyData {
-
   title: string;
   password: string;
   players: playerObject;

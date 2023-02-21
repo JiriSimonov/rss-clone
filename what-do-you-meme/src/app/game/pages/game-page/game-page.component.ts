@@ -4,7 +4,7 @@ import { AuthService } from 'src/app/auth/services/auth.service';
 import { GameCurrentData, GameStatus } from '../../models/game.model';
 import { GameService } from '../../services/game.service';
 import { ModalPhasesService } from '../../services/modal-phases.service';
-import {SessionStorageService} from "../../../shared/storage/services/session-storage.service";
+import { SessionStorageService } from "../../../shared/storage/services/session-storage.service";
 
 @Component({
   selector: 'app-game-page',
@@ -49,7 +49,7 @@ export class GamePageComponent implements OnInit {
           break;
 
         case GameStatus.Vote_results:
-          console.log(data);
+          console.log('vote-results');
           this.modalPhasesService.closeVotingModal();
           this.modalPhasesService.openVotingResultsModal();
           break
@@ -68,11 +68,15 @@ export class GamePageComponent implements OnInit {
 
     // Move to preload screen with "READY" button later
     this.authService.username$.subscribe((username) => {
-      if (username && this.gameService.isLobbyOwner(username, this.gameId)) {
-        console.log('owner');
-        setTimeout(() => {
-          this.gameService.startGameRequest(this.gameId);
-        }, 10000);
+      if (username) {
+        this.gameService.isLobbyOwner(username, this.gameId).subscribe((value) => {
+          if (value) {
+            console.log('owner');
+            setTimeout(() => {
+              this.gameService.startGameRequest(this.gameId);
+            }, 10000);
+          }
+        });
       }
     });
   }

@@ -17,7 +17,9 @@ export class GameService {
   constructor(private http: HttpClient, private socket: Socket) { }
 
   isLobbyOwner(username: string, uuid: string) {
-    return this.http.get<boolean>(`${this.URL}/lobbies/is-lobby-owner?username=${username}&uuid=${uuid}`);
+    return this.http.get<boolean>(`${this.URL}/lobbies/is-lobby-owner`, {
+      params: { username, uuid }
+    });
   }
 
   getMemes() {
@@ -33,7 +35,6 @@ export class GameService {
       uuid,
       password: '',
     }, (gameData: GameCurrentData) => {
-      console.log(gameData);
       this.gameData = gameData;
     });
   }
