@@ -62,7 +62,7 @@ export class GameService {
     this.socket.emit(IoInput.startGame, uuid);
   }
 
-  forceChangeRequest(uuid: string) {
+  forceChangePhaseRequest(uuid: string) {
     this.socket.emit(IoInput.forcedChangePhase, uuid);
   }
 

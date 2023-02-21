@@ -40,6 +40,7 @@ export class GamePageComponent implements OnInit {
           this.gameService.gameData = data;
           this.gameService.getMemes();
           this.modalPhasesService.closeVotingResultsModal();
+          console.log(data);
           console.log('Situation');
           break;
 
@@ -52,6 +53,7 @@ export class GamePageComponent implements OnInit {
           console.log('vote-results');
           this.modalPhasesService.closeVotingModal();
           this.modalPhasesService.openVotingResultsModal();
+          this.gameService.forceChangePhaseRequest(this.gameId);
           break
 
         case GameStatus.End:
