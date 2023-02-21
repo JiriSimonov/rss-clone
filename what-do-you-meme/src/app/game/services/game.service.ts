@@ -4,12 +4,13 @@ import { Socket } from 'ngx-socket-io';
 import { Observable } from 'rxjs';
 import { IoInput, IoOutput } from 'src/app/shared/model/sockets-events';
 import { GameCurrentData } from '../models/game.model';
+import {ConfigService} from "../../shared/services/config/config.service";
 
 @Injectable({
   providedIn: 'root',
 })
 export class GameService {
-  private readonly URL = 'https://wdym-js-er-sd.onrender.com';
+  private readonly URL = ConfigService.SERVER_URL;
   memes: string[] = [];
   usedMeme: string[] = [];
   gameData?: GameCurrentData;

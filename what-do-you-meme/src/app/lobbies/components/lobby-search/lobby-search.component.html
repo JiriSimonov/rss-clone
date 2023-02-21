@@ -5,9 +5,9 @@
       <input matInput type="search" placeholder="Pepe" formControlName="search"/>
     </mat-form-field>
     <mat-radio-group formControlName="private">
-      <mat-radio-button value="">Все</mat-radio-button>
-      <mat-radio-button value="true">Только приватные</mat-radio-button>
-      <mat-radio-button value="false">Только открытые</mat-radio-button>
+      <mat-radio-button value="all">Все</mat-radio-button>
+      <mat-radio-button value="private">Только приватные</mat-radio-button>
+      <mat-radio-button value="open">Только открытые</mat-radio-button>
     </mat-radio-group>
     <button class="lobbies__btn" (click)="getLobbies()">Найти</button>
   </form>

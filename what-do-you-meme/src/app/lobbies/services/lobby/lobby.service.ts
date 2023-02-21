@@ -13,9 +13,7 @@ import {createLobby} from '../../model/create-lobby';
 export class LobbyService {
   private lobbies$$ = new BehaviorSubject<LobbyData[]>([]);
   public lobbies$ = this.lobbies$$.asObservable();
-  private lobbyPrivate$$ = new BehaviorSubject<LobbiesPrivate>(
-    LobbiesPrivate.all
-  );
+  private lobbyPrivate$$ = new BehaviorSubject<string>('all');
   public lobbyPrivate$ = this.lobbyPrivate$$.asObservable();
   private lobbiesNameContains$$ = new BehaviorSubject<string>('');
   public lobbiesNameContains$ = this.lobbiesNameContains$$.asObservable();
@@ -63,12 +61,7 @@ export class LobbyService {
   }
 
   changePrivate(value: string) {
-    this.lobbyPrivate$$.next(this.formatToEnumValues(value));
-  }
-
-  formatToEnumValues(value: string) {
-    if (value === '') return LobbiesPrivate.all;
-    return value === 'true' ? LobbiesPrivate.private : LobbiesPrivate.public;
+    this.lobbyPrivate$$.next(value);
   }
 
   joinLobby(data: LobbyData) {
