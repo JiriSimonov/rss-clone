@@ -60,11 +60,8 @@ export class GameService {
   }
 
   isLobbyOwner(username: string, uuid: string) {
-    return this.http.get<boolean>(`${this.URL}/lobbies/is-lobby-owner`,
-      { params: {
-      username,
-      uuid
-      }
+    return this.http.get<boolean>(`${this.URL}/lobbies/is-lobby-owner`, {
+      params: { username, uuid }
     });
   }
 
@@ -107,9 +104,9 @@ export class GameService {
     this.socket.emit(IoInput.startGame, uuid);
   }
 
-  // forceChangeRequest(uuid: string) {
-  //   this.socket.emit(IoInput.forcedChangePhase, uuid);
-  // }
+  forceChangePhaseRequest(uuid: string) {
+    this.socket.emit(IoInput.forcedChangePhase, uuid);
+  }
 
   joinLobbyEvent(): Observable<GameCurrentData> {
     return this.socket.fromEvent<GameCurrentData>(IoOutput.joinLobby);
