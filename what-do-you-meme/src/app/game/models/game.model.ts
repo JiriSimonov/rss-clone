@@ -20,17 +20,11 @@ export interface Player {
 
 type playerObject = Record<Player['username'], Player>
 
-export interface GameLobbyData {
-  title: string;
-  password: string;
-  players: playerObject;
-  status: string;
-  currentRound: number;
-}
-
-export interface GameCurrentData extends Pick<GameLobbyData, 'players' | 'status'> {
+export interface GameCurrentData {
   currentRound: number;
   rounds: string[];
   memes: MemeList;
+  players: playerObject;
+  status: string;
   votes: MemeList;
 }

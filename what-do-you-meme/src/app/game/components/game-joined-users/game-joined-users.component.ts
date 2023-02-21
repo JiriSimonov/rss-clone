@@ -9,6 +9,7 @@ import { GameService } from '../../services/game.service';
 })
 export class GameJoinedUsersComponent implements OnInit {
   isClosed: boolean = false;
+  players$ = this.gameService.players$;
 
   constructor(public gameService: GameService) { }
 
@@ -16,12 +17,12 @@ export class GameJoinedUsersComponent implements OnInit {
     this.gameService.joinLobbyEvent().subscribe((gameData: GameCurrentData) => {
       console.log('joined');
       console.log(gameData)
-      this.gameService.gameData = gameData;
+      this.gameService.changeGameData(gameData);
     });
 
     this.gameService.leaveLobbyEvent().subscribe((gameData: GameCurrentData) => {
       console.log('left');
-      this.gameService.gameData = gameData;
+      this.gameService.changeGameData(gameData);
     });
   }
 

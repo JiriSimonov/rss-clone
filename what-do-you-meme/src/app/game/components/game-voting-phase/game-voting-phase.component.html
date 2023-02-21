@@ -1,9 +1,9 @@
 <div class="modal vote-modal">
   <div class="modal__overlay vote-modal__overlay">
     <div class="vote-modal__container">
-      <div class="vote-modal__meme" *ngFor="let meme of gameService.gameData?.memes | keyvalue">
+      <div class="vote-modal__meme" *ngFor="let meme of memes$ | async | keyvalue">
         <app-meme-card [memeImage]="meme.key" />
-        <div class="vote-modal__button form__btn" (click)="gameService.getVote(gameId, meme.key)">Голосовать</div>
+        <div class="vote-modal__button form__btn" (click)="sendVote(uuid, meme.key)">Голосовать</div>
       </div>
     </div>
   </div>

@@ -2,6 +2,7 @@ import { transferArrayItem } from '@angular/cdk/drag-drop';
 import { Component } from '@angular/core';
 import { ActivatedRoute } from '@angular/router';
 import { GameService } from '../../services/game.service';
+import {map, tap} from "rxjs/operators";
 
 @Component({
   selector: 'app-game-playground',
@@ -11,14 +12,26 @@ import { GameService } from '../../services/game.service';
 export class GamePlaygroundComponent {
   isReady: boolean = false;
   gameId: string;
-
+  playerCards!: string[]
+  playerCards$ = this.gameService.playerCards$.pipe(
+    tap((arr) => this.playerCards = arr)
+  );
+  currentRound$ = this.gameService.currentRound$;
+  rounds$ = this.gameService.rounds$;
   constructor(public gameService: GameService, activatedRoute: ActivatedRoute) {
     this.gameId = activatedRoute.snapshot.params['id'];
   }
 
-  rotateMemeCard(index: number, arr: string[] = this.gameService.memes) {
-    const middleCard = Math.floor(arr.length / 2);
-    return -(middleCard * 15) + index * 15;
+  rotateMemeCard(index: number) {
+    let deg = 0;
+    this.playerCards$.subscribe(
+    ((cards: string[]) => {
+      const middleCard = Math.floor(cards.length / 2);
+      deg = -(middleCard * 15) + index * 15;
+      })
+    )
+    console.log(deg, index)
+    return deg;
   }
 
   calcDistance(index: number, arr: string[] = this.gameService.memes) {
@@ -36,7 +49,6 @@ export class GamePlaygroundComponent {
     this.gameService.pickMemeRequest(
       this.gameId,
     );
-
     this.isReady = true;
   }
 }
