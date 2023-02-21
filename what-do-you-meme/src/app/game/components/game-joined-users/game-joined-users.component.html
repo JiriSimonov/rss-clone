@@ -6,7 +6,7 @@
     </div>
     <ul class="players__list">
       <li class="players__list-item" *ngFor="let player of gameService.gameData?.players | keyvalue">
-        <div alt="avatar" class="user__avatar players__list-item-avatar"
+        <div class="user__avatar players__list-item-avatar"
              appImage="{{player.value.image}}"></div>
         <p class="players__list-item-name">{{ player.value.username }}</p>
         <span class="players__list-item-score">{{ player.value.score }}</span>
