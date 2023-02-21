@@ -7,5 +7,10 @@ import { GameService } from '../../services/game.service';
   styleUrls: ['./game-voting-results-phase.component.scss']
 })
 export class GameVotingResultsPhaseComponent {
-  constructor(public gameService: GameService) { }
+  votes$ = this.gameService.votes$;
+  constructor(private gameService: GameService) { }
+
+  getVoteResults(value: number) {
+    return value * 50;
+  }
 }

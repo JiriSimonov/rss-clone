@@ -8,12 +8,17 @@ import { GameService } from '../../services/game.service';
   styleUrls: ['./game-voting-phase.component.scss']
 })
 export class GameVotingPhaseComponent {
-  gameId: string;
+  uuid: string;
+  memes$ = this.gameService.memes$;
 
   constructor(
-    public gameService: GameService,
+    private gameService: GameService,
     activatedRoute: ActivatedRoute
   ) {
-    this.gameId = activatedRoute.snapshot.params['id'];
+    this.uuid = activatedRoute.snapshot.params['id'];
+  }
+
+  sendVote(uuid: string, vote: string) {
+    this.gameService.sendVote(uuid, vote);
   }
 }

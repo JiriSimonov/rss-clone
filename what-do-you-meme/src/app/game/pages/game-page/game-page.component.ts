@@ -37,18 +37,20 @@ export class GamePageComponent implements OnInit {
           break;
 
         case GameStatus.Situation:
-          this.gameService.gameData = data;
-          this.gameService.getMemes();
+          this.gameService.clearUsedMemes();
+          this.gameService.changeGameData(data);
+          this.gameService.getPlayerCards();
           this.modalPhasesService.closeVotingResultsModal();
           console.log('Situation');
           break;
 
         case GameStatus.Vote:
           this.modalPhasesService.openVotingModal();
-          this.gameService.gameData = data;
+          this.gameService.changeGameData(data);
           break;
 
         case GameStatus.Vote_results:
+          this.gameService.changeGameData(data);
           console.log(data);
           this.modalPhasesService.closeVotingModal();
           this.modalPhasesService.openVotingResultsModal();

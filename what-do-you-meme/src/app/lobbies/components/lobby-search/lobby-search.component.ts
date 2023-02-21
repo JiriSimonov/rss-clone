@@ -41,6 +41,6 @@ export class LobbySearchComponent implements OnInit {
   }
 
   updateLobbies() {
-    this.getLobbies();
+    this.lobbyService.getNewLobbiesList();
   }
 }
