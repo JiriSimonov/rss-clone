@@ -7,6 +7,27 @@ import { GameCurrentData } from '../models/game.model';
 import {ConfigService} from "../../shared/services/config/config.service";
 import {map} from "rxjs/operators";
 
+const initialGameState: GameCurrentData = {
+  currentRound: 0,
+  rounds: [''],
+  memes: {
+    '': ['']
+  },
+  players: {
+    slikedollar: {
+      username: '',
+      score: 0,
+      image: '',
+      meme: '',
+      vote: '',
+    }
+  },
+  status: 'end',
+  votes: {
+    '': ['']
+  }
+}
+
 @Injectable({
   providedIn: 'root',
 })
@@ -14,36 +35,35 @@ export class GameService {
   private readonly URL = ConfigService.SERVER_URL;
   memes: string[] = [];
   usedMeme: string[] = [];
-  private gameData$$ = new BehaviorSubject<GameCurrentData | null>(null);
+  private gameData$$ = new BehaviorSubject<GameCurrentData>(initialGameState);
   public gameData$ = this.gameData$$.asObservable();
   public players$ = this.gameData$.pipe(
-    map((gameData: GameCurrentData | null) => {
-      return Object.values(gameData?.players ?? []);
+    map((gameData: GameCurrentData) => {
+      return Object.values(gameData.players);
     }),
     distinctUntilChanged()
   );
   public memes$ = this.gameData$.pipe(
-    map((gameData: GameCurrentData | null) => {
-      return gameData?.memes;
+    map((gameData: GameCurrentData) => {
+      return gameData.memes;
     }),
     distinctUntilChanged()
   );
   public votes$ = this.gameData$.pipe(
-    map((gameData: GameCurrentData | null) => {
-      console.log(gameData?.votes, 'в сервисе при пайпе')
-      return gameData?.votes;
+    map((gameData: GameCurrentData) => {
+      return gameData.votes;
     }),
     distinctUntilChanged()
   );
   public currentRound$ = this.gameData$.pipe(
-    map((gameData: GameCurrentData | null) => {
-      return gameData?.currentRound;
+    map((gameData: GameCurrentData) => {
+      return gameData.currentRound;
     }),
     distinctUntilChanged()
   );
   public rounds$ = this.gameData$.pipe(
-    map((gameData: GameCurrentData | null) => {
-      return gameData?.rounds.slice(-1);
+    map((gameData: GameCurrentData) => {
+      return gameData.rounds.slice(-1);
     })
   );
   private playerCards$$ = new BehaviorSubject<string[]>([])
@@ -51,7 +71,6 @@ export class GameService {
   constructor(private http: HttpClient, private socket: Socket) { }
 
   changeGameData(newData: GameCurrentData) {
-    this.memes$.subscribe((item) => console.log(item))
     this.gameData$$.next(newData);
   }
 
