@@ -1,6 +1,7 @@
 import { Component, OnInit  } from '@angular/core';
 import { GameCurrentData } from '../../models/game.model';
 import { GameService } from '../../services/game.service';
+import {LobbyRequestsService} from "../../services/lobby-requests.service";
 
 @Component({
   selector: 'app-game-joined-users',
@@ -11,16 +12,16 @@ export class GameJoinedUsersComponent implements OnInit {
   isClosed: boolean = false;
   players$ = this.gameService.players$;
 
-  constructor(public gameService: GameService) { }
+  constructor(public gameService: GameService, private lobbyRequests: LobbyRequestsService) { }
 
   ngOnInit() {
-    this.gameService.joinLobbyEvent().subscribe((gameData: GameCurrentData) => {
+    this.lobbyRequests.joinLobbyEvent().subscribe((gameData: GameCurrentData) => {
       console.log('joined');
       console.log(gameData)
       this.gameService.changeGameData(gameData);
     });
 
-    this.gameService.leaveLobbyEvent().subscribe((gameData: GameCurrentData) => {
+    this.lobbyRequests.leaveLobbyEvent().subscribe((gameData: GameCurrentData) => {
       console.log('left');
       this.gameService.changeGameData(gameData);
     });

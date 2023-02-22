@@ -5,6 +5,7 @@ import { GameCurrentData, GameStatus } from '../../models/game.model';
 import { GameService } from '../../services/game.service';
 import { ModalPhasesService } from '../../services/modal-phases.service';
 import { SessionStorageService } from "../../../shared/storage/services/session-storage.service";
+import {LobbyRequestsService} from "../../services/lobby-requests.service";
 
 @Component({
   selector: 'app-game-page',
@@ -21,6 +22,7 @@ export class GamePageComponent implements OnInit {
     private router: Router,
     private authService: AuthService,
     private sessionStorage: SessionStorageService,
+    private lobbyRequests: LobbyRequestsService
   ) {
     this.gameId = this.activateRoute.snapshot.params['id'];
   }
@@ -28,9 +30,9 @@ export class GamePageComponent implements OnInit {
   ngOnInit() {
     this.sessionStorage.setItem('url', this.router.url.replace('/game/', ''));
 
-    this.gameService.joinLobbyRequest(this.gameId);
+    this.lobbyRequests.joinLobbyRequest(this.gameId);
 
-    this.gameService.changePhaseEvent().subscribe((data: GameCurrentData) => {
+    this.lobbyRequests.changePhaseEvent().subscribe((data: GameCurrentData) => {
       switch (data.status) {
         case GameStatus.Prepare:
           console.log('prepare');
@@ -55,7 +57,7 @@ export class GamePageComponent implements OnInit {
           console.log(data);
           this.modalPhasesService.closeVotingModal();
           this.modalPhasesService.openVotingResultsModal();
-          this.gameService.forceChangePhaseRequest(this.gameId);
+          this.lobbyRequests.forceChangePhaseRequest(this.gameId);
           break
 
         case GameStatus.End:
@@ -66,7 +68,7 @@ export class GamePageComponent implements OnInit {
       }
     });
 
-    this.gameService.errorSocketEvent().subscribe((data) => {
+    this.lobbyRequests.errorSocketEvent().subscribe((data) => {
       console.log(data);
     });
 
@@ -77,7 +79,7 @@ export class GamePageComponent implements OnInit {
           if (value) {
             console.log('owner');
             setTimeout(() => {
-              this.gameService.startGameRequest(this.gameId);
+              this.lobbyRequests.startGameRequest(this.gameId);
             }, 5000);
           }
         });

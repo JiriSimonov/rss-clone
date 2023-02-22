@@ -35,7 +35,7 @@
     <div class="meme-cards"
       cdkDropList
       #memesCardsList="cdkDropList"
-      [cdkDropListData]="gameService.memes"
+      [cdkDropListData]="playerCards"
       [cdkDropListConnectedTo]="[usedMeme]"
       >
 
@@ -43,7 +43,7 @@
         *ngFor='let playerCard of (playerCards$ | async); index as i'
         [memeImage]="playerCard"
         [RotationDegree]="rotateMemeCard(i)"
-        [distance]="calcDistance(i)"
+        [distance]="calcDistance(i, playerCards)"
         cdkDrag
         [cdkDragDisabled]="gameService.usedMeme.length !== 0"
         (cdkDragExited)="onDragExited(

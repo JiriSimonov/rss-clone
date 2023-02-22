@@ -1,8 +1,8 @@
 import { HttpClient } from '@angular/common/http';
 import { Injectable } from '@angular/core';
 import { Socket } from 'ngx-socket-io';
-import {BehaviorSubject, distinctUntilChanged, Observable} from 'rxjs';
-import { IoInput, IoOutput } from 'src/app/shared/model/sockets-events';
+import {BehaviorSubject, distinctUntilChanged} from 'rxjs';
+import { IoInput } from 'src/app/shared/model/sockets-events';
 import { GameCurrentData } from '../models/game.model';
 import {ConfigService} from "../../shared/services/config/config.service";
 import {map} from "rxjs/operators";
@@ -33,7 +33,6 @@ const initialGameState: GameCurrentData = {
 })
 export class GameService {
   private readonly URL = ConfigService.SERVER_URL;
-  memes: string[] = [];
   usedMeme: string[] = [];
   private gameData$$ = new BehaviorSubject<GameCurrentData>(initialGameState);
   public gameData$ = this.gameData$$.asObservable();
@@ -90,54 +89,10 @@ export class GameService {
     });
   }
 
-  joinLobbyRequest(uuid: string) {
-    this.socket.emit(IoInput.joinLobbyRequest, {
-      uuid,
-      password: '',
-    }, (gameData: GameCurrentData) => {
-      this.gameData$$.next(gameData);
-    });
-  }
-
-  leaveLobbyRequest(uuid: string) {
-    return this.socket.emit(IoInput.leaveLobbyRequest, { uuid });
-  }
-
-  pickMemeRequest(uuid: string, meme: string = this.usedMeme[0]) {
-    return this.socket.emit(IoInput.pickMeme, {
-      uuid,
-      meme,
-    });
-  }
-
   sendVote(uuid: string, vote: string) {
     this.socket.emit(IoInput.getVote, {
       uuid,
       vote,
     })
-  }
-
-  startGameRequest(uuid: string) {
-    this.socket.emit(IoInput.startGame, uuid);
-  }
-
-  forceChangePhaseRequest(uuid: string) {
-    this.socket.emit(IoInput.forcedChangePhase, uuid);
-  }
-
-  joinLobbyEvent(): Observable<GameCurrentData> {
-    return this.socket.fromEvent<GameCurrentData>(IoOutput.joinLobby);
-  }
-
-  leaveLobbyEvent(): Observable<GameCurrentData> {
-    return this.socket.fromEvent<GameCurrentData>(IoOutput.leaveLobby);
-  }
-
-  changePhaseEvent(): Observable<GameCurrentData> {
-    return this.socket.fromEvent<GameCurrentData>(IoOutput.changePhase);
-  }
-
-  errorSocketEvent() {
-    return this.socket.fromEvent('error');
   }
 }
