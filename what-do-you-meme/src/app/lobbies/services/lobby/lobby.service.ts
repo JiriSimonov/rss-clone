@@ -11,6 +11,8 @@ import {createLobby} from '../../model/create-lobby';
   providedIn: 'root',
 })
 export class LobbyService {
+  private currentId$$ = new BehaviorSubject<string>('');
+  public currentId$ = this.currentId$$.asObservable();
   private lobbies$$ = new BehaviorSubject<LobbyData[]>([]);
   public lobbies$ = this.lobbies$$.asObservable();
   private chunkOptions = {
@@ -88,5 +90,9 @@ export class LobbyService {
         this.lobbies$$.next(lobbies);
       }
     );
+  }
+
+  changeLobbyId(uuid: string) {
+    this.currentId$$.next(uuid);
   }
 }

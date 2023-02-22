@@ -1,49 +1,46 @@
-<div class="modal">
-  <div class="modal__overlay">
-    <div class="form modal__container">
+
+    <div class="modal__container">
       <form (ngSubmit)="onSubmit(LobbyOption)" [formGroup]="modalForm" class="form__form modal__form">
         <label class="modal__label form__label">
           Количество игрoков - {{ maxPlayersControlValue }}
-          <input class="modal__form-input form__input" formControlName="maxPlayers" type="range" min="2" max="8" />
+          <input class="modal__form-input form__input" formControlName="maxPlayers" max="8" min="2" type="range" />
         </label>
         <label class="modal__label form__label">
           Количество раундов - {{ maxRoundsControlValue }}
-          <input class="form__input modal__form-input" formControlName="maxRounds" type="range" min="1" max="12" />
+          <input class="form__input modal__form-input" formControlName="maxRounds" max="12" min="1" type="range" />
         </label>
         <label class="modal__label form__label">
-          Время раунда - {{ timerDelayControlValue }}
-          <input class="form__input modal__form-input" formControlName="timerDelay" type="range" min="10" max="80" step="10" />
+          Время раунда - {{ timerDelayControlValue }} секунд
+          <input class="form__input modal__form-input" formControlName="timerDelay" max="80" min="10" step="10" type="range" />
         </label>
         <mat-checkbox formControlName="private">Приватная игра:</mat-checkbox>
         <mat-form-field>
           <mat-label>Введите имя лобби:</mat-label>
-          <input matInput class="form__input modal__form-input" formControlName="title" />
-          <span class="form__error" *ngIf="titleControl?.errors?.['maxlength']">Максимальная длина - 18</span>
-          <span class="form__error" *ngIf="titleControl?.errors?.['minlength']">Mинимальная длина - 3</span>
-          <span class="form__errror" *ngIf="titleControl?.errors?.['isLobbyNameUnique']">Такое лобби уже существует</span>
+          <input class="form__input modal__form-input" formControlName="title" matInput />
+          <span *ngIf="titleControl?.errors?.['maxlength']" class="form__error">Максимальная длина - 18</span>
+          <span *ngIf="titleControl?.errors?.['minlength']" class="form__error">Mинимальная длина - 3</span>
+          <span *ngIf="titleControl?.errors?.['isLobbyNameUnique']" class="form__errror">Такое лобби уже существует</span>
         </mat-form-field>
         <mat-radio-group formControlName="mode">
           <mat-radio-button value="default">Обычный</mat-radio-button>
           <mat-radio-button value="giphy">Gihpy</mat-radio-button>
           <mat-radio-button value="tv">TV-mode</mat-radio-button>
         </mat-radio-group>
-        <mat-form-field appearance="fill" *ngIf="privateControl?.value">
+        <mat-form-field *ngIf="privateControl?.value" appearance="fill">
           <mat-label>Введите пароль:</mat-label>
-          <input matInput type="password" formControlName="password" class="form__input" />
-          <span class="form__error" *ngIf="passwordControl?.errors?.['minlength']"
+          <input class="form__input" formControlName="password" matInput type="password" />
+          <span *ngIf="passwordControl?.errors?.['minlength']" class="form__error"
             >Минимальная длина 4 символа</span
           >
-          <span class="form__error" *ngIf="passwordControl?.errors?.['maxlength']"
+          <span *ngIf="passwordControl?.errors?.['maxlength']" class="form__error"
             >Максимальная длина 10 символов</span
           >
         </mat-form-field>
         <button
-          class="form__btn modal__btn"
           [disabled]="!modalForm.valid"
+          class="form__btn modal__btn"
         >
           Создать
         </button>
       </form>
     </div>
-  </div>
-</div>

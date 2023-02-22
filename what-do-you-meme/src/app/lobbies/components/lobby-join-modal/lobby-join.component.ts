@@ -1,12 +1,13 @@
-import { LobbyValidatorsService } from '../../services/lobby-validators/lobby-validators.service';
-import { LobbyModalService } from '../../services/lobby-modal/lobby-modal.service';
-import { Component, ElementRef, Input, OnInit } from '@angular/core';
-import { FormControl, FormGroup, Validators } from '@angular/forms';
-import { LobbyPasswordValidator } from '../../validators/lobby-password-validator';
-import { LobbyData } from 'src/app/lobbies/model/lobby-data';
-import { Router } from '@angular/router';
+import {LobbyValidatorsService} from '../../services/lobby-validators/lobby-validators.service';
+import {Component, ElementRef, Input, OnInit} from '@angular/core';
+import {FormControl, FormGroup, Validators} from '@angular/forms';
+import {LobbyPasswordValidator} from '../../validators/lobby-password-validator';
+import {LobbyData} from 'src/app/lobbies/model/lobby-data';
+import {Router} from '@angular/router';
 import {filter} from "rxjs/operators";
 import {debounceTime} from "rxjs";
+import {MatDialog} from "@angular/material/dialog";
+import {LobbyService} from "../../services/lobby/lobby.service";
 
 @Component({
   selector: 'app-lobby-join-modal',
@@ -16,30 +17,23 @@ import {debounceTime} from "rxjs";
 export class LobbyJoinComponent implements OnInit {
   @Input() lobby?: LobbyData;
   joinForm!: FormGroup;
-  private element: HTMLElement;
   private currentId!: string;
 
   constructor(
-    private lobbyModal: LobbyModalService,
     private lobbyModalElem: ElementRef,
     private validatorsService: LobbyValidatorsService,
-    private router: Router
-  ) {
-    this.element = this.lobbyModalElem.nativeElement;
+    private router: Router,
+    private lobbyService: LobbyService,
+    private joinDialog: MatDialog
+  ) {}
+
+  get passwordControl() {
+    return this.joinForm.get('password');
   }
 
   ngOnInit() {
-    this.lobbyModal.currentId$.subscribe((id: string) => {
+    this.lobbyService.currentId$.subscribe((id: string) => {
       this.currentId = id;
-    });
-    this.element.addEventListener('click', (e: Event) => {
-      const target = e.target;
-      if (
-        target instanceof HTMLElement &&
-        target?.classList.contains('modal__overlay')
-      ) {
-        this.lobbyModal.toggleJoinModal();
-      }
     });
     this.joinForm = new FormGroup({
       password: new FormControl(
@@ -55,22 +49,14 @@ export class LobbyJoinComponent implements OnInit {
     });
     this.joinForm.valueChanges.pipe(
       debounceTime(800),
-      filter((value: {password: string}) => value.password.length > 3)
+      filter((value: { password: string }) => value.password.length > 3)
     ).subscribe();
   }
 
   onSubmit() {
-    this.changeJoinModalState();
+    this.joinDialog.closeAll();
     this.router.navigate([`/game/${this.currentId}`], {
       replaceUrl: true,
     }).catch();
-  }
-
-  get passwordControl() {
-    return this.joinForm.get('password');
-  }
-
-  changeJoinModalState() {
-    this.lobbyModal.toggleJoinModal();
   }
 }

@@ -1,6 +1,5 @@
 import {LocalStorageService} from 'src/app/shared/storage/services/local-storage/local-storage.service';
-import {LobbyModalService} from '../../services/lobby-modal/lobby-modal.service';
-import {Component, ElementRef, EventEmitter, OnInit, Output,} from '@angular/core';
+import {Component, EventEmitter, OnInit, Output,} from '@angular/core';
 import {FormControl, FormGroup, Validators} from '@angular/forms';
 import {AuthService} from 'src/app/auth/services/auth.service';
 import {LobbyService} from '../../services/lobby/lobby.service';
@@ -10,6 +9,7 @@ import {LobbyPasswordValidator} from '../../validators/lobby-name-validator';
 import {LobbyValidatorsService} from '../../services/lobby-validators/lobby-validators.service';
 import {filter} from "rxjs/operators";
 import {debounceTime} from "rxjs";
+import {MatDialog} from "@angular/material/dialog";
 
 @Component({
   selector: 'app-lobby-modal',
@@ -18,33 +18,18 @@ import {debounceTime} from "rxjs";
 })
 export class LobbyCreateComponent implements OnInit {
   modalForm!: FormGroup;
-  private element: HTMLElement;
 
-  @Output() onClosed = new EventEmitter<boolean>();
   @Output() onCreated = new EventEmitter<LobbyData>();
 
   constructor(
-    private lobbyModalElem: ElementRef,
     private authService: AuthService,
     private lobbyService: LobbyService,
-    private lobbyModal: LobbyModalService,
     private localStorage: LocalStorageService,
-    private lobbyValidators: LobbyValidatorsService
-  ) {
-    this.element = this.lobbyModalElem.nativeElement;
-  }
+    private lobbyValidators: LobbyValidatorsService,
+    public createDialog: MatDialog,
+  ) {}
 
   ngOnInit() {
-    this.element.addEventListener('click', (e: Event) => {
-      const target = e.target;
-      if (
-        target instanceof HTMLElement &&
-        target?.classList.contains('modal__overlay')
-      ) {
-        this.onClosed.emit();
-      }
-    });
-
     this.modalForm = new FormGroup({
       maxPlayers: new FormControl('2', [Validators.required]),
       maxRounds: new FormControl('1', [Validators.required]),
@@ -117,8 +102,8 @@ export class LobbyCreateComponent implements OnInit {
       if (user.image && user.username) {
         data.image = user.image;
         data.owner = user.username;
+        this.createDialog.closeAll();
         this.lobbyService.createLobby(data);
-        this.lobbyModal.toggleCreateModal();
         this.localStorage.setItem('createdLobby', 'true');
       }
     });
