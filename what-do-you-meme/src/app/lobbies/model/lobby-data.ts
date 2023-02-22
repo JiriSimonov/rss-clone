@@ -4,11 +4,6 @@ export enum LobbiesPrivate {
   all = 'all',
 }
 
-export interface Player {
-  username: string;
-  score: number;
-}
-
 export interface LobbyData {
   uuid: string;
   image: string;
@@ -17,6 +12,7 @@ export interface LobbyData {
   maxPlayers: number;
   maxRounds: number;
   playersCount: number;
+  timerDelay: number;
   privacyType: LobbiesPrivate;
   players: userSocketData[];
   isFull: boolean;

@@ -62,7 +62,8 @@ export class LobbyCreateComponent implements OnInit {
         Validators.minLength(4),
         Validators.maxLength(10),
       ]),
-      mode: new FormControl('', [])
+      mode: new FormControl('', []),
+      timerDelay: new FormControl('10', [Validators.required])
     });
     this.modalForm.valueChanges.pipe(
       debounceTime(800),
@@ -70,16 +71,20 @@ export class LobbyCreateComponent implements OnInit {
     ).subscribe();
   }
 
-  get maxRoundsControl() {
-    return this.modalForm.get('maxRounds');
+  get maxRoundsControlValue() {
+    return this.modalForm.get('maxRounds')?.value;
   }
 
+
+  get maxPlayersControlValue() {
+    return this.modalForm.get('maxPlayers')?.value;
+  }
+
+  get timerDelayControlValue() {
+    return this.modalForm.get('timerDelay')?.value;
+  }
   get passwordControl() {
     return this.modalForm.get('password');
-  }
-
-  get maxPlayersControl() {
-    return this.modalForm.get('maxPlayers');
   }
 
   get titleControl() {
@@ -96,12 +101,13 @@ export class LobbyCreateComponent implements OnInit {
 
   get LobbyOption() {
     return {
-      maxPlayers: this.maxPlayersControl?.value,
-      maxRounds: this.maxRoundsControl?.value,
+      maxPlayers: this.maxPlayersControlValue,
+      maxRounds: this.maxRoundsControlValue,
       title: this.titleControl?.value,
       owner: '',
       image: '',
       mode: this.modeControlValue,
+      timerDelay: +this.timerDelayControlValue * 1000,
       password: this.passwordControl?.value,
     };
   }
