@@ -17,7 +17,7 @@ export class LobbySearchComponent implements OnInit {
   ngOnInit() {
     this.searchForm = new FormGroup({
       search: new FormControl('', [Validators.minLength(3)], []),
-      private: new FormControl(),
+      private: new FormControl('all'),
     });
     this.searchForm.valueChanges.pipe(
       debounceTime(800),

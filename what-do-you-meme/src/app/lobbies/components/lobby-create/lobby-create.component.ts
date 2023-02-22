@@ -62,7 +62,7 @@ export class LobbyCreateComponent implements OnInit {
         Validators.minLength(4),
         Validators.maxLength(10),
       ]),
-      mode: new FormControl('', []),
+      mode: new FormControl('default', []),
       timerDelay: new FormControl('10', [Validators.required])
     });
     this.modalForm.valueChanges.pipe(
