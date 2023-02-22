@@ -84,9 +84,12 @@ export class GameService {
   }
 
   getPlayerCards() {
-    this.socket.emit(IoInput.randomMemesRequest, { quantity: 5 }, (memesList: string[]) => {
-      this.playerCards$$.next(memesList);
-    });
+  this.http.get<string[]>(`${ConfigService.SERVER_URL}/file/images/meme`, { params: {
+      quantity: 5,
+      shuffle: true
+    }}).subscribe(
+    (playerCards) => this.playerCards$$.next(playerCards)
+  )
   }
 
   sendVote(uuid: string, vote: string) {
