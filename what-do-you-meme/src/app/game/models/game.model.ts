@@ -28,3 +28,26 @@ export interface GameCurrentData {
   status: string;
   votes: MemeList;
 }
+
+let gameData: GameCurrentData = {
+  currentRound: 0,
+  rounds: [''],
+  memes: {
+    '': ['']
+  },
+  players: {
+    slikedollar: {
+      username: '',
+      score: 0,
+      image: '',
+      meme: '',
+      vote: '',
+    }
+  },
+  status: 'end',
+  votes: {
+    '': ['']
+  }
+}
+
+
