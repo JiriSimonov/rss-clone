@@ -78,7 +78,7 @@ export class GamePageComponent implements OnInit {
             console.log('owner');
             setTimeout(() => {
               this.gameService.startGameRequest(this.gameId);
-            }, 10000);
+            }, 5000);
           }
         });
       }

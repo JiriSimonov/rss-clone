@@ -86,7 +86,6 @@ export class GameService {
 
   getPlayerCards() {
     this.socket.emit(IoInput.randomMemesRequest, { quantity: 5 }, (memesList: string[]) => {
-      console.log(memesList)
       this.playerCards$$.next(memesList);
     });
   }
@@ -96,7 +95,6 @@ export class GameService {
       uuid,
       password: '',
     }, (gameData: GameCurrentData) => {
-      console.log(gameData);
       this.gameData$$.next(gameData);
     });
   }
