@@ -16,7 +16,6 @@ export class GameJoinedUsersComponent implements OnInit {
   ngOnInit() {
     this.gameService.joinLobbyEvent().subscribe((gameData: GameCurrentData) => {
       console.log('joined');
-      console.log(gameData)
       this.gameService.changeGameData(gameData);
     });
 

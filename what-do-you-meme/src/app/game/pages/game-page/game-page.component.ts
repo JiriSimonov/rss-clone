@@ -15,11 +15,10 @@ export class GamePageComponent implements OnInit {
   gameId: string;
 
   constructor(
-    private gameService: GameService,
+    public gameService: GameService,
     public modalPhasesService: ModalPhasesService,
     private activateRoute: ActivatedRoute,
     private router: Router,
-    private authService: AuthService,
     private sessionStorage: SessionStorageService,
   ) {
     this.gameId = this.activateRoute.snapshot.params['id'];
@@ -68,20 +67,6 @@ export class GamePageComponent implements OnInit {
 
     this.gameService.errorSocketEvent().subscribe((data) => {
       console.log(data);
-    });
-
-    // Move to preload screen with "READY" button later
-    this.authService.username$.subscribe((username) => {
-      if (username) {
-        this.gameService.isLobbyOwner(username, this.gameId).subscribe((value) => {
-          if (value) {
-            console.log('owner');
-            setTimeout(() => {
-              this.gameService.startGameRequest(this.gameId);
-            }, 5000);
-          }
-        });
-      }
     });
   }
 }

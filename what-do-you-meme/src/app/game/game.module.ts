@@ -11,6 +11,7 @@ import {DragDropModule} from '@angular/cdk/drag-drop';
 import { GameVotingPhaseComponent } from './components/game-voting-phase/game-voting-phase.component';
 import { GameVotingResultsPhaseComponent } from './components/game-voting-results-phase/game-voting-results-phase.component';
 import {SharedModule} from "../shared/shared.module";
+import { GamePreparePhaseComponent } from './components/game-prepare-phase/game-prepare-phase.component';
 
 @NgModule({
   declarations: [
@@ -20,7 +21,8 @@ import {SharedModule} from "../shared/shared.module";
     GamePlaygroundComponent,
     MemeCardComponent,
     GameVotingPhaseComponent,
-    GameVotingResultsPhaseComponent
+    GameVotingResultsPhaseComponent,
+    GamePreparePhaseComponent
   ],
   imports: [
     CommonModule,

@@ -1,6 +1,9 @@
 <div class="game">
   <app-game-chat class="game-chat" />
-  <app-game-playground class="game-playground" />
+  <div class="game__wrapper" [ngSwitch]="this.gameService.status$ | async">
+    <app-game-prepare-phase *ngSwitchCase="'prepare'"/>
+    <app-game-playground *ngSwitchDefault class="game-playground" />
+  </div>
   <app-game-joined-users class="game-players" />
   <app-game-voting-phase *ngIf="modalPhasesService.isOpenedVotingModal"/>
   <app-game-voting-results-phase *ngIf="modalPhasesService.isOpenedVotingResultsModal"/>

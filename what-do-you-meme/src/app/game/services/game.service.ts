@@ -3,11 +3,11 @@
 import { HttpClient } from '@angular/common/http';
 import { Injectable } from '@angular/core';
 import { Socket } from 'ngx-socket-io';
-import {BehaviorSubject, distinctUntilChanged, Observable} from 'rxjs';
+import { BehaviorSubject, distinctUntilChanged, Observable } from 'rxjs';
 import { IoInput, IoOutput } from 'src/app/shared/model/sockets-events';
 import { GameCurrentData } from '../models/game.model';
-import {ConfigService} from "../../shared/services/config/config.service";
-import {map} from "rxjs/operators";
+import { ConfigService } from "../../shared/services/config/config.service";
+import { map } from "rxjs/operators";
 
 const initialGameState: GameCurrentData = {
   currentRound: 0,
@@ -67,6 +67,12 @@ export class GameService {
     map((gameData: GameCurrentData) => {
       return gameData.rounds.slice(-1);
     })
+  );
+  public status$ = this.gameData$.pipe(
+    map((gameData: GameCurrentData) => {
+      return gameData.status;
+    }),
+    distinctUntilChanged()
   );
   private playerCards$$ = new BehaviorSubject<string[]>([])
   public playerCards$ = this.playerCards$$.asObservable();
