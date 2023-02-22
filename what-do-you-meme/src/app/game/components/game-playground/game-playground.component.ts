@@ -30,11 +30,10 @@ export class GamePlaygroundComponent {
       deg = -(middleCard * 15) + index * 15;
       })
     )
-    console.log(deg, index)
     return deg;
   }
 
-  calcDistance(index: number, arr: string[] = this.gameService.memes) {
+  calcDistance(index: number, arr: string[] = this.playerCards) {
     return `${(Math.ceil(arr.length / 2) * 50) - index * 50}% -100%`
   }
 
