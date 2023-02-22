@@ -16,4 +16,4 @@ export const loginFailed = createAction(
 export const initAuth = createAction('[Auth] initAuth');
 export const extractLoginData = createAction('[Auth] extractLoginData');
 export const logoutSuccess = createAction('[Auth] logout');
-export const logout = createAction('[Auth] logout');
+createAction('[Auth] logout');

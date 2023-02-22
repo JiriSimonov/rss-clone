@@ -120,7 +120,6 @@ button {
 
   &:hover,
   &:focus {
-    border-color: #382756;
     border-color: #fff;
     cursor: pointer;
     outline: none;
@@ -170,28 +169,10 @@ button {
   }
 }
 
-.modal__overlay {
-  position: fixed;
-  top: 0;
-  left: 0;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  width: 100%;
-  height: 100%;
-  background-color: rgba(0,0,0,.7);
-  backdrop-filter: blur(5px);
-  z-index: 3;
-}
-
 .modal__container {
-  width: 35vw;
-  height: 40vh;
+  padding: 15px;
+  background-color: #1b1a20;
 }
-
-
-
-
 
 
 // Здесь насрано
