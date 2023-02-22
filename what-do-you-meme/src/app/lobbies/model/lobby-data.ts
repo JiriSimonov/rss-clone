@@ -1,4 +1,4 @@
-export enum LobbiesPrivate {
+export enum LobbiesPrivacy {
   private = 'private',
   public = 'public',
   all = 'all',
@@ -13,7 +13,7 @@ export interface LobbyData {
   maxRounds: number;
   playersCount: number;
   timerDelay: number;
-  privacyType: LobbiesPrivate;
+  privacyType: LobbiesPrivacy;
   players: userSocketData[];
   isFull: boolean;
 }
