@@ -3,12 +3,16 @@
     <div class="form modal__container">
       <form (ngSubmit)="onSubmit(LobbyOption)" [formGroup]="modalForm" class="form__form modal__form">
         <label class="modal__label form__label">
-          Количество игрoков - {{ maxPlayersControl?.value }}
+          Количество игрoков - {{ maxPlayersControlValue }}
           <input class="modal__form-input form__input" formControlName="maxPlayers" type="range" min="2" max="8" />
         </label>
         <label class="modal__label form__label">
-          Количество раундов - {{ maxRoundsControl?.value }}
+          Количество раундов - {{ maxRoundsControlValue }}
           <input class="form__input modal__form-input" formControlName="maxRounds" type="range" min="1" max="12" />
+        </label>
+        <label class="modal__label form__label">
+          Время раунда - {{ timerDelayControlValue }}
+          <input class="form__input modal__form-input" formControlName="timerDelay" type="range" min="10" max="80" step="10" />
         </label>
         <mat-checkbox formControlName="private">Приватная игра:</mat-checkbox>
         <mat-form-field>

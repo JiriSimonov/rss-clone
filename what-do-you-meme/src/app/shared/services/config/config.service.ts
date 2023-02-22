@@ -9,6 +9,6 @@ export class ConfigService {
     render: 'https://wdym-js-er-sd.onrender.com',
   };
   static get SERVER_URL() {
-    return this.servers.local;
+    return this.servers.render;
   }
 }

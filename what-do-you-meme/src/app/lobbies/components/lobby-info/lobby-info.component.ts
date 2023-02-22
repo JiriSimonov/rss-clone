@@ -2,7 +2,7 @@ import {LobbyModalService} from '../../services/lobby-modal/lobby-modal.service'
 import {Component, Input} from '@angular/core';
 import {Router} from '@angular/router';
 import {LobbyService} from '../../services/lobby/lobby.service';
-import {LobbiesPrivate, LobbyData} from 'src/app/lobbies/model/lobby-data';
+import {LobbiesPrivacy, LobbyData} from 'src/app/lobbies/model/lobby-data';
 
 @Component({
   selector: 'app-lobby-info',
@@ -20,7 +20,7 @@ export class LobbyInfoComponent {
   }
 
   get isPrivate() {
-    return this.lobby?.privacyType === LobbiesPrivate.private;
+    return this.lobby?.privacyType === LobbiesPrivacy.private;
   }
 
   checkPrivate() {

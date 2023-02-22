@@ -17,7 +17,7 @@ export class LobbySearchComponent implements OnInit {
   ngOnInit() {
     this.searchForm = new FormGroup({
       search: new FormControl('', [Validators.minLength(3)], []),
-      private: new FormControl(),
+      private: new FormControl('all'),
     });
     this.searchForm.valueChanges.pipe(
       debounceTime(800),
@@ -35,7 +35,7 @@ export class LobbySearchComponent implements OnInit {
 
   getLobbies() {
     this.lobbyService.resetPage();
-    this.lobbyService.changePrivate(this.privateFieldValue ?? '');
+    this.lobbyService.changePrivacy(this.privateFieldValue ?? 'all');
     this.lobbyService.changeNameContains(this.searchFieldValue);
     this.lobbyService.getNewLobbiesList();
   }
