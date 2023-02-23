@@ -2,6 +2,7 @@ import { Component, OnInit } from '@angular/core';
 import { ActivatedRoute } from '@angular/router';
 import { AuthService } from 'src/app/auth/services/auth.service';
 import { GameService } from '../../services/game.service';
+import { LobbyRequestsService } from '../../services/lobby-requests.service';
 
 @Component({
   selector: 'app-game-prepare-phase',
@@ -13,7 +14,8 @@ export class GamePreparePhaseComponent implements OnInit {
   isOwner: boolean = false;
 
   constructor(
-    public gameService: GameService,
+    private lobbyService: LobbyRequestsService,
+    private gameService: GameService,
     activatedRoute: ActivatedRoute,
     private authService: AuthService,
   ) {
@@ -31,6 +33,6 @@ export class GamePreparePhaseComponent implements OnInit {
   }
 
   startGame() {
-    this.gameService.startGameRequest(this.gameId);
+    this.lobbyService.startGameRequest(this.gameId);
   }
 }

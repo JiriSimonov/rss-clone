@@ -12,6 +12,7 @@ import { GameVotingPhaseComponent } from './components/game-voting-phase/game-vo
 import { GameVotingResultsPhaseComponent } from './components/game-voting-results-phase/game-voting-results-phase.component';
 import {SharedModule} from "../shared/shared.module";
 import { GamePreparePhaseComponent } from './components/game-prepare-phase/game-prepare-phase.component';
+import { GameEndingPhaseComponent } from './components/game-ending-phase/game-ending-phase.component';
 
 @NgModule({
   declarations: [
@@ -22,7 +23,8 @@ import { GamePreparePhaseComponent } from './components/game-prepare-phase/game-
     MemeCardComponent,
     GameVotingPhaseComponent,
     GameVotingResultsPhaseComponent,
-    GamePreparePhaseComponent
+    GamePreparePhaseComponent,
+    GameEndingPhaseComponent
   ],
   imports: [
     CommonModule,

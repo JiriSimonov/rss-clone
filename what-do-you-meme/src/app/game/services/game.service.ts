@@ -1,5 +1,3 @@
-
-
 import { HttpClient } from '@angular/common/http';
 import { Injectable } from '@angular/core';
 import { Socket } from 'ngx-socket-io';
@@ -24,7 +22,7 @@ const initialGameState: GameCurrentData = {
       vote: '',
     }
   },
-  status: 'end',
+  status: 'prepare',
   votes: {
     '': ['']
   }

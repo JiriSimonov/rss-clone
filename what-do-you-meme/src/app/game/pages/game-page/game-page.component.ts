@@ -27,10 +27,11 @@ export class GamePageComponent implements OnInit {
 
   ngOnInit() {
     this.sessionStorage.setItem('url', this.router.url.replace('/game/', ''));
-
     this.lobbyRequests.joinLobbyRequest(this.gameId);
 
     this.lobbyRequests.changePhaseEvent().subscribe((data: GameCurrentData) => {
+      console.log(data.status, data);
+
       switch (data.status) {
         case GameStatus.Prepare:
           console.log('prepare');
@@ -42,7 +43,6 @@ export class GamePageComponent implements OnInit {
           this.gameService.getPlayerCards();
           this.modalPhasesService.closeVotingResultsModal();
           console.log(data);
-          console.log('Situation');
           break;
 
         case GameStatus.Vote:
@@ -55,13 +55,11 @@ export class GamePageComponent implements OnInit {
           console.log(data);
           this.modalPhasesService.closeVotingModal();
           this.modalPhasesService.openVotingResultsModal();
-          this.lobbyRequests.forceChangePhaseRequest(this.gameId);
           break
 
         case GameStatus.End:
           this.modalPhasesService.closeVotingResultsModal();
-          console.log('The End D:');
-          console.log(data);
+          this.gameService.changeGameData(data);
           break;
       }
     });
