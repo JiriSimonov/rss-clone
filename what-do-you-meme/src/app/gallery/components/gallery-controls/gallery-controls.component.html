@@ -1,0 +1,4 @@
+<div class="gallery__controls">
+  <button (click)="downloadItems()">Скачать {{(downloadItems$ | async)?.length}}</button>
+  <button (click)="clearDownloadItems()">Очистить</button>
+</div>

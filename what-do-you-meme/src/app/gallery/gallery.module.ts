@@ -5,12 +5,19 @@ import {RouterModule} from "@angular/router";
 import {ReactiveFormsModule} from "@angular/forms";
 import {MaterialModule} from "../shared/material/material.module";
 import {SharedModule} from "../shared/shared.module";
+import { GalleryControlsComponent } from './components/gallery-controls/gallery-controls.component';
+import { GalleryListComponent } from './components/gallery-list/gallery-list.component';
+import {InfiniteScrollModule} from "ngx-infinite-scroll";
+import { GalleryItemComponent } from './components/gallery-item/gallery-item.component';
 
 
 
 @NgModule({
   declarations: [
-    GalleryPageComponent
+    GalleryPageComponent,
+    GalleryControlsComponent,
+    GalleryListComponent,
+    GalleryItemComponent
   ],
   imports: [
     CommonModule,
@@ -21,6 +28,7 @@ import {SharedModule} from "../shared/shared.module";
       pathMatch: 'full',
       component: GalleryPageComponent,
     }]),
+    InfiniteScrollModule,
     SharedModule
   ]
 })

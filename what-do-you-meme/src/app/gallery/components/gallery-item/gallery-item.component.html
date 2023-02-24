@@ -1,0 +1,4 @@
+<li class="gallery__item" [appImage]="item">
+  <button (click)="addToDownloadList()">Добавить</button>
+  <button>{{isAdded$ | async}}</button>
+</li>
