@@ -26,7 +26,7 @@ export class GlobalChatComponent implements OnInit {
     });
     this.chatService.getMessage().subscribe((messageData) => {
       messageData.timestamp = new Date(
-        messageData?.timestamp ?? ''
+        messageData?.timestamp ?? Date.now()
       ).toLocaleTimeString('ru-RU');
       this.messageList.push(messageData);
     });

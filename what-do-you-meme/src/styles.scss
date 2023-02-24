@@ -12,7 +12,7 @@ body {
   margin: 0;
   padding: 0;
   font-size: 16px;
-  background-color: gray; // remove after dev
+ background-color: #1b1a20;
 }
 
 h1,
@@ -49,6 +49,7 @@ button {
 .form {
   margin: 0 auto;
   padding: 20px;
+  border: 2px solid #382756;
   border-radius: 13px;
   max-width: 600px;
   background-color: #1b1a20;

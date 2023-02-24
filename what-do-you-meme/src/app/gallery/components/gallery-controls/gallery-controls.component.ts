@@ -15,7 +15,7 @@ export class GalleryControlsComponent {
   }
 
   downloadItems() {
-    console.log('send')
-    this.galleryService.downloadItemsArr()
+    this.galleryService.downloadItemsArr().subscribe((res) => {window.location.href = URL.createObjectURL(res)});
+    this.galleryService.clearDownloadItems();
   }
 }

@@ -9,6 +9,7 @@ import { GalleryControlsComponent } from './components/gallery-controls/gallery-
 import { GalleryListComponent } from './components/gallery-list/gallery-list.component';
 import {InfiniteScrollModule} from "ngx-infinite-scroll";
 import { GalleryItemComponent } from './components/gallery-item/gallery-item.component';
+import {MatGridListModule} from "@angular/material/grid-list";
 
 
 
@@ -19,17 +20,18 @@ import { GalleryItemComponent } from './components/gallery-item/gallery-item.com
     GalleryListComponent,
     GalleryItemComponent
   ],
-  imports: [
-    CommonModule,
-    ReactiveFormsModule,
-    MaterialModule,
-    RouterModule.forChild([{
-      path: '',
-      pathMatch: 'full',
-      component: GalleryPageComponent,
-    }]),
-    InfiniteScrollModule,
-    SharedModule
-  ]
+    imports: [
+        CommonModule,
+        ReactiveFormsModule,
+        MaterialModule,
+        RouterModule.forChild([{
+            path: '',
+            pathMatch: 'full',
+            component: GalleryPageComponent,
+        }]),
+        InfiniteScrollModule,
+        SharedModule,
+        MatGridListModule
+    ]
 })
 export class GalleryModule { }

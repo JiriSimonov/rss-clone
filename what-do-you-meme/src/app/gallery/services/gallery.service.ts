@@ -1,7 +1,7 @@
 import {Injectable} from '@angular/core';
 import {HttpClient} from "@angular/common/http";
 import {ConfigService} from "../../shared/services/config/config.service";
-import {BehaviorSubject} from "rxjs";
+import {BehaviorSubject, Observable} from "rxjs";
 
 @Injectable({
   providedIn: 'root'
@@ -62,9 +62,8 @@ export class GalleryService {
     this.downloadItems$$.next(this.downloadItems$$.value.filter((elem) => elem !== item));
   }
 
-  downloadItemsArr() {
-    // return this.http.post<Blob>(`${this.SERVER_URL}/file/images/meme/zip`, this.downloadItems$$.value);
-    this.clearDownloadItems();
+  downloadItemsArr(): Observable<Blob> {
+    return this.http.post(`${this.SERVER_URL}/file/images/meme/zip`, this.downloadItems$$.value, {responseType: "blob", observe: "body"});
   }
 
   updateGalleryList() {
