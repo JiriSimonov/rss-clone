@@ -15,13 +15,3 @@
   line-height: 20px;
   max-width: 200px;
 }
-
-.game-aside__closed {
-  transform: translateX(100%);
-
-  & .game-aside__close-btn {
-    border-top: 2px solid #fff;
-    border-left: 2px solid #fff;
-    transform: translateX(-150%) rotate(-45deg);
-  }
-}

@@ -35,7 +35,7 @@ export class GamePlaygroundComponent {
     return deg;
   }
 
-  calcDistance(index: number, arr: string[]) {
+  calcDistance(index: number, arr: string[] = this.playerCards) {
     return `${(Math.ceil(arr.length / 2) * 50) - index * 50}% -100%`
   }
 

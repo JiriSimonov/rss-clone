@@ -1,11 +1,11 @@
 import { HttpClient } from '@angular/common/http';
 import { Injectable } from '@angular/core';
 import { Socket } from 'ngx-socket-io';
-import {BehaviorSubject, distinctUntilChanged} from 'rxjs';
+import { BehaviorSubject, distinctUntilChanged } from 'rxjs';
 import { IoInput } from 'src/app/shared/model/sockets-events';
 import { GameCurrentData } from '../models/game.model';
-import {ConfigService} from "../../shared/services/config/config.service";
-import {map} from "rxjs/operators";
+import { ConfigService } from "../../shared/services/config/config.service";
+import { map } from "rxjs/operators";
 
 const initialGameState: GameCurrentData = {
   currentRound: 0,
@@ -22,7 +22,7 @@ const initialGameState: GameCurrentData = {
       vote: '',
     }
   },
-  status: 'end',
+  status: 'prepare',
   votes: {
     '': ['']
   }
@@ -65,6 +65,13 @@ export class GameService {
       return gameData.rounds.slice(-1);
     })
   );
+  public status$ = this.gameData$.pipe(
+    map((gameData: GameCurrentData) => {
+      return gameData.status;
+    }),
+    distinctUntilChanged()
+  );
+
   private playerCards$$ = new BehaviorSubject<string[]>([])
   public playerCards$ = this.playerCards$$.asObservable();
   constructor(private http: HttpClient, private socket: Socket) { }
@@ -84,18 +91,21 @@ export class GameService {
   }
 
   getPlayerCards() {
-  this.http.get<string[]>(`${ConfigService.SERVER_URL}/file/images/meme`, { params: {
-      quantity: 5,
-      shuffle: true
-    }}).subscribe(
-    (playerCards) => this.playerCards$$.next(playerCards)
-  )
+    this.http.get<string[]>(`${ConfigService.SERVER_URL}/file/images/meme`, {
+      params: {
+        quantity: 5,
+        shuffle: true
+      }
+    }).subscribe(
+      (playerCards) => this.playerCards$$.next(playerCards)
+    )
   }
 
   sendVote(uuid: string, vote: string) {
+    console.log(uuid, vote);
     this.socket.emit(IoInput.getVote, {
       uuid,
       vote,
-    })
+    });
   }
 }

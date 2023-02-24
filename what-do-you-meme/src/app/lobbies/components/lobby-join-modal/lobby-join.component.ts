@@ -1,13 +1,13 @@
-import {LobbyValidatorsService} from '../../services/lobby-validators/lobby-validators.service';
-import {Component, ElementRef, Input, OnInit} from '@angular/core';
-import {FormControl, FormGroup, Validators} from '@angular/forms';
-import {LobbyPasswordValidator} from '../../validators/lobby-password-validator';
-import {LobbyData} from 'src/app/lobbies/model/lobby-data';
-import {Router} from '@angular/router';
-import {filter} from "rxjs/operators";
-import {debounceTime} from "rxjs";
-import {MatDialog} from "@angular/material/dialog";
-import {LobbyService} from "../../services/lobby/lobby.service";
+import { LobbyValidatorsService } from '../../services/lobby-validators/lobby-validators.service';
+import { Component, ElementRef, Input, OnInit } from '@angular/core';
+import { FormControl, FormGroup, Validators } from '@angular/forms';
+import { LobbyPasswordValidator } from '../../validators/lobby-password-validator';
+import { LobbyData } from 'src/app/lobbies/model/lobby-data';
+import { Router } from '@angular/router';
+import { filter } from "rxjs/operators";
+import { debounceTime } from "rxjs";
+import { MatDialog } from "@angular/material/dialog";
+import { LobbyService } from "../../services/lobby/lobby.service";
 
 @Component({
   selector: 'app-lobby-join-modal',
@@ -20,12 +20,11 @@ export class LobbyJoinComponent implements OnInit {
   private currentId!: string;
 
   constructor(
-    private lobbyModalElem: ElementRef,
     private validatorsService: LobbyValidatorsService,
     private router: Router,
     private lobbyService: LobbyService,
     private joinDialog: MatDialog
-  ) {}
+  ) { }
 
   get passwordControl() {
     return this.joinForm.get('password');
