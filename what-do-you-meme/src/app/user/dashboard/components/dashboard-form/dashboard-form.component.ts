@@ -82,7 +82,7 @@ export class DashboardFormComponent implements OnInit {
     this.authService.deleteUser().subscribe(() => {
       this.store$.dispatch(logoutSuccess());
       this.localStorage.clear();
-      this.router.navigate(['auth'], { replaceUrl: true });
+      this.router.navigate(['auth'], { replaceUrl: true }).catch();
     });
   }
 
@@ -90,7 +90,7 @@ export class DashboardFormComponent implements OnInit {
     this.authService.changeUserData({ image: this.newAvatar }).subscribe(() => {
       this.store$.dispatch(logoutSuccess());
       this.localStorage.clear();
-      this.router.navigate(['auth'], { replaceUrl: true });
+      this.router.navigate(['auth'], { replaceUrl: true }).catch();
     });
   }
 
