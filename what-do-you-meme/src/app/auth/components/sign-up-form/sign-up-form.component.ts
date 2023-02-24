@@ -19,10 +19,10 @@ import { UsernameValidator } from 'src/app/shared/validators/username.validator'
 export class SignUpFormComponent implements OnInit {
   signUpForm!: FormGroup;
   avatar!: string;
-  currentAvatart = this.avatarService.avatar$.subscribe((avatar) => {
+  currentAvatar = this.avatarService.avatar$.subscribe((avatar) => {
     this.avatar = avatar;
     this.cdr.markForCheck();
-  }); //TODO FIX
+  });
   constructor(
     private authService: AuthService,
     private router: Router,
@@ -39,7 +39,7 @@ export class SignUpFormComponent implements OnInit {
           Validators.minLength(4),
           Validators.maxLength(12),
         ],
-        [UsernameValidator.isUniqueUsername(this.authService)]
+        [UsernameValidator.isUniqueUsername(this.authService)],
       ),
       password: new FormControl('', [
         Validators.required,
