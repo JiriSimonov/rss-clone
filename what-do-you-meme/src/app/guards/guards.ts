@@ -7,7 +7,7 @@ export const isGameRouteGuard = [
   (route: ActivatedRouteSnapshot, state: RouterStateSnapshot) => {
     const lobbyRequests = inject(LobbyRequestsService);
     const url = SessionStorageService.previousGameUrl;
-    if (url && url !== state.url) {
+    if (url && url !== state.url.replace('/game/', '')) {
       lobbyRequests.leaveLobbyRequest(url);
       sessionStorage.clear();
     }

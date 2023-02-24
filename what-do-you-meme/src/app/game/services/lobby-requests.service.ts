@@ -33,6 +33,7 @@ export class LobbyRequestsService {
       uuid,
       password: '',
     }, (gameData: GameCurrentData) => {
+      console.log(0);
       this.gameService.changeGameData(gameData);
     });
   }

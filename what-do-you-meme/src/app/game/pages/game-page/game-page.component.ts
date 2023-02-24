@@ -29,13 +29,13 @@ export class GamePageComponent implements OnInit {
 
   ngOnInit() {
     this.sessionStorage.setItem('url', this.router.url.replace('/game/', ''));
-    this.lobbyRequests.joinLobbyRequest(this.gameId);
 
     this.lobbyRequests.joinLobbyEvent().subscribe((gameData: GameCurrentData) => {
-      console.log('joined');
-      this.gameService.changeGameData(gameData);
       this.loadPhase(gameData);
+      this.gameService.changeGameData(gameData);
     });
+
+    this.lobbyRequests.joinLobbyRequest(this.gameId);
 
     this.lobbyRequests.changePhaseEvent().subscribe((gameData: GameCurrentData) => {
       this.loadPhase(gameData);
