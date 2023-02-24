@@ -71,6 +71,7 @@ export class GameService {
     }),
     distinctUntilChanged()
   );
+
   private playerCards$$ = new BehaviorSubject<string[]>([])
   public playerCards$ = this.playerCards$$.asObservable();
   constructor(private http: HttpClient, private socket: Socket) { }
@@ -101,9 +102,11 @@ export class GameService {
   }
 
   sendVote(uuid: string, vote: string) {
+    console.log(uuid, vote);
+
     this.socket.emit(IoInput.getVote, {
       uuid,
       vote,
-    })
+    });
   }
 }

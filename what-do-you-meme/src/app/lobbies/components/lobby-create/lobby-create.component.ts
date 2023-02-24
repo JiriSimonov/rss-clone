@@ -1,15 +1,15 @@
-import {LocalStorageService} from 'src/app/shared/storage/services/local-storage/local-storage.service';
-import {Component, EventEmitter, OnInit, Output,} from '@angular/core';
-import {FormControl, FormGroup, Validators} from '@angular/forms';
-import {AuthService} from 'src/app/auth/services/auth.service';
-import {LobbyService} from '../../services/lobby/lobby.service';
-import {LobbyData} from 'src/app/lobbies/model/lobby-data';
-import {createLobby} from '../../model/create-lobby';
-import {LobbyPasswordValidator} from '../../validators/lobby-name-validator';
-import {LobbyValidatorsService} from '../../services/lobby-validators/lobby-validators.service';
-import {filter} from "rxjs/operators";
-import {debounceTime} from "rxjs";
-import {MatDialog} from "@angular/material/dialog";
+import { LocalStorageService } from 'src/app/shared/storage/services/local-storage/local-storage.service';
+import { Component, EventEmitter, OnInit, Output, } from '@angular/core';
+import { FormControl, FormGroup, Validators } from '@angular/forms';
+import { AuthService } from 'src/app/auth/services/auth.service';
+import { LobbyService } from '../../services/lobby/lobby.service';
+import { LobbyData } from 'src/app/lobbies/model/lobby-data';
+import { createLobby } from '../../model/create-lobby';
+import { LobbyPasswordValidator } from '../../validators/lobby-name-validator';
+import { LobbyValidatorsService } from '../../services/lobby-validators/lobby-validators.service';
+import { filter } from "rxjs/operators";
+import { debounceTime } from "rxjs";
+import { MatDialog } from "@angular/material/dialog";
 
 @Component({
   selector: 'app-lobby-modal',
@@ -52,14 +52,13 @@ export class LobbyCreateComponent implements OnInit {
     });
     this.modalForm.valueChanges.pipe(
       debounceTime(800),
-      filter((value: {title: string}) => value.title.length > 3)
+      filter((value: { title: string }) => value.title.length > 3)
     ).subscribe();
   }
 
   get maxRoundsControlValue() {
     return this.modalForm.get('maxRounds')?.value;
   }
-
 
   get maxPlayersControlValue() {
     return this.modalForm.get('maxPlayers')?.value;

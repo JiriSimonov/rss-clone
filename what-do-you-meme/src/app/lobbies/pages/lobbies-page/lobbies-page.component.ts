@@ -2,8 +2,8 @@ import { LobbyValidatorsService } from '../../services/lobby-validators/lobby-va
 import { LobbyService } from 'src/app/lobbies/services/lobby/lobby.service';
 import { LocalStorageService } from '../../../shared/storage/services/local-storage/local-storage.service';
 import { Component, OnInit } from '@angular/core';
-import {MatDialog} from "@angular/material/dialog";
-import {LobbyCreateComponent} from "../../components/lobby-create/lobby-create.component";
+import { MatDialog } from "@angular/material/dialog";
+import { LobbyCreateComponent } from "../../components/lobby-create/lobby-create.component";
 
 @Component({
   selector: 'app-lobbies-page',
@@ -22,7 +22,7 @@ export class LobbiesPageComponent implements OnInit {
     private localStorage: LocalStorageService,
     private lobbyValidators: LobbyValidatorsService,
     public createDialog: MatDialog,
-  ) {}
+  ) { }
 
   ngOnInit() {
     this.checkCreatedLobby();
@@ -38,6 +38,7 @@ export class LobbiesPageComponent implements OnInit {
         this.localStorage.setItem('createdLobby', response);
       });
   }
+
   openCreateDialog() {
     this.createDialog.open(LobbyCreateComponent, {
       width: '400px',

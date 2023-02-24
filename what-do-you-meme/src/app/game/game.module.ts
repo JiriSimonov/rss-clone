@@ -13,6 +13,7 @@ import { GameVotingResultsPhaseComponent } from './components/game-voting-result
 import {SharedModule} from "../shared/shared.module";
 import { GamePreparePhaseComponent } from './components/game-prepare-phase/game-prepare-phase.component';
 import { GameEndingPhaseComponent } from './components/game-ending-phase/game-ending-phase.component';
+import { MaterialModule } from '../shared/material/material.module';
 
 @NgModule({
   declarations: [
@@ -32,6 +33,7 @@ import { GameEndingPhaseComponent } from './components/game-ending-phase/game-en
     ReactiveFormsModule,
     DragDropModule,
     SharedModule,
+    MaterialModule,
   ]
 })
 export class GameModule { }
