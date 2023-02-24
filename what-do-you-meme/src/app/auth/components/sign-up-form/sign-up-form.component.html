@@ -3,7 +3,6 @@
     (ngSubmit)="onSubmit()"
     [formGroup]="signUpForm"
     class="form__form"
-    novalidate
   >
   <app-set-picture></app-set-picture>
   <mat-form-field appearance="fill">
@@ -17,7 +16,7 @@
     >
   </mat-form-field>
   <mat-form-field appearance="fill">
-    <mat-label>Введите пароль:</mat-label> 
+    <mat-label>Введите пароль:</mat-label>
     <input matInput type="password" formControlName="password" class="form__input" />
     <span class="form__error" *ngIf="passwordControl?.errors?.['minlength']"
       >Минимальная длина 8 символов</span

@@ -10,6 +10,10 @@ import { ReactiveFormsModule } from '@angular/forms';
 import {DragDropModule} from '@angular/cdk/drag-drop';
 import { GameVotingPhaseComponent } from './components/game-voting-phase/game-voting-phase.component';
 import { GameVotingResultsPhaseComponent } from './components/game-voting-results-phase/game-voting-results-phase.component';
+import {SharedModule} from "../shared/shared.module";
+import { GamePreparePhaseComponent } from './components/game-prepare-phase/game-prepare-phase.component';
+import { GameEndingPhaseComponent } from './components/game-ending-phase/game-ending-phase.component';
+import { MaterialModule } from '../shared/material/material.module';
 
 @NgModule({
   declarations: [
@@ -19,13 +23,17 @@ import { GameVotingResultsPhaseComponent } from './components/game-voting-result
     GamePlaygroundComponent,
     MemeCardComponent,
     GameVotingPhaseComponent,
-    GameVotingResultsPhaseComponent
+    GameVotingResultsPhaseComponent,
+    GamePreparePhaseComponent,
+    GameEndingPhaseComponent
   ],
   imports: [
     CommonModule,
     GameRoutingModule,
     ReactiveFormsModule,
     DragDropModule,
+    SharedModule,
+    MaterialModule,
   ]
 })
 export class GameModule { }

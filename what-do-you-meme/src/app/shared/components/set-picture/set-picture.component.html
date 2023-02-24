@@ -1,4 +1,4 @@
 <div class="user">
-  <div class="user__avatar" [appAvatar]="avatar$ | async"></div>
-  <button class="btn user-btn" type="button" (click)="changeAvatar()">pepe</button>
+  <div class="user__image" [appImage]="avatar$ | async"></div>
+  <button class="user__reload" type="button" aria-label="обновить" (click)="changeAvatar()"></button>
 </div>

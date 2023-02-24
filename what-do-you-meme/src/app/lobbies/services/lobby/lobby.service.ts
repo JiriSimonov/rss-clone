@@ -4,36 +4,26 @@ import {LocalStorageService} from '../../../shared/storage/services/local-storag
 import {Injectable} from '@angular/core';
 import {BehaviorSubject} from 'rxjs';
 import {Socket} from 'ngx-socket-io';
-import {LobbiesPrivate, LobbyData} from 'src/app/lobbies/model/lobby-data';
+import {LobbyData} from 'src/app/lobbies/model/lobby-data';
 import {createLobby} from '../../model/create-lobby';
 
 @Injectable({
   providedIn: 'root',
 })
 export class LobbyService {
+  private currentId$$ = new BehaviorSubject<string>('');
+  public currentId$ = this.currentId$$.asObservable();
   private lobbies$$ = new BehaviorSubject<LobbyData[]>([]);
   public lobbies$ = this.lobbies$$.asObservable();
-  private lobbyPrivate$$ = new BehaviorSubject<LobbiesPrivate>(
-    LobbiesPrivate.all
-  );
-  public lobbyPrivate$ = this.lobbyPrivate$$.asObservable();
-  private lobbiesNameContains$$ = new BehaviorSubject<string>('');
-  public lobbiesNameContains$ = this.lobbiesNameContains$$.asObservable();
   private chunkOptions = {
     page: 0,
     limit: 8,
   };
   private lobbiesOptions = {
     chunk: this.chunkOptions,
-    privacy: this.lobbyPrivate$$.value,
-    nameContains: this.lobbiesNameContains$$.value,
+    privacy: 'all',
+    nameContains: '',
   };
-  private lobbiesPrivacy = this.lobbyPrivate$.subscribe(
-    (privacy) => (this.lobbiesOptions.privacy = privacy)
-  );
-  private lobbiesNames = this.lobbiesNameContains$.subscribe(
-    (name) => (this.lobbiesOptions.nameContains = name)
-  );
 
   constructor(
     private localStorage: LocalStorageService,
@@ -43,7 +33,11 @@ export class LobbyService {
   }
 
   resetPrivacy() {
-    this.lobbyPrivate$$.next(LobbiesPrivate.all);
+    this.lobbiesOptions.privacy = 'all';
+  }
+
+  changePrivacy(value: string) {
+    this.lobbiesOptions.privacy = value;
   }
 
   incrementPage(): void {
@@ -59,17 +53,9 @@ export class LobbyService {
   }
 
   changeNameContains(value: string) {
-    this.lobbiesNameContains$$.next(value);
+    this.lobbiesOptions.nameContains = value;
   }
 
-  changePrivate(value: string) {
-    this.lobbyPrivate$$.next(this.formatToEnumValues(value));
-  }
-
-  formatToEnumValues(value: string) {
-    if (value === '') return LobbiesPrivate.all;
-    return value === 'true' ? LobbiesPrivate.private : LobbiesPrivate.public;
-  }
 
   joinLobby(data: LobbyData) {
     this.socket.emit(IoInput.joinLobbyRequest, data);
@@ -105,5 +91,9 @@ export class LobbyService {
         this.lobbies$$.next(lobbies);
       }
     );
+  }
+
+  changeLobbyId(uuid: string) {
+    this.currentId$$.next(uuid);
   }
 }

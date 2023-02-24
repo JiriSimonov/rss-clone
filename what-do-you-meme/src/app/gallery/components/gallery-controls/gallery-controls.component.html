@@ -1,0 +1,9 @@
+<div class="gallery__controls">
+  <button
+    mat-raised-button
+    color="primary"
+    (click)="downloadItems()">Скачать
+    {{(downloadItems$ | async)?.length === 0 ? 'все' : (downloadItems$ | async)?.length + ' файл(-а/-ов)'}}
+  </button>
+  <button mat-raised-button color="warn" (click)="clearDownloadItems()">Очистить</button>
+</div>

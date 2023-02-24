@@ -4,5 +4,6 @@ export enum RouterRoutes {
   game = 'game',
   chat = 'chat',
   lobbies = 'lobbies',
-  wildcard = '**'
+  wildcard = '**',
+  gallery = 'gallery'
 }

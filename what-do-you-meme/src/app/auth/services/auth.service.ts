@@ -13,6 +13,12 @@ import {ConfigService} from "../../shared/services/config/config.service";
 export class AuthService {
   private URL = ConfigService.SERVER_URL;
   public user$ = this.store$.select(getAuthData);
+  public username$ = this.user$.pipe(
+    map((userData: AuthData | null | undefined) => {
+      return userData?.username;
+    }),
+    distinctUntilChanged()
+  )
   public userData$ = this.user$.pipe(
     map((userData) => {
       return {

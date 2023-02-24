@@ -1,5 +1,5 @@
-import { Component } from '@angular/core';
-import { ActivatedRoute } from '@angular/router';
+import { Component, Inject, Input } from '@angular/core';
+import { MAT_DIALOG_DATA } from '@angular/material/dialog';
 import { GameService } from '../../services/game.service';
 
 @Component({
@@ -8,12 +8,18 @@ import { GameService } from '../../services/game.service';
   styleUrls: ['./game-voting-phase.component.scss']
 })
 export class GameVotingPhaseComponent {
-  gameId: string;
+  memes$ = this.gameService.memes$;
+  uuid: string;
 
   constructor(
-    public gameService: GameService,
-    activatedRoute: ActivatedRoute
+    private gameService: GameService,
+    @Inject(MAT_DIALOG_DATA) uuid: string
   ) {
-    this.gameId = activatedRoute.snapshot.params['id'];
+    this.uuid = uuid;
+  }
+
+  sendVote(uuid: string, vote: string) {
+    console.log(uuid);
+    this.gameService.sendVote(uuid, vote);
   }
 }

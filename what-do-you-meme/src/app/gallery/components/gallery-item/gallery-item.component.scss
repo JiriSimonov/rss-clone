@@ -1,0 +1,23 @@
+.gallery__item {
+  padding: 20px;
+  border-radius: 13px;
+  background-color: #1b1a20;
+  overflow: hidden;
+}
+
+
+.gallery__card {
+  width: 320px;
+  height: 320px;
+  margin-bottom: 20px;
+  border-radius: 5px;
+  background-size: cover;
+  background-repeat: no-repeat;
+  background-position: center;
+  text-align: center;
+}
+
+.gallery__btn {
+  display: block;
+  margin: 0 auto;
+}

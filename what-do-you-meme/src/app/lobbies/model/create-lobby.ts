@@ -6,4 +6,5 @@ export interface createLobby {
   image: string;
   mode: string;
   password: string;
+  timerDelay: number;
 }

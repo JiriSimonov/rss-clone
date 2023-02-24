@@ -1,8 +1,8 @@
-import { NgModule } from '@angular/core';
-import { RouterModule, Routes } from '@angular/router';
-import { StoreModule } from '@ngrx/store';
-import { DEFAULT_ROUTER_FEATURENAME, routerReducer } from '@ngrx/router-store';
-import { isGameRouteGuard } from './guards/guards';
+import {NgModule} from '@angular/core';
+import {RouterModule, Routes} from '@angular/router';
+import {StoreModule} from '@ngrx/store';
+import {DEFAULT_ROUTER_FEATURENAME, routerReducer} from '@ngrx/router-store';
+import {isGameRouteGuard} from './guards/guards';
 import {NotFoundComponent} from "./shared/components/not-found/not-found.component";
 import {IsUserGuard} from "./guards/is-user.guard";
 import {IsGuestGuard} from "./guards/is-guest.guard";
@@ -45,6 +45,11 @@ const routes: Routes = [
       import('./lobbies/lobbies.module').then((module) => module.LobbiesModule),
     canMatch: [IsUserGuard],
     canActivate: isGameRouteGuard,
+  },
+  {
+    path: RouterRoutes.gallery,
+    loadChildren: () => import('./gallery/gallery.module').then((module) => module.GalleryModule),
+    canActivate: isGameRouteGuard
   },
   { path: RouterRoutes.wildcard,
     component: NotFoundComponent,

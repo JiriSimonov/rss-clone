@@ -2,7 +2,8 @@ import { LobbyValidatorsService } from '../../services/lobby-validators/lobby-va
 import { LobbyService } from 'src/app/lobbies/services/lobby/lobby.service';
 import { LocalStorageService } from '../../../shared/storage/services/local-storage/local-storage.service';
 import { Component, OnInit } from '@angular/core';
-import { LobbyModalService } from '../../services/lobby-modal/lobby-modal.service';
+import { MatDialog } from "@angular/material/dialog";
+import { LobbyCreateComponent } from "../../components/lobby-create/lobby-create.component";
 
 @Component({
   selector: 'app-lobbies-page',
@@ -10,18 +11,18 @@ import { LobbyModalService } from '../../services/lobby-modal/lobby-modal.servic
   styleUrls: ['./lobbies-page.component.scss'],
 })
 export class LobbiesPageComponent implements OnInit {
-  scrollUpDistance = 4;
-  scrollDistance = 2;
-  throttle = 0;
-  lobbies$ = this.lobbiesService.lobbies$;
-  isCreatedLobby!: boolean;
+  public scrollUpDistance = 4;
+  public scrollDistance = 2;
+  public throttle = 0;
+  public lobbies$ = this.lobbiesService.lobbies$;
+  public isCreatedLobby!: boolean;
 
   constructor(
     private lobbiesService: LobbyService,
-    private lobbyModal: LobbyModalService,
     private localStorage: LocalStorageService,
-    private lobbyValidators: LobbyValidatorsService
-  ) {}
+    private lobbyValidators: LobbyValidatorsService,
+    public createDialog: MatDialog,
+  ) { }
 
   ngOnInit() {
     this.checkCreatedLobby();
@@ -38,16 +39,10 @@ export class LobbiesPageComponent implements OnInit {
       });
   }
 
-  get createModalState() {
-    return this.lobbyModal.isOpenCreateModal;
-  }
-
-  get joinModalState() {
-    return this.lobbyModal.isOpenJoinModal;
-  }
-
-  changeCreateModalState() {
-    this.lobbyModal.toggleCreateModal();
+  openCreateDialog() {
+    this.createDialog.open(LobbyCreateComponent, {
+      width: '400px',
+    })
   }
 
   onScrollDown() {

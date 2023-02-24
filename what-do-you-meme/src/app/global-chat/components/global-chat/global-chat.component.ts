@@ -2,6 +2,7 @@ import {GlobalChatService} from '../../services/global-chat/global-chat.service'
 import {Component, OnInit} from '@angular/core';
 import {FormControl, FormGroup, Validators} from '@angular/forms';
 import {MessageData} from '../../../shared/model/messageData';
+import {BehaviorSubject} from "rxjs";
 
 @Component({
   selector: 'app-global-chat',
@@ -10,7 +11,9 @@ import {MessageData} from '../../../shared/model/messageData';
 })
 export class GlobalChatComponent implements OnInit {
   sendMessageForm!: FormGroup;
-  messageList: MessageData[] = [];
+  private messageList$$ = new BehaviorSubject<MessageData[]>([]);
+  public messageList$ = this.messageList$$.asObservable();
+
 
   constructor(
     private chatService: GlobalChatService,
@@ -25,10 +28,10 @@ export class GlobalChatComponent implements OnInit {
       ]),
     });
     this.chatService.getMessage().subscribe((messageData) => {
-      messageData.timestamp = new Date(
-        messageData?.timestamp ?? ''
-      ).toLocaleTimeString('ru-RU');
-      this.messageList.push(messageData);
+      console.log(messageData.timestamp);
+      messageData.timestamp = new Date(messageData?.timestamp).toLocaleTimeString('ru-RU');
+      //TODO фикс кейса, когда вместо числел приходит дата
+      this.messageList$$.next([...this.messageList$$.value, messageData]);
     });
   }
 

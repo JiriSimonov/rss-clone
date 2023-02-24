@@ -2,13 +2,12 @@
   <div class="lobbies">
     <app-lobby-search></app-lobby-search>
     <span class="form__error lobbies__error" *ngIf="isCreatedLobby"
-    >Вы уже создали лобби</span
-  >
+    >Вы уже создали лобби</span>
     <button
       class="btn lobbies__btn"
-      (click)="changeCreateModalState()"
+      (click)="openCreateDialog()"
       [disabled]="isCreatedLobby"
-    >
+      >
       Создать Лобби
     </button>
     <ul
@@ -23,9 +22,4 @@
       </app-lobby-info>
     </ul>
   </div>
-  <app-lobby-modal
-    *ngIf="createModalState"
-    (onClosed)="changeCreateModalState()"
-  ></app-lobby-modal>
-  <app-lobby-join-modal *ngIf="joinModalState"></app-lobby-join-modal>
 </div>

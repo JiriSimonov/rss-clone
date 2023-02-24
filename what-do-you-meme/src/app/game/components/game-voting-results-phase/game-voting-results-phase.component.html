@@ -1,11 +1,8 @@
-<div class="modal vote-results-modal">
-  <div class="modal__overlay vote-results-modal__overlay">
-    <div class="vote-results-modal__container">
-      <div class="vote-results-modal__meme" *ngFor="let meme of gameService.gameData?.memes | keyvalue">
-        <app-meme-card [memeImage]="meme.key" />
-          <div class="vote-results-modal__results">{{ meme.value.length * 50 }}</div>
-      </div>
+<div class="vote-results-modal">
+  <div class="vote-results-modal__container">
+    <div class="vote-results-modal__meme" *ngFor="let vote of (votes$ | async | keyvalue)">
+      <app-meme-card [memeImage]="vote.key" />
+      <p class="vote-results-modal__results">{{ getVoteResults(vote.value.length) }}</p>
     </div>
   </div>
 </div>
-

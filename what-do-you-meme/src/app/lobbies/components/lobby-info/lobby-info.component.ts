@@ -1,8 +1,9 @@
-import {LobbyModalService} from '../../services/lobby-modal/lobby-modal.service';
 import {Component, Input} from '@angular/core';
 import {Router} from '@angular/router';
 import {LobbyService} from '../../services/lobby/lobby.service';
-import {LobbiesPrivate, LobbyData} from 'src/app/lobbies/model/lobby-data';
+import {LobbiesPrivacy, LobbyData} from 'src/app/lobbies/model/lobby-data';
+import {MatDialog} from "@angular/material/dialog";
+import {LobbyJoinComponent} from "../lobby-join-modal/lobby-join.component";
 
 @Component({
   selector: 'app-lobby-info',
@@ -14,19 +15,19 @@ export class LobbyInfoComponent {
 
   constructor(
     private router: Router,
-    private lobbyModal: LobbyModalService,
-    private lobbyService: LobbyService
+    private lobbyService: LobbyService,
+    private joinDialog: MatDialog
   ) {
   }
 
   get isPrivate() {
-    return this.lobby?.privacyType === LobbiesPrivate.private;
+    return this.lobby?.privacyType === LobbiesPrivacy.private;
   }
 
   checkPrivate() {
-    this.lobbyModal.currentLobbyId(this.lobby.uuid);
+    this.lobbyService.changeLobbyId(this.lobby.uuid);
     if (this.isPrivate) {
-      this.lobbyModal.toggleJoinModal();
+      this.joinDialog.open(LobbyJoinComponent);
     } else {
       if (this.lobby) {
         this.lobbyService.joinLobby(this.lobby);

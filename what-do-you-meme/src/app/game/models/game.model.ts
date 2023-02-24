@@ -1,5 +1,3 @@
-import {Player} from "src/app/lobbies/model/lobby-data";
-
 export enum GameStatus {
   Prepare = 'prepare',
   Situation = 'situation',
@@ -12,26 +10,44 @@ type MemeList = {
   [meme: string]: string[];
 }
 
-export interface GamePlayer extends Player {
+export interface Player {
+  username: string;
+  score: number;
   image: string;
   meme: string;
   vote: string;
 }
 
-type playerObject = Record<GamePlayer['username'], GamePlayer>
+type playerObject = Record<Player['username'], Player>
 
-export interface GameLobbyData {
-
-  title: string;
-  password: string;
-  players: playerObject;
-  status: string;
-  currentRound: number;
-}
-
-export interface GameCurrentData extends Pick<GameLobbyData, 'players' | 'status'> {
+export interface GameCurrentData {
   currentRound: number;
   rounds: string[];
-  memes: MemeList; // {'meme1':['oleg','petr'],'meme2':[egor]}
+  memes: MemeList;
+  players: playerObject;
+  status: string;
   votes: MemeList;
 }
+
+let gameData: GameCurrentData = {
+  currentRound: 0,
+  rounds: [''],
+  memes: {
+    '': ['']
+  },
+  players: {
+    slikedollar: {
+      username: '',
+      score: 0,
+      image: '',
+      meme: '',
+      vote: '',
+    }
+  },
+  status: 'end',
+  votes: {
+    '': ['']
+  }
+}
+
+

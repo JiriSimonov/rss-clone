@@ -1,10 +1,10 @@
 import {Directive, ElementRef, Input, OnChanges, Renderer2} from '@angular/core';
 
 @Directive({
-  selector: '[appAvatar]'
+  selector: '[appImage]'
 })
 export class AvatarDirective implements OnChanges {
-@Input('appAvatar') image!: string | null;
+@Input('appImage') image!: string | null;
   constructor(private element: ElementRef<HTMLElement>, private renderer: Renderer2) {}
 
   ngOnChanges() {
