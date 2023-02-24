@@ -15,7 +15,7 @@ export class GalleryService {
   public galleryCards$ = this.galleryCards$$.asObservable();
   private chunkOptions = {
     page: 0,
-    limit: 8,
+    limit: 12,
   }
 
   constructor(private http: HttpClient) {
@@ -63,7 +63,10 @@ export class GalleryService {
   }
 
   downloadItemsArr(): Observable<Blob> {
-    return this.http.post(`${this.SERVER_URL}/file/images/meme/zip`, this.downloadItems$$.value, {responseType: "blob", observe: "body"});
+    return this.http.post(`${this.SERVER_URL}/file/images/meme/zip`, this.downloadItems$$.value, {
+      responseType: "blob",
+      observe: "body"
+    });
   }
 
   updateGalleryList() {

@@ -8,7 +8,7 @@ import {GalleryService} from "../../services/gallery.service";
 })
 export class GalleryListComponent implements OnInit {
   public scrollUpDistance = 4;
-  public scrollDistance = 4;
+  public scrollDistance = 8;
   public throttle = 0;
   galleryCards$ = this.galleryService.galleryCards$;
   constructor(private galleryService: GalleryService) {

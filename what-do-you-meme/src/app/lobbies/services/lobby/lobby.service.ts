@@ -35,6 +35,7 @@ export class LobbyService {
   resetPrivacy() {
     this.lobbiesOptions.privacy = 'all';
   }
+
   changePrivacy(value: string) {
     this.lobbiesOptions.privacy = value;
   }
