@@ -21,7 +21,7 @@ export class LobbyJoinComponent implements OnInit {
     private validatorsService: LobbyValidatorsService,
     private router: Router,
     private lobbyService: LobbyService,
-    private joinDialog: MatDialog
+    private joinDialog: MatDialog,
   ) {
   }
 
@@ -49,9 +49,6 @@ export class LobbyJoinComponent implements OnInit {
 
   onSubmit() {
     this.joinDialog.closeAll();
-    this.lobbyService.joinLobby(this.lobbyService.getLobbyByUUID(this.currentId));
-    this.router.navigate([`/game/${this.currentId}`], {
-      replaceUrl: true,
-    }).catch();
+    this.lobbyService.joinLobby(this.lobbyService.getLobbyByUUID(this.currentId), this.passwordControl?.value);
   }
 }

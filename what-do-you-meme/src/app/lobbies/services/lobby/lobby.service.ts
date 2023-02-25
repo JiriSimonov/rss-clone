@@ -6,6 +6,7 @@ import {BehaviorSubject} from 'rxjs';
 import {Socket} from 'ngx-socket-io';
 import {LobbyData} from 'src/app/lobbies/model/lobby-data';
 import {createLobby} from '../../model/create-lobby';
+import {SessionStorageService} from "../../../shared/storage/services/session-storage.service";
 
 @Injectable({
   providedIn: 'root',
@@ -29,6 +30,7 @@ export class LobbyService {
     private localStorage: LocalStorageService,
     private socket: Socket,
     private router: Router,
+    private sessionStorageService: SessionStorageService
   ) {
   }
 
@@ -64,8 +66,13 @@ export class LobbyService {
     this.lobbiesOptions.nameContains = value;
   }
 
-  joinLobby(data: LobbyData | undefined) {
-    this.socket.emit(IoInput.joinLobbyRequest, data);
+  joinLobby(data: LobbyData | undefined, password: string) {
+    this.socket.emit(IoInput.joinLobbyRequest, {uuid: data?.uuid, password}, () => {
+    this.sessionStorageService.setItem('lobbyPassword', password);
+    this.router.navigate([`/game/${data?.uuid}`], {
+      replaceUrl: true,
+    }).catch();
+    });
   }
 
   createLobby(options: createLobby) {
@@ -73,7 +80,8 @@ export class LobbyService {
       IoInput.createLobbyRequest,
       {lobby: options},
       (data: LobbyData) => {
-        this.joinLobby(data);
+        this.joinLobby(data, options.password);
+        this.sessionStorageService.setItem('lobbyPassword', options.password);
         this.router.navigate([`/game/${data.uuid}`], {replaceUrl: true}).catch();
       }
     );

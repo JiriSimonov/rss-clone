@@ -30,7 +30,7 @@ export class LobbyInfoComponent {
       this.joinDialog.open(LobbyJoinComponent);
     } else {
       if (this.lobby) {
-        this.lobbyService.joinLobby(this.lobby);
+        this.lobbyService.joinLobby(this.lobby, '');
         this.router.navigate([`/game/${this.lobby.uuid}`], {
           replaceUrl: true,
         }).catch();
