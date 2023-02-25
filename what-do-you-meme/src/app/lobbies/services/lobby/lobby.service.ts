@@ -1,4 +1,4 @@
-import {IoInput} from '../../../shared/model/sockets-events';
+import {IoInput, IoOutput} from '../../../shared/model/sockets-events';
 import {Router} from '@angular/router';
 import {LocalStorageService} from '../../../shared/storage/services/local-storage/local-storage.service';
 import {Injectable} from '@angular/core';
@@ -11,8 +11,8 @@ import {createLobby} from '../../model/create-lobby';
   providedIn: 'root',
 })
 export class LobbyService {
-  private currentId$$ = new BehaviorSubject<string>('');
-  public currentId$ = this.currentId$$.asObservable();
+  private currentUUID$$ = new BehaviorSubject<string>('');
+  public currentUUID$ = this.currentUUID$$.asObservable();
   private lobbies$$ = new BehaviorSubject<LobbyData[]>([]);
   public lobbies$ = this.lobbies$$.asObservable();
   private chunkOptions = {
@@ -72,12 +72,20 @@ export class LobbyService {
     );
   }
 
+  get lobbies(): LobbyData[] {
+    return this.lobbies$$.value;
+  }
+
+  set newLobbiesData(lobby: LobbyData) {
+    this.lobbies$$.next([...this.lobbies, lobby]);
+  }
+
   getLobbiesList() {
     this.socket.emit(
       IoInput.lobbyListRequest,
       this.lobbiesOptions,
       (lobbies: LobbyData[]) => {
-        this.lobbies$$.next([...this.lobbies$$.value, ...lobbies]);
+        this.lobbies$$.next([...this.lobbies, ...lobbies]);
       }
     );
   }
@@ -93,7 +101,23 @@ export class LobbyService {
     );
   }
 
-  changeLobbyId(uuid: string) {
-    this.currentId$$.next(uuid);
+  changeLobbyList(lobbies: LobbyData[]) {
+    this.lobbies$$.next(lobbies);
+  }
+
+  lobbyUpdate() {
+    return this.socket.fromEvent<LobbyData>(IoOutput.updateLobby);
+  }
+
+  lobbyDelete() {
+    return this.socket.fromEvent<string>(IoOutput.deleteLobby);
+  }
+
+  lobbyCreate() {
+    return this.socket.fromEvent<LobbyData>(IoOutput.createLobby);
+  }
+
+  changeUUID(uuid: string) {
+    this.currentUUID$$.next(uuid);
   }
 }

@@ -7,8 +7,6 @@ import { LobbyData } from 'src/app/lobbies/model/lobby-data';
 import { createLobby } from '../../model/create-lobby';
 import { LobbyPasswordValidator } from '../../validators/lobby-name-validator';
 import { LobbyValidatorsService } from '../../services/lobby-validators/lobby-validators.service';
-import { filter } from "rxjs/operators";
-import { debounceTime } from "rxjs";
 import { MatDialog } from "@angular/material/dialog";
 
 @Component({
@@ -49,11 +47,7 @@ export class LobbyCreateComponent implements OnInit {
       ]),
       mode: new FormControl('default', []),
       timerDelay: new FormControl('10', [Validators.required])
-    });
-    this.modalForm.valueChanges.pipe(
-      debounceTime(800),
-      filter((value: { title: string }) => value.title.length > 3)
-    ).subscribe();
+    }, { updateOn: "blur"});
   }
 
   get maxRoundsControlValue() {

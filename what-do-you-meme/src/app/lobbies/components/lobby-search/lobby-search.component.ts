@@ -39,8 +39,4 @@ export class LobbySearchComponent implements OnInit {
     this.lobbyService.changeNameContains(this.searchFieldValue);
     this.lobbyService.getNewLobbiesList();
   }
-
-  updateLobbies() {
-    this.lobbyService.getNewLobbiesList();
-  }
 }

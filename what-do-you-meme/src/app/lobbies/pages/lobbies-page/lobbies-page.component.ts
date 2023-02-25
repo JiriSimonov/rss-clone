@@ -15,6 +15,9 @@ export class LobbiesPageComponent implements OnInit {
   public scrollDistance = 2;
   public throttle = 0;
   public lobbies$ = this.lobbiesService.lobbies$;
+  private lobbyCreate$ = this.lobbiesService.lobbyCreate();
+  private lobbyDelete$ = this.lobbiesService.lobbyDelete();
+  private lobbyUpdate$ = this.lobbiesService.lobbyUpdate()
   public isCreatedLobby!: boolean;
 
   constructor(
@@ -25,6 +28,22 @@ export class LobbiesPageComponent implements OnInit {
   ) { }
 
   ngOnInit() {
+    this.lobbyCreate$.subscribe(
+      (lobby) => {
+        this.lobbiesService.newLobbiesData = lobby;
+      }
+    );
+    this.lobbyDelete$.subscribe(
+      (uuid: string) => {
+        this.lobbiesService.changeLobbyList(this.lobbiesService.lobbies.filter((lobby) => lobby.uuid !== uuid));
+      }
+    );
+    this.lobbyUpdate$.subscribe(
+      (lobby) => {
+        const existLobby = this.lobbiesService.lobbies.find((item) => item.uuid === lobby.uuid);
+        if (existLobby) Object.assign(existLobby, lobby);
+      }
+    );
     this.checkCreatedLobby();
     this.lobbiesService.resetPrivacy();
     this.lobbiesService.getNewLobbiesList();

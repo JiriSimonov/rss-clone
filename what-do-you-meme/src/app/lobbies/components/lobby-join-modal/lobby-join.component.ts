@@ -1,5 +1,5 @@
 import { LobbyValidatorsService } from '../../services/lobby-validators/lobby-validators.service';
-import { Component, ElementRef, Input, OnInit } from '@angular/core';
+import { Component, Input, OnInit } from '@angular/core';
 import { FormControl, FormGroup, Validators } from '@angular/forms';
 import { LobbyPasswordValidator } from '../../validators/lobby-password-validator';
 import { LobbyData } from 'src/app/lobbies/model/lobby-data';
@@ -31,7 +31,7 @@ export class LobbyJoinComponent implements OnInit {
   }
 
   ngOnInit() {
-    this.lobbyService.currentId$.subscribe((id: string) => {
+    this.lobbyService.currentUUID$.subscribe((id: string) => {
       this.currentId = id;
     });
     this.joinForm = new FormGroup({

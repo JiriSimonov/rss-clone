@@ -25,7 +25,7 @@ export class LobbyInfoComponent {
   }
 
   checkPrivate() {
-    this.lobbyService.changeLobbyId(this.lobby.uuid);
+    this.lobbyService.changeUUID(this.lobby.uuid);
     if (this.isPrivate) {
       this.joinDialog.open(LobbyJoinComponent);
     } else {
