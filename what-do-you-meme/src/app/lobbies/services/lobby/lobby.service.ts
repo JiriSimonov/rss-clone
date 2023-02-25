@@ -32,6 +32,14 @@ export class LobbyService {
   ) {
   }
 
+  get lobbies(): LobbyData[] {
+    return this.lobbies$$.value;
+  }
+
+  set newLobbiesData(lobby: LobbyData) {
+    this.lobbies$$.next([...this.lobbies, lobby]);
+  }
+
   resetPrivacy() {
     this.lobbiesOptions.privacy = 'all';
   }
@@ -56,7 +64,6 @@ export class LobbyService {
     this.lobbiesOptions.nameContains = value;
   }
 
-
   joinLobby(data: LobbyData) {
     this.socket.emit(IoInput.joinLobbyRequest, data);
   }
@@ -70,14 +77,6 @@ export class LobbyService {
         this.router.navigate([`/game/${data.uuid}`], {replaceUrl: true}).catch();
       }
     );
-  }
-
-  get lobbies(): LobbyData[] {
-    return this.lobbies$$.value;
-  }
-
-  set newLobbiesData(lobby: LobbyData) {
-    this.lobbies$$.next([...this.lobbies, lobby]);
   }
 
   getLobbiesList() {

@@ -44,10 +44,15 @@ export class GalleryService {
 
   incrementPage() {
     ++this.chunkOptions.page;
+    console.log(this.chunkOptions.page);
   }
 
   decrementPage() {
-    --this.chunkOptions.page;
+    this.chunkOptions.page <= 0
+      ? this.chunkOptions.page = 0
+      :
+      --this.chunkOptions.page;
+    console.log(this.chunkOptions.page);
   }
 
   clearDownloadItems() {
