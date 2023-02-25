@@ -1,8 +1,8 @@
-import { Component, Input, OnInit  } from '@angular/core';
+import { Component, Input, OnInit } from '@angular/core';
 import { Router } from '@angular/router';
 import { GameCurrentData } from '../../models/game.model';
 import { GameService } from '../../services/game.service';
-import {LobbyRequestsService} from "../../services/lobby-requests.service";
+import { LobbyRequestsService } from "../../services/lobby-requests.service";
 
 @Component({
   selector: 'app-game-joined-users',
@@ -24,6 +24,10 @@ export class GameJoinedUsersComponent implements OnInit {
     this.lobbyRequests.leaveLobbyEvent().subscribe((gameData: GameCurrentData) => {
       this.gameService.changeGameData(gameData);
     });
+
+    this.lobbyRequests.joinLobbyEvent().subscribe((gameData: GameCurrentData) => {
+      this.gameService.changeGameData(gameData);
+    });
   }
 
   togglePlayers() {
@@ -32,6 +36,6 @@ export class GameJoinedUsersComponent implements OnInit {
 
   leaveLobby() {
     this.lobbyRequests.leaveLobbyRequest(this.uuid);
-    this.router.navigate(['lobbies']);
+    this.router.navigate(['lobbies'], {replaceUrl: true}).catch();
   }
 }

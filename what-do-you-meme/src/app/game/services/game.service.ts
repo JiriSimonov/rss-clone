@@ -13,15 +13,7 @@ const initialGameState: GameCurrentData = {
   memes: {
     '': ['']
   },
-  players: {
-    slikedollar: {
-      username: '',
-      score: 0,
-      image: '',
-      meme: '',
-      vote: '',
-    }
-  },
+  players: {},
   status: 'prepare',
   votes: {
     '': ['']
@@ -38,9 +30,9 @@ export class GameService {
   public gameData$ = this.gameData$$.asObservable();
   public players$ = this.gameData$.pipe(
     map((gameData: GameCurrentData) => {
-      return Object.values(gameData.players);
+      return gameData.players
     }),
-    distinctUntilChanged()
+    distinctUntilChanged(),
   );
   public memes$ = this.gameData$.pipe(
     map((gameData: GameCurrentData) => {
@@ -102,7 +94,6 @@ export class GameService {
   }
 
   sendVote(uuid: string, vote: string) {
-    console.log(uuid, vote);
     this.socket.emit(IoInput.getVote, {
       uuid,
       vote,

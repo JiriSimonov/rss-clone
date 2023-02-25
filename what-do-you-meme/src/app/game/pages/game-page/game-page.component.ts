@@ -7,7 +7,7 @@ import { LobbyRequestsService } from "../../services/lobby-requests.service";
 import { MatDialog } from '@angular/material/dialog';
 import { GameVotingPhaseComponent } from '../../components/game-voting-phase/game-voting-phase.component';
 import { GameVotingResultsPhaseComponent } from '../../components/game-voting-results-phase/game-voting-results-phase.component';
-import { distinctUntilChanged, map, tap } from 'rxjs';
+import { distinctUntilChanged, map } from 'rxjs';
 
 @Component({
   selector: 'app-game-page',
@@ -29,6 +29,11 @@ export class GamePageComponent implements OnInit {
   }
 
   ngOnInit() {
+    if (SessionStorageService.previousGameUrl) {
+      this.lobbyRequests.leaveLobbyRequest(this.gameId);
+      this.lobbyRequests.joinLobbyRequest(this.gameId);
+    }
+
     this.sessionStorage.setItem('url', this.router.url.replace('/game/', ''));
 
     const gameData$ = this.gameService.gameData$.pipe(
@@ -39,12 +44,6 @@ export class GamePageComponent implements OnInit {
     );
     gameData$.subscribe((data) => this.loadPhase(data));
 
-    this.lobbyRequests.joinLobbyEvent().subscribe((gameData: GameCurrentData) => {
-      console.log(30);
-      this.gameService.changeGameData(gameData);
-    });
-
-    this.lobbyRequests.joinLobbyRequest(this.gameId);
 
     this.lobbyRequests.changePhaseEvent().subscribe((gameData: GameCurrentData) => {
       this.loadPhase(gameData);
@@ -60,7 +59,6 @@ export class GamePageComponent implements OnInit {
 
     switch (gameData.status) {
       case GameStatus.Prepare:
-        console.log('prepare');
         break;
 
       case GameStatus.Situation:
@@ -68,7 +66,6 @@ export class GamePageComponent implements OnInit {
         this.gameService.changeGameData(gameData);
         this.gameService.getPlayerCards();
         this.modal.closeAll();
-        console.log(gameData);
         break;
 
       case GameStatus.Vote:
