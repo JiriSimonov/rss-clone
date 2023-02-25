@@ -13,7 +13,6 @@ export class GlobalChatComponent implements OnInit, OnDestroy {
   public subs = new Subscription();
   public messageList$ = this.chatService.messageList$;
 
-
   constructor(
     private chatService: GlobalChatService,
   ) {
