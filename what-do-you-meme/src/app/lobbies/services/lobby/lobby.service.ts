@@ -64,7 +64,7 @@ export class LobbyService {
     this.lobbiesOptions.nameContains = value;
   }
 
-  joinLobby(data: LobbyData) {
+  joinLobby(data: LobbyData | undefined) {
     this.socket.emit(IoInput.joinLobbyRequest, data);
   }
 
@@ -118,5 +118,9 @@ export class LobbyService {
 
   changeUUID(uuid: string) {
     this.currentUUID$$.next(uuid);
+  }
+
+  getLobbyByUUID(uuid: string) {
+    return this.lobbies$$.value.find((lobby) => lobby.uuid === uuid);
   }
 }

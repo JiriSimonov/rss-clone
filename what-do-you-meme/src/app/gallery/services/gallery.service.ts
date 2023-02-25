@@ -48,11 +48,7 @@ export class GalleryService {
   }
 
   decrementPage() {
-    this.chunkOptions.page <= 0
-      ? this.chunkOptions.page = 0
-      :
       --this.chunkOptions.page;
-    console.log(this.chunkOptions.page);
   }
 
   clearDownloadItems() {
