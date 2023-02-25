@@ -12,9 +12,11 @@ import {Subscription} from "rxjs";
   styleUrls: ['./lobbies-page.component.scss'],
 })
 export class LobbiesPageComponent implements OnInit, OnDestroy {
-  public scrollUpDistance = 4;
-  public scrollDistance = 2;
-  public throttle = 0;
+  public scrollOptions = {
+    scrollUpDistance: 4,
+    scrollDistance: 2,
+    throttle: 0
+  };
   public isCreatedLobby!: boolean;
   private createSubs = new Subscription();
   private updateSubs = new Subscription();

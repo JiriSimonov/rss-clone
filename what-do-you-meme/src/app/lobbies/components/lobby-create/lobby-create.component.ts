@@ -15,7 +15,7 @@ import {MatDialog} from "@angular/material/dialog";
   styleUrls: ['./lobby-create.component.scss'],
 })
 export class LobbyCreateComponent implements OnInit {
-  modalForm!: FormGroup;
+  public modalForm!: FormGroup;
 
   @Output() onCreated = new EventEmitter<LobbyData>();
 

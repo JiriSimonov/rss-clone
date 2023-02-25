@@ -7,7 +7,7 @@ import { Component } from '@angular/core';
   styleUrls: ['./set-picture.component.scss'],
 })
 export class SetPictureComponent {
-  avatar$ = this.avatarService.avatar$;
+  public avatar$ = this.avatarService.avatar$;
   constructor(private avatarService: AvatarService) {}
 
   changeAvatar() {

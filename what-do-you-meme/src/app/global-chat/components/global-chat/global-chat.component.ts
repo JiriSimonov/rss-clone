@@ -9,7 +9,7 @@ import {Subscription} from "rxjs";
   styleUrls: ['./global-chat.component.scss'],
 })
 export class GlobalChatComponent implements OnInit, OnDestroy {
-  sendMessageForm!: FormGroup;
+  public sendMessageForm!: FormGroup;
   public subs = new Subscription();
   public messageList$ = this.chatService.messageList$;
 

@@ -14,7 +14,7 @@ import {LobbyService} from "../../services/lobby/lobby.service";
 })
 export class LobbyJoinComponent implements OnInit {
   @Input() lobby?: LobbyData;
-  joinForm!: FormGroup;
+  public joinForm!: FormGroup;
   private currentId!: string;
 
   constructor(

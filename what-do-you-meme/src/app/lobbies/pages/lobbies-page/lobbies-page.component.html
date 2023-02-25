@@ -13,9 +13,9 @@
     <ul
       class="lobbies__list"
       infinite-scroll
-      [infiniteScrollDistance]="scrollDistance"
-      [infiniteScrollUpDistance]="scrollUpDistance"
-      [infiniteScrollThrottle]="throttle"
+      [infiniteScrollDistance]="scrollOptions.scrollDistance"
+      [infiniteScrollUpDistance]="scrollOptions.scrollUpDistance"
+      [infiniteScrollThrottle]="scrollOptions.throttle"
       (scrolled)="onScrollDown()"
       (scrolledUp)="onScrollUp()">
       <app-lobby-info *ngFor="let lobby of lobbies$ | async" [lobby]="lobby">
