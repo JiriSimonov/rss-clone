@@ -7,6 +7,7 @@ import { LobbyRequestsService } from "../../services/lobby-requests.service";
 import { MatDialog } from '@angular/material/dialog';
 import { GameVotingPhaseComponent } from '../../components/game-voting-phase/game-voting-phase.component';
 import { GameVotingResultsPhaseComponent } from '../../components/game-voting-results-phase/game-voting-results-phase.component';
+import { distinctUntilChanged, map, tap } from 'rxjs';
 
 @Component({
   selector: 'app-game-page',
@@ -30,8 +31,16 @@ export class GamePageComponent implements OnInit {
   ngOnInit() {
     this.sessionStorage.setItem('url', this.router.url.replace('/game/', ''));
 
+    const gameData$ = this.gameService.gameData$.pipe(
+      map((gameData: GameCurrentData) => {
+        return gameData;
+      }),
+      distinctUntilChanged(),
+    );
+    gameData$.subscribe((data) => this.loadPhase(data));
+
     this.lobbyRequests.joinLobbyEvent().subscribe((gameData: GameCurrentData) => {
-      this.loadPhase(gameData);
+      console.log(30);
       this.gameService.changeGameData(gameData);
     });
 
