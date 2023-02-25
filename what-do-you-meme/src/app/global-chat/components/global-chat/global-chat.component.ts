@@ -1,8 +1,8 @@
-import {GlobalChatService} from '../../services/global-chat/global-chat.service';
-import {Component, OnInit} from '@angular/core';
-import {FormControl, FormGroup, Validators} from '@angular/forms';
-import {MessageData} from '../../../shared/model/messageData';
-import {BehaviorSubject} from "rxjs";
+import { GlobalChatService } from '../../services/global-chat/global-chat.service';
+import { Component, OnInit } from '@angular/core';
+import { FormControl, FormGroup, Validators } from '@angular/forms';
+import { MessageData } from '../../../shared/model/messageData';
+import { BehaviorSubject } from "rxjs";
 
 @Component({
   selector: 'app-global-chat',
@@ -17,8 +17,7 @@ export class GlobalChatComponent implements OnInit {
 
   constructor(
     private chatService: GlobalChatService,
-  ) {
-  }
+  ) { }
 
   ngOnInit(): void {
     this.sendMessageForm = new FormGroup({
@@ -44,7 +43,7 @@ export class GlobalChatComponent implements OnInit {
   }
 
   onSubmit() {
-    this.chatService.sendMessage({message: this.messageControlValue});
+    this.chatService.sendMessage({ message: this.messageControlValue });
     this.messageControl?.setValue('');
   }
 }

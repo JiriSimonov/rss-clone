@@ -5,10 +5,10 @@
       <button class="game-aside__close-btn players__close-btn" (click)="togglePlayers()"></button>
     </div>
     <ul class="players__list">
-      <li class="players__list-item" *ngFor="let player of players$ | async | keyvalue">
-        <div class="user__avatar players__list-item-avatar" appImage="{{player.value.image}}"></div>
-        <p class="players__list-item-name">{{player.value.username}}</p>
-        <span class="players__list-item-score">{{player.value.score}}</span>
+      <li class="players__list-item" *ngFor="let player of players$ | async">
+        <div class="user__avatar players__list-item-avatar" appImage="{{player.image}}"></div>
+        <p class="players__list-item-name">{{player.username}}</p>
+        <span class="players__list-item-score">{{player.score}}</span>
       </li>
     </ul>
     <button class="form__btn players__btn" (click)="leaveLobby()">Покинуть</button>

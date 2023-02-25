@@ -33,6 +33,6 @@ export class GamePreparePhaseComponent implements OnInit {
   }
 
   startGame() {
-    this.lobbyService.startGameRequest(this.gameId);
+    this.lobbyService.changePhaseRequest(this.gameId);
   }
 }

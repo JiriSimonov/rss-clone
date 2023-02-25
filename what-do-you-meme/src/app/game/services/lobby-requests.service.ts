@@ -12,12 +12,8 @@ export class LobbyRequestsService {
 
   constructor(private socket: Socket, private gameService: GameService) { }
 
-  startGameRequest(uuid: string) {
-    this.socket.emit(IoInput.startGame, uuid);
-  }
-
-  forceChangePhaseRequest(uuid: string) {
-    this.socket.emit(IoInput.forcedChangePhase, uuid);
+  changePhaseRequest(uuid: string) {
+    this.socket.emit(IoInput.changePhaseRequest, uuid);
   }
 
   joinLobbyEvent(): Observable<GameCurrentData> {

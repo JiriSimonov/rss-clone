@@ -2,22 +2,24 @@ import { HttpClient } from '@angular/common/http';
 import { Injectable } from '@angular/core';
 import { Socket } from 'ngx-socket-io';
 import { BehaviorSubject, distinctUntilChanged } from 'rxjs';
-import { IoInput } from 'src/app/shared/model/sockets-events';
+import { IoInput, IoOutput } from 'src/app/shared/model/sockets-events';
 import { GameCurrentData } from '../models/game.model';
 import { ConfigService } from "../../shared/services/config/config.service";
 import { map } from "rxjs/operators";
 
 const initialGameState: GameCurrentData = {
+  changePhaseDate: 0,
+  mode: '',
+  situation: '',
+  situationOptions: [''],
+  situations: {},
   currentRound: 0,
-  rounds: [''],
   memes: {
     '': ['']
   },
-  players: {},
-  status: 'prepare',
-  votes: {
-    '': ['']
-  }
+  players: [],
+  phase: 'prepare',
+  votes: {}
 }
 
 @Injectable({
@@ -52,17 +54,27 @@ export class GameService {
     }),
     distinctUntilChanged()
   );
-  public rounds$ = this.gameData$.pipe(
+  public situation$ = this.gameData$.pipe(
     map((gameData: GameCurrentData) => {
-      return gameData.rounds.slice(-1);
+      return gameData.situation;
     })
   );
-  public status$ = this.gameData$.pipe(
+  public phase$ = this.gameData$.pipe(
     map((gameData: GameCurrentData) => {
-      return gameData.status;
+      return gameData.phase;
     }),
     distinctUntilChanged()
   );
+  public situationOptions$ = this.gameData$.pipe(
+    map((gameData: GameCurrentData) => {
+      return gameData.situationOptions;
+    }),
+  )
+  public situations$ = this.gameData$.pipe(
+    map((gameData: GameCurrentData) => {
+      return gameData.situations;
+    }),
+  )
 
   private playerCards$$ = new BehaviorSubject<string[]>([])
   public playerCards$ = this.playerCards$$.asObservable();
@@ -98,5 +110,9 @@ export class GameService {
       uuid,
       vote,
     });
+  }
+
+  pickSituationEvent() {
+    return this.socket.fromEvent<GameCurrentData>(IoOutput.pickSituation);
   }
 }

@@ -1,0 +1,29 @@
+.situation-vote {
+  padding: 60px;
+  &__container {
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: center;
+    gap: 50px;
+  }
+
+  &__item {
+    display: flex;
+    flex-direction: column;
+    gap: 10px;
+
+    &-text {
+      color: #fff;
+      font-size: 21px;
+    }
+
+    &-votes {
+      margin-top: 10px;
+    }
+
+    &-vote {
+      color: #fff;
+      font-size: 18px;
+    }
+  }
+}

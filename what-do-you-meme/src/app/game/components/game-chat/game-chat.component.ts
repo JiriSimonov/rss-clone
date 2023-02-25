@@ -4,6 +4,7 @@ import { ActivatedRoute } from '@angular/router';
 import { AuthService } from 'src/app/auth/services/auth.service';
 import { MessageData } from 'src/app/shared/model/messageData';
 import { GlobalChatService } from 'src/app/global-chat/services/global-chat/global-chat.service';
+import { Subscription } from 'rxjs';
 
 @Component({
   selector: 'app-game-chat',
@@ -15,12 +16,12 @@ export class GameChatComponent implements OnInit {
   isClosed: boolean = false;
   gameId: string = this.activatedRoute.snapshot.params['id'];
   chatMessages: MessageData[] = [];
+  getMessageSubs = new Subscription();
 
   constructor(
-    private authService: AuthService,
     private chatService: GlobalChatService,
     private activatedRoute: ActivatedRoute,
-  ) {}
+  ) { }
 
   ngOnInit() {
     this.chatForm = new FormGroup({
@@ -30,12 +31,14 @@ export class GameChatComponent implements OnInit {
       ]),
     });
 
-    this.chatService.getMessage().subscribe(message => {
-      message.timestamp = new Date(
-        message?.timestamp ?? ''
-      ).toLocaleTimeString('ru-RU');
-      this.chatMessages.push(message);
-    });
+    this.getMessageSubs.add(
+      this.chatService.getMessage().subscribe(message => {
+        message.timestamp = new Date(
+          message?.timestamp ?? ''
+        ).toLocaleTimeString('ru-RU');
+        this.chatMessages.push(message);
+      }),
+    )
   }
 
 

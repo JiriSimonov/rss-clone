@@ -14,6 +14,7 @@ import {SharedModule} from "../shared/shared.module";
 import { GamePreparePhaseComponent } from './components/game-prepare-phase/game-prepare-phase.component';
 import { GameEndingPhaseComponent } from './components/game-ending-phase/game-ending-phase.component';
 import { MaterialModule } from '../shared/material/material.module';
+import { GameChooseSituationPhaseComponent } from './components/game-choose-situation-phase/game-choose-situation-phase.component';
 
 @NgModule({
   declarations: [
@@ -25,7 +26,8 @@ import { MaterialModule } from '../shared/material/material.module';
     GameVotingPhaseComponent,
     GameVotingResultsPhaseComponent,
     GamePreparePhaseComponent,
-    GameEndingPhaseComponent
+    GameEndingPhaseComponent,
+    GameChooseSituationPhaseComponent
   ],
   imports: [
     CommonModule,
