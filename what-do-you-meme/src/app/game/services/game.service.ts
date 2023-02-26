@@ -2,30 +2,25 @@ import { HttpClient } from '@angular/common/http';
 import { Injectable } from '@angular/core';
 import { Socket } from 'ngx-socket-io';
 import { BehaviorSubject, distinctUntilChanged } from 'rxjs';
-import { IoInput } from 'src/app/shared/model/sockets-events';
+import { IoInput, IoOutput } from 'src/app/shared/model/sockets-events';
 import { GameCurrentData } from '../models/game.model';
 import { ConfigService } from "../../shared/services/config/config.service";
 import { map } from "rxjs/operators";
+import { AuthService } from 'src/app/auth/services/auth.service';
 
 const initialGameState: GameCurrentData = {
+  changePhaseDate: 0,
+  mode: '',
+  situation: '',
+  situationOptions: [''],
+  situations: {},
   currentRound: 0,
-  rounds: [''],
   memes: {
     '': ['']
   },
-  players: {
-    slikedollar: {
-      username: '',
-      score: 0,
-      image: '',
-      meme: '',
-      vote: '',
-    }
-  },
-  status: 'prepare',
-  votes: {
-    '': ['']
-  }
+  players: [],
+  phase: 'prepare',
+  votes: {}
 }
 
 @Injectable({
@@ -34,47 +29,67 @@ const initialGameState: GameCurrentData = {
 export class GameService {
   private readonly URL = ConfigService.SERVER_URL;
   usedMeme: string[] = [];
+  isOwner$$ = new BehaviorSubject<boolean>(false);
+  isOwner$ = this.isOwner$$.asObservable();
+
   private gameData$$ = new BehaviorSubject<GameCurrentData>(initialGameState);
   public gameData$ = this.gameData$$.asObservable();
   public players$ = this.gameData$.pipe(
     map((gameData: GameCurrentData) => {
-      return Object.values(gameData.players);
+      return gameData.players
     }),
-    distinctUntilChanged()
+    distinctUntilChanged(),
   );
+
   public memes$ = this.gameData$.pipe(
     map((gameData: GameCurrentData) => {
       return gameData.memes;
     }),
     distinctUntilChanged()
   );
+
   public votes$ = this.gameData$.pipe(
     map((gameData: GameCurrentData) => {
       return gameData.votes;
     }),
     distinctUntilChanged()
   );
+
   public currentRound$ = this.gameData$.pipe(
     map((gameData: GameCurrentData) => {
       return gameData.currentRound;
     }),
     distinctUntilChanged()
   );
-  public rounds$ = this.gameData$.pipe(
+
+  public situation$ = this.gameData$.pipe(
     map((gameData: GameCurrentData) => {
-      return gameData.rounds.slice(-1);
+      return gameData.situation;
     })
   );
-  public status$ = this.gameData$.pipe(
+
+  public phase$ = this.gameData$.pipe(
     map((gameData: GameCurrentData) => {
-      return gameData.status;
+      return gameData.phase;
     }),
     distinctUntilChanged()
   );
 
+  public situationOptions$ = this.gameData$.pipe(
+    map((gameData: GameCurrentData) => {
+      return gameData.situationOptions;
+    }),
+  )
+
+  public situations$ = this.gameData$.pipe(
+    map((gameData: GameCurrentData) => {
+      return gameData.situations;
+    }),
+  )
+
   private playerCards$$ = new BehaviorSubject<string[]>([])
   public playerCards$ = this.playerCards$$.asObservable();
-  constructor(private http: HttpClient, private socket: Socket) { }
+  constructor(private http: HttpClient, private socket: Socket, private authService: AuthService) { }
 
   changeGameData(newData: GameCurrentData) {
     this.gameData$$.next(newData);
@@ -102,10 +117,23 @@ export class GameService {
   }
 
   sendVote(uuid: string, vote: string) {
-    console.log(uuid, vote);
     this.socket.emit(IoInput.getVote, {
       uuid,
       vote,
     });
+  }
+
+  pickSituationEvent() {
+    return this.socket.fromEvent<GameCurrentData>(IoOutput.pickSituation);
+  }
+
+  isUserOwner(uuid: string) {
+    this.authService.username$.subscribe((username) => {
+      if (username) {
+        this.isLobbyOwner(username, uuid).subscribe((value) => {
+          this.isOwner$$.next(value);
+        })
+      }
+    })
   }
 }

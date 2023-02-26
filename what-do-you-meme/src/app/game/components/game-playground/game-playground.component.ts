@@ -19,7 +19,8 @@ export class GamePlaygroundComponent {
     tap((arr) => this.playerCards = arr)
   );
   currentRound$ = this.gameService.currentRound$;
-  rounds$ = this.gameService.rounds$;
+  situation$ = this.gameService.situation$;
+
   constructor(public gameService: GameService, activatedRoute: ActivatedRoute, private socket: Socket) {
     this.uuid = activatedRoute.snapshot.params['id'];
   }

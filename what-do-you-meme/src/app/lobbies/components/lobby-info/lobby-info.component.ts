@@ -25,12 +25,12 @@ export class LobbyInfoComponent {
   }
 
   checkPrivate() {
-    this.lobbyService.changeLobbyId(this.lobby.uuid);
+    this.lobbyService.changeUUID(this.lobby.uuid);
     if (this.isPrivate) {
       this.joinDialog.open(LobbyJoinComponent);
     } else {
       if (this.lobby) {
-        this.lobbyService.joinLobby(this.lobby);
+        this.lobbyService.joinLobby(this.lobby, '');
         this.router.navigate([`/game/${this.lobby.uuid}`], {
           replaceUrl: true,
         }).catch();

@@ -1,13 +1,14 @@
 export enum GameStatus {
   Prepare = 'prepare',
   Situation = 'situation',
+  ChooseSituation = 'choose-situation',
   Vote = 'vote',
   Vote_results = 'vote-results',
   End = 'end',
 }
 
-type MemeList = {
-  [meme: string]: string[];
+type ChoiceList = {
+  [choiceOption: string]: string[];
 }
 
 export interface Player {
@@ -18,36 +19,15 @@ export interface Player {
   vote: string;
 }
 
-type playerObject = Record<Player['username'], Player>
-
 export interface GameCurrentData {
+  mode: string;
+  phase: string;
   currentRound: number;
-  rounds: string[];
-  memes: MemeList;
-  players: playerObject;
-  status: string;
-  votes: MemeList;
+  situation: string;
+  situationOptions: string[];
+  situations: ChoiceList;
+  players: Player[];
+  changePhaseDate: number;
+  memes: ChoiceList;
+  votes: ChoiceList;
 }
-
-let gameData: GameCurrentData = {
-  currentRound: 0,
-  rounds: [''],
-  memes: {
-    '': ['']
-  },
-  players: {
-    slikedollar: {
-      username: '',
-      score: 0,
-      image: '',
-      meme: '',
-      vote: '',
-    }
-  },
-  status: 'end',
-  votes: {
-    '': ['']
-  }
-}
-
-

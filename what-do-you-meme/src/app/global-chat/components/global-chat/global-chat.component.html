@@ -5,7 +5,7 @@
       <div class="chat__message">
         <span class="span">{{message.username}}</span>
         <span class="span chat__text">{{message.message}}</span>
-        <time class="span">{{message.timestamp}}</time>
+        <time class="span">{{message.timestamp | date:'HH:mm:ss'}}</time>
       </div>
     </div>
   </div>
