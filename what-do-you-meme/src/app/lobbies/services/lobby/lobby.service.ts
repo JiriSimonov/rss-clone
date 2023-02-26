@@ -1,4 +1,4 @@
-import {IoInput} from '../../../shared/model/sockets-events';
+import {IoInput, IoOutput} from '../../../shared/model/sockets-events';
 import {Router} from '@angular/router';
 import {LocalStorageService} from '../../../shared/storage/services/local-storage/local-storage.service';
 import {Injectable} from '@angular/core';
@@ -6,13 +6,14 @@ import {BehaviorSubject} from 'rxjs';
 import {Socket} from 'ngx-socket-io';
 import {LobbyData} from 'src/app/lobbies/model/lobby-data';
 import {createLobby} from '../../model/create-lobby';
+import {SessionStorageService} from "../../../shared/storage/services/session-storage.service";
 
 @Injectable({
   providedIn: 'root',
 })
 export class LobbyService {
-  private currentId$$ = new BehaviorSubject<string>('');
-  public currentId$ = this.currentId$$.asObservable();
+  private currentUUID$$ = new BehaviorSubject<string>('');
+  public currentUUID$ = this.currentUUID$$.asObservable();
   private lobbies$$ = new BehaviorSubject<LobbyData[]>([]);
   public lobbies$ = this.lobbies$$.asObservable();
   private chunkOptions = {
@@ -29,7 +30,16 @@ export class LobbyService {
     private localStorage: LocalStorageService,
     private socket: Socket,
     private router: Router,
+    private sessionStorageService: SessionStorageService
   ) {
+  }
+
+  get lobbies(): LobbyData[] {
+    return this.lobbies$$.value;
+  }
+
+  set newLobbiesData(lobby: LobbyData) {
+    this.lobbies$$.next([...this.lobbies, lobby]);
   }
 
   resetPrivacy() {
@@ -56,9 +66,13 @@ export class LobbyService {
     this.lobbiesOptions.nameContains = value;
   }
 
-
-  joinLobby(data: LobbyData) {
-    this.socket.emit(IoInput.joinLobbyRequest, data);
+  joinLobby(data: LobbyData | undefined, password: string) {
+    this.socket.emit(IoInput.joinLobbyRequest, {uuid: data?.uuid, password}, () => {
+    this.sessionStorageService.setItem('lobbyPassword', password);
+    this.router.navigate([`/game/${data?.uuid}`], {
+      replaceUrl: true,
+    }).catch();
+    });
   }
 
   createLobby(options: createLobby) {
@@ -66,7 +80,8 @@ export class LobbyService {
       IoInput.createLobbyRequest,
       {lobby: options},
       (data: LobbyData) => {
-        this.joinLobby(data);
+        this.joinLobby(data, options.password);
+        this.sessionStorageService.setItem('lobbyPassword', options.password);
         this.router.navigate([`/game/${data.uuid}`], {replaceUrl: true}).catch();
       }
     );
@@ -77,7 +92,7 @@ export class LobbyService {
       IoInput.lobbyListRequest,
       this.lobbiesOptions,
       (lobbies: LobbyData[]) => {
-        this.lobbies$$.next([...this.lobbies$$.value, ...lobbies]);
+        this.lobbies$$.next([...this.lobbies, ...lobbies]);
       }
     );
   }
@@ -93,7 +108,27 @@ export class LobbyService {
     );
   }
 
-  changeLobbyId(uuid: string) {
-    this.currentId$$.next(uuid);
+  changeLobbyList(lobbies: LobbyData[]) {
+    this.lobbies$$.next(lobbies);
+  }
+
+  lobbyUpdate() {
+    return this.socket.fromEvent<LobbyData>(IoOutput.updateLobby);
+  }
+
+  lobbyDelete() {
+    return this.socket.fromEvent<string>(IoOutput.deleteLobby);
+  }
+
+  lobbyCreate() {
+    return this.socket.fromEvent<LobbyData>(IoOutput.createLobby);
+  }
+
+  changeUUID(uuid: string) {
+    this.currentUUID$$.next(uuid);
+  }
+
+  getLobbyByUUID(uuid: string) {
+    return this.lobbies$$.value.find((lobby) => lobby.uuid === uuid);
   }
 }

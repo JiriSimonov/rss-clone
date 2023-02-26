@@ -10,7 +10,7 @@ import {filter} from "rxjs/operators";
   styleUrls: ['./lobby-search.component.scss'],
 })
 export class LobbySearchComponent implements OnInit {
-  searchForm!: FormGroup;
+  public searchForm!: FormGroup;
 
   constructor(private lobbyService: LobbyService) {}
 
@@ -37,10 +37,6 @@ export class LobbySearchComponent implements OnInit {
     this.lobbyService.resetPage();
     this.lobbyService.changePrivacy(this.privateFieldValue ?? 'all');
     this.lobbyService.changeNameContains(this.searchFieldValue);
-    this.lobbyService.getNewLobbiesList();
-  }
-
-  updateLobbies() {
     this.lobbyService.getNewLobbiesList();
   }
 }

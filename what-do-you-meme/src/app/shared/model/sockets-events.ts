@@ -3,10 +3,8 @@ export enum IoInput {
   createLobbyRequest = 'create-lobby-request',
   joinLobbyRequest = 'join-lobby-request',
   destroyLobbyRequest = 'destroy-lobby-request',
-  lobbyDataRequest = 'lobby-data-request',
   lobbyListRequest = 'lobby-list-request',
   leaveLobbyRequest = 'leave-lobby-request',
-  randomMemesRequest = 'random-memes-request',
   startGame = 'start-game-request',
   pickMeme = 'pick-meme-request',
   getVote = 'get-vote-request',
@@ -14,6 +12,7 @@ export enum IoInput {
 }
 
 export enum IoOutput {
+  updateLobby = 'update-lobby',
   chatMessage = 'chat-message',
   createLobby = 'create-lobby',
   joinLobby = 'join-lobby',

@@ -30,14 +30,14 @@ export class AuthService {
   );
 
   constructor(
-    private httpClient: HttpClient,
+    private http: HttpClient,
     private store$: Store,
     private jwtHelperService: JwtHelperService
   ) {
   }
 
   login(body: { username: string; password: string }) {
-    return this.httpClient.post<AuthData>(`${this.URL}/auth/login`, body).pipe(
+    return this.http.post<AuthData>(`${this.URL}/auth/login`, body).pipe(
       map((res) => {
         return {
           ...res,
@@ -48,14 +48,14 @@ export class AuthService {
   }
 
   signUp(body: { username: string; password: string; image: string }) {
-    return this.httpClient.post<{ username: string; password: string }>(
+    return this.http.post<{ username: string; password: string }>(
       `${this.URL}/users`,
       body
     );
   }
 
   refresh() {
-    return this.httpClient.post<AuthData>(`${this.URL}/auth/refresh`, {}).pipe(
+    return this.http.post<AuthData>(`${this.URL}/auth/refresh`, {}).pipe(
       map((res) => {
         return {
           ...res,
@@ -66,7 +66,7 @@ export class AuthService {
   }
 
   isUniqueUsername(username: string) {
-    return this.httpClient.get(`${this.URL}/users/has`, {
+    return this.http.get<boolean>(`${this.URL}/users/has`, {
       params: {
         username
       }
@@ -74,16 +74,16 @@ export class AuthService {
   }
 
   isValidPassword(password: string) {
-    return this.httpClient.post<AuthData>(`${this.URL}/auth/validate`, {
+    return this.http.post<AuthData>(`${this.URL}/auth/validate`, {
       password,
     });
   }
 
   deleteUser() {
-    return this.httpClient.delete<AuthData>(`${this.URL}/users/`);
+    return this.http.delete<AuthData>(`${this.URL}/users/`);
   }
 
   changeUserData(userData: Partial<AuthData>) {
-    return this.httpClient.patch<AuthData>(`${this.URL}/users/`, userData);
+    return this.http.patch<AuthData>(`${this.URL}/users/`, userData);
   }
 }

@@ -3,7 +3,7 @@ import {Directive, ElementRef, Input, OnChanges, Renderer2} from '@angular/core'
 @Directive({
   selector: '[appImage]'
 })
-export class AvatarDirective implements OnChanges {
+export class ImageDirective implements OnChanges {
 @Input('appImage') image!: string | null;
   constructor(private element: ElementRef<HTMLElement>, private renderer: Renderer2) {}
 

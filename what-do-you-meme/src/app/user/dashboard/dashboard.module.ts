@@ -1,11 +1,11 @@
-import { NgModule } from '@angular/core';
-import { CommonModule } from '@angular/common';
-import { DashboardPageComponent } from './pages/dashboard-page/dashboard-page.component';
-import { RouterModule } from '@angular/router';
-import { DashboardFormComponent } from './components/dashboard-form/dashboard-form.component';
-import { ReactiveFormsModule } from '@angular/forms';
-import { SharedModule } from 'src/app/shared/shared.module';
-import { MaterialModule } from 'src/app/shared/material/material.module';
+import {NgModule} from '@angular/core';
+import {CommonModule} from '@angular/common';
+import {DashboardPageComponent} from './pages/dashboard-page/dashboard-page.component';
+import {RouterModule} from '@angular/router';
+import {DashboardFormComponent} from './components/dashboard-form/dashboard-form.component';
+import {ReactiveFormsModule} from '@angular/forms';
+import {SharedModule} from 'src/app/shared/shared.module';
+import {MaterialModule} from 'src/app/shared/material/material.module';
 
 @NgModule({
   declarations: [DashboardPageComponent, DashboardFormComponent],
@@ -22,4 +22,5 @@ import { MaterialModule } from 'src/app/shared/material/material.module';
     ]),
   ],
 })
-export class DashboardModule {}
+export class DashboardModule {
+}
