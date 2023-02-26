@@ -1,6 +1,6 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnDestroy, OnInit } from '@angular/core';
 import { ActivatedRoute } from '@angular/router';
-import { AuthService } from 'src/app/auth/services/auth.service';
+import { Observable, Subscription } from 'rxjs';
 import { GameService } from '../../services/game.service';
 import { LobbyRequestsService } from '../../services/lobby-requests.service';
 
@@ -9,32 +9,31 @@ import { LobbyRequestsService } from '../../services/lobby-requests.service';
   templateUrl: './game-prepare-phase.component.html',
   styleUrls: ['./game-prepare-phase.component.scss']
 })
-export class GamePreparePhaseComponent implements OnInit {
+export class GamePreparePhaseComponent implements OnInit, OnDestroy {
   gameId: string;
-  isOwner: boolean = false;
+  isOwner$: Observable<boolean> = this.gameService.isOwner$;
+  private ownerSubs = new Subscription();
 
   constructor(
     private lobbyService: LobbyRequestsService,
     private gameService: GameService,
     activatedRoute: ActivatedRoute,
-    private authService: AuthService,
   ) {
     this.gameId = activatedRoute.snapshot.params['id'];
   }
 
   ngOnInit() {
-    this.authService.username$.subscribe((username) => {
-      if (username) {
-        console.log(username);
-        this.gameService.isLobbyOwner(username, this.gameId).subscribe((value) => {
-          console.log(value);
-          this.isOwner = value;
-        });
-      }
-    });
+    this.ownerSubs.add(
+      this.gameService.isUserOwner(this.gameId)
+    )
+
   }
 
   startGame() {
     this.lobbyService.changePhaseRequest(this.gameId);
+  }
+
+  ngOnDestroy(): void {
+    this.ownerSubs.unsubscribe();
   }
 }

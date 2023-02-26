@@ -57,5 +57,6 @@ export class GameChatComponent implements OnInit, OnDestroy {
 
   ngOnDestroy(): void {
     this.getMessageSubs.unsubscribe();
+    this.chatMessages$$.next([]);
   }
 }

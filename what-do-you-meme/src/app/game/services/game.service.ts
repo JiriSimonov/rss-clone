@@ -6,6 +6,7 @@ import { IoInput, IoOutput } from 'src/app/shared/model/sockets-events';
 import { GameCurrentData } from '../models/game.model';
 import { ConfigService } from "../../shared/services/config/config.service";
 import { map } from "rxjs/operators";
+import { AuthService } from 'src/app/auth/services/auth.service';
 
 const initialGameState: GameCurrentData = {
   changePhaseDate: 0,
@@ -28,6 +29,9 @@ const initialGameState: GameCurrentData = {
 export class GameService {
   private readonly URL = ConfigService.SERVER_URL;
   usedMeme: string[] = [];
+  isOwner$$ = new BehaviorSubject<boolean>(false);
+  isOwner$ = this.isOwner$$.asObservable();
+
   private gameData$$ = new BehaviorSubject<GameCurrentData>(initialGameState);
   public gameData$ = this.gameData$$.asObservable();
   public players$ = this.gameData$.pipe(
@@ -36,40 +40,47 @@ export class GameService {
     }),
     distinctUntilChanged(),
   );
+
   public memes$ = this.gameData$.pipe(
     map((gameData: GameCurrentData) => {
       return gameData.memes;
     }),
     distinctUntilChanged()
   );
+
   public votes$ = this.gameData$.pipe(
     map((gameData: GameCurrentData) => {
       return gameData.votes;
     }),
     distinctUntilChanged()
   );
+
   public currentRound$ = this.gameData$.pipe(
     map((gameData: GameCurrentData) => {
       return gameData.currentRound;
     }),
     distinctUntilChanged()
   );
+
   public situation$ = this.gameData$.pipe(
     map((gameData: GameCurrentData) => {
       return gameData.situation;
     })
   );
+
   public phase$ = this.gameData$.pipe(
     map((gameData: GameCurrentData) => {
       return gameData.phase;
     }),
     distinctUntilChanged()
   );
+
   public situationOptions$ = this.gameData$.pipe(
     map((gameData: GameCurrentData) => {
       return gameData.situationOptions;
     }),
   )
+
   public situations$ = this.gameData$.pipe(
     map((gameData: GameCurrentData) => {
       return gameData.situations;
@@ -78,7 +89,7 @@ export class GameService {
 
   private playerCards$$ = new BehaviorSubject<string[]>([])
   public playerCards$ = this.playerCards$$.asObservable();
-  constructor(private http: HttpClient, private socket: Socket) { }
+  constructor(private http: HttpClient, private socket: Socket, private authService: AuthService) { }
 
   changeGameData(newData: GameCurrentData) {
     this.gameData$$.next(newData);
@@ -114,5 +125,15 @@ export class GameService {
 
   pickSituationEvent() {
     return this.socket.fromEvent<GameCurrentData>(IoOutput.pickSituation);
+  }
+
+  isUserOwner(uuid: string) {
+    this.authService.username$.subscribe((username) => {
+      if (username) {
+        this.isLobbyOwner(username, uuid).subscribe((value) => {
+          this.isOwner$$.next(value);
+        })
+      }
+    })
   }
 }
