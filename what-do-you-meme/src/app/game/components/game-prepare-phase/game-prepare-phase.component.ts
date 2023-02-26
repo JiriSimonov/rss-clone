@@ -25,7 +25,9 @@ export class GamePreparePhaseComponent implements OnInit {
   ngOnInit() {
     this.authService.username$.subscribe((username) => {
       if (username) {
+        console.log(username);
         this.gameService.isLobbyOwner(username, this.gameId).subscribe((value) => {
+          console.log(value);
           this.isOwner = value;
         });
       }

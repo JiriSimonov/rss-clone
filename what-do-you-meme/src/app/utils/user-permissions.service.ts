@@ -8,7 +8,7 @@ import { Store } from '@ngrx/store';
 })
 export class UserPermissionsService {
 
-  isUser$ = this.store$.select(isAuth).pipe(
+  public isUser$ = this.store$.select(isAuth).pipe(
     map((auth) => {
       return auth
     })

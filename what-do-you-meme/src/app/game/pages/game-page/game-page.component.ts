@@ -63,14 +63,11 @@ export class GamePageComponent implements OnInit, OnDestroy {
 
   loadPhase(gameData: GameCurrentData) {
     console.log(gameData.phase, gameData);
+    this.modal.closeAll();
+    this.gameService.changeGameData(gameData);
 
     switch (gameData.phase) {
-      case GameStatus.Prepare:
-        this.modal.closeAll();
-        break;
-
       case GameStatus.ChooseSituation:
-        this.gameService.changeGameData(gameData);
         this.modal.open(GameChooseSituationPhaseComponent, {
           data: this.gameId,
           disableClose: true,
@@ -78,9 +75,7 @@ export class GamePageComponent implements OnInit, OnDestroy {
         break;
 
       case GameStatus.Situation:
-        this.modal.closeAll();
         this.gameService.clearUsedMemes();
-        this.gameService.changeGameData(gameData);
         this.gameService.getPlayerCards();
         break;
 
@@ -89,22 +84,14 @@ export class GamePageComponent implements OnInit, OnDestroy {
           data: this.gameId,
           disableClose: true,
         });
-        this.gameService.changeGameData(gameData);
         break;
 
       case GameStatus.Vote_results:
-        this.gameService.changeGameData(gameData);
-        this.modal.closeAll();
         this.modal.open(GameVotingResultsPhaseComponent, {
           disableClose: true,
           minHeight: '300px',
         });
         break
-
-      case GameStatus.End:
-        this.modal.closeAll();
-        this.gameService.changeGameData(gameData);
-        break;
     }
   }
 

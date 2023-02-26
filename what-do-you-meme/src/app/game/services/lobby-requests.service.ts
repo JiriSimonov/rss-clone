@@ -4,13 +4,14 @@ import {IoInput, IoOutput} from "../../shared/model/sockets-events";
 import {Observable} from "rxjs";
 import {GameCurrentData} from "../models/game.model";
 import {GameService} from "./game.service";
+import {SessionStorageService} from "../../shared/storage/services/session-storage.service";
 
 @Injectable({
   providedIn: 'root'
 })
 export class LobbyRequestsService {
 
-  constructor(private socket: Socket, private gameService: GameService) { }
+  constructor(private socket: Socket, private gameService: GameService, private sessionStorageService: SessionStorageService) { }
 
   changePhaseRequest(uuid: string) {
     this.socket.emit(IoInput.changePhaseRequest, uuid);
@@ -27,7 +28,7 @@ export class LobbyRequestsService {
   joinLobbyRequest(uuid: string) {
     this.socket.emit(IoInput.joinLobbyRequest, {
       uuid,
-      password: '',
+      password: this.sessionStorageService.getItem('lobbyPassword') ?? '',
     }, (gameData: GameCurrentData) => {
       this.gameService.changeGameData(gameData);
     });
