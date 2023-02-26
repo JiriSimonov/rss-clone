@@ -6,6 +6,7 @@ export class SocketConfigService {
     return {
       url: ConfigService.SERVER_URL,
       options: {
+        autoConnect: false,
         auth: {
           username: LocalStorageService.username,
           image: LocalStorageService.userAvatar,

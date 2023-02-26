@@ -14,8 +14,8 @@ export class UserProfileComponent implements OnInit, OnDestroy {
   subs: Subscription = new Subscription();
   public readonly DEFAULT_USERNAME = 'RAK';
   public readonly DEFAULT_AVATAR = 'assets/images/avatars/baby-yoda.webp';
-  userName: string | undefined = this.DEFAULT_USERNAME;
-  path: string = this.DEFAULT_AVATAR;
+  public userName: string | undefined = this.DEFAULT_USERNAME;
+  public path: string = this.DEFAULT_AVATAR;
 
   constructor(
     private httpService: AuthService,
@@ -44,8 +44,8 @@ export class UserProfileComponent implements OnInit, OnDestroy {
   }
 
   signOut() {
+    this.store$.dispatch(logoutSuccess());
     localStorage.clear();
     this.router.navigate(['auth'], {replaceUrl: true}).catch();
-    this.store$.dispatch(logoutSuccess());
   }
 }
