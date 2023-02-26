@@ -6,6 +6,7 @@
       <div class="playground__info-rounds">Pаунд {{currentRound$ | async}}</div>
         <button class="form__btn playground__info-btn"
           (click)="ready()"
+          [disabled]="!this.gameService.usedMeme.length"
           >Готов</button>
       </div>
 

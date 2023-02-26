@@ -46,6 +46,7 @@ export class GamePlaygroundComponent {
         toArr,
         index, index);
   }
+
   pickMemeRequest(uuid: string, meme: string) {
     return this.socket.emit(IoInput.pickMeme, {
       uuid,
