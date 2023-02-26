@@ -13,7 +13,6 @@ import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 import { SocketConfigService } from './shared/services/socket-config/socket-config.service';
 import { WINDOW } from './shared/storage/tokens/window.token';
 import { STORAGE_KEY_PREFIX } from './shared/storage/tokens/storage-key.token';
-
 export const STORAGE_PREFIX = 'WDYM';
 
 @NgModule({

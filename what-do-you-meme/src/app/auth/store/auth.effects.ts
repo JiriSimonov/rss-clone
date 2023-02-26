@@ -18,6 +18,7 @@ import {
 import { catchError, filter, map, switchMap, tap } from 'rxjs/operators';
 import { of, timer, first, fromEvent } from 'rxjs';
 import { AuthService } from '../services/auth.service';
+import {Socket} from "ngx-socket-io";
 
 @Injectable()
 export class AuthEffects {
@@ -73,6 +74,14 @@ export class AuthEffects {
         tap((loginSuccessData) => {
           const { type, ...authData } = loginSuccessData;
           this.localStorage.setItem('authData', authData);
+          const {username, image} = authData;
+          const {username:socketUsername} = this.socket.ioSocket.auth;
+          if (!(username === socketUsername)) {
+          this.socket.disconnect();
+          this.socket.ioSocket.auth.username = username;
+          this.socket.ioSocket.auth.image = image;
+          }
+          this.socket.connect();
         })
       ),
     { dispatch: false }
@@ -103,21 +112,12 @@ export class AuthEffects {
     )
   );
 
-  // logout$ = createEffect(() =>
-  //   this.actions$.pipe(
-  //     ofType(logout),
-  //     map(() => {
-  //       localStorage.removeItem('authData');
-  //       return logoutSuccess();
-  //     })
-  //   )
-  // );
-
   constructor(
     private actions$: Actions,
     private authService: AuthService,
     private router: Router,
     private store$: Store,
     private localStorage: LocalStorageService,
+    private socket: Socket
   ) {}
 }
