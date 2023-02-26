@@ -7,7 +7,7 @@ import { LobbyRequestsService } from "../../services/lobby-requests.service";
 import { MatDialog } from '@angular/material/dialog';
 import { GameVotingPhaseComponent } from '../../components/game-voting-phase/game-voting-phase.component';
 import { GameVotingResultsPhaseComponent } from '../../components/game-voting-results-phase/game-voting-results-phase.component';
-import { distinctUntilChanged, map, Subscription } from 'rxjs';
+import { distinctUntilChanged, first, map, Subscription, take } from 'rxjs';
 import { GameChooseSituationPhaseComponent } from '../../components/game-choose-situation-phase/game-choose-situation-phase.component';
 
 @Component({
@@ -33,7 +33,10 @@ export class GamePageComponent implements OnInit, OnDestroy {
   }
 
   ngOnInit() {
-    this.lobbyRequests.leaveLobbyRequest(this.gameId);
+    if (!SessionStorageService.previousGameUrl) {
+      this.lobbyRequests.leaveLobbyRequest(this.gameId);
+    }
+
     this.lobbyRequests.joinLobbyRequest(this.gameId);
     this.sessionStorage.setItem('url', this.router.url.replace('/game/', ''));
 
@@ -43,9 +46,11 @@ export class GamePageComponent implements OnInit, OnDestroy {
       }),
       distinctUntilChanged(),
     );
-
     this.gameSubs.add(
-      gameData$.subscribe((data) => this.loadPhase(data))
+      gameData$.subscribe((data) => {
+        console.log('load after init subs');
+        this.loadPhase(data);
+      }),
     );
 
     this.errorSubs.add(
@@ -56,6 +61,7 @@ export class GamePageComponent implements OnInit, OnDestroy {
 
     this.changeSubs.add(
       this.lobbyRequests.changePhaseEvent().subscribe((gameData: GameCurrentData) => {
+        this.gameSubs.unsubscribe();
         this.loadPhase(gameData);
       })
     );

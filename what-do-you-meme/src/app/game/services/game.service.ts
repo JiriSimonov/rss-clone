@@ -5,8 +5,9 @@ import { BehaviorSubject, distinctUntilChanged } from 'rxjs';
 import { IoInput, IoOutput } from 'src/app/shared/model/sockets-events';
 import { GameCurrentData } from '../models/game.model';
 import { ConfigService } from "../../shared/services/config/config.service";
-import { map } from "rxjs/operators";
+import { distinct, map } from "rxjs/operators";
 import { AuthService } from 'src/app/auth/services/auth.service';
+import { discardPeriodicTasks } from '@angular/core/testing';
 
 const initialGameState: GameCurrentData = {
   changePhaseDate: 0,
@@ -65,7 +66,8 @@ export class GameService {
   public situation$ = this.gameData$.pipe(
     map((gameData: GameCurrentData) => {
       return gameData.situation;
-    })
+    }),
+    distinctUntilChanged(),
   );
 
   public phase$ = this.gameData$.pipe(
@@ -79,12 +81,14 @@ export class GameService {
     map((gameData: GameCurrentData) => {
       return gameData.situationOptions;
     }),
+    distinctUntilChanged(),
   )
 
   public situations$ = this.gameData$.pipe(
     map((gameData: GameCurrentData) => {
       return gameData.situations;
     }),
+    distinctUntilChanged(),
   )
 
   private playerCards$$ = new BehaviorSubject<string[]>([])
