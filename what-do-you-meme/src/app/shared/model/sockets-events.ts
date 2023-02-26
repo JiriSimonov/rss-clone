@@ -5,10 +5,11 @@ export enum IoInput {
   destroyLobbyRequest = 'destroy-lobby-request',
   lobbyListRequest = 'lobby-list-request',
   leaveLobbyRequest = 'leave-lobby-request',
-  startGame = 'start-game-request',
+  randomMemesRequest = 'random-memes-request',
+  changePhaseRequest = 'change-phase-request',
   pickMeme = 'pick-meme-request',
   getVote = 'get-vote-request',
-  forcedChangePhase = 'forced-change-phase-request',
+  pickSituationRequest = 'pick-situation-request',
 }
 
 export enum IoOutput {
@@ -19,4 +20,5 @@ export enum IoOutput {
   leaveLobby = 'leave-lobby',
   deleteLobby = 'delete-lobby',
   changePhase = 'change-phase',
+  pickSituation = 'pick-situation',
 }

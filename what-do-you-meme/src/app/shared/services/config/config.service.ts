@@ -10,6 +10,6 @@ export class ConfigService {
   };
 
   static get SERVER_URL() {
-    return this.servers.render;
+    return this.servers.local;
   }
 }

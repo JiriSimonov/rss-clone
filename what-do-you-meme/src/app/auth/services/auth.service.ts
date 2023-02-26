@@ -22,7 +22,7 @@ export class AuthService {
   public userData$ = this.user$.pipe(
     map((userData) => {
       return {
-        username: userData?.username,
+        owner: userData?.username,
         image: userData?.image
       }
     }),

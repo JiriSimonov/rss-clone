@@ -13,11 +13,9 @@ export class GlobalChatComponent implements OnInit, OnDestroy {
   public subs = new Subscription();
   public messageList$ = this.chatService.messageList$;
 
-
   constructor(
     private chatService: GlobalChatService,
-  ) {
-  }
+  ) { }
 
   get messageControlValue(): string {
     return this.sendMessageForm.get('messageControl')?.value;
@@ -34,6 +32,7 @@ export class GlobalChatComponent implements OnInit, OnDestroy {
         Validators.maxLength(308),
       ]),
     });
+
     this.subs.add(
       this.chatService.getMessage().subscribe((messageData) => {
         this.chatService.updateMessagesList(messageData);
@@ -42,7 +41,7 @@ export class GlobalChatComponent implements OnInit, OnDestroy {
   }
 
   onSubmit() {
-    this.chatService.sendMessage({message: this.messageControlValue});
+    this.chatService.sendMessage({ message: this.messageControlValue });
     this.messageControl?.setValue('');
   }
 

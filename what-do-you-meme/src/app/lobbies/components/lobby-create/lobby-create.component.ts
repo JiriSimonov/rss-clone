@@ -98,7 +98,7 @@ export class LobbyCreateComponent implements OnInit {
 
   onSubmit(data: createLobby) {
     this.authService.userData$.subscribe((user) => {
-      if (user.image && user.username) {
+      if (user.image && user.owner) {
         Object.assign(data, user);
         this.createDialog.closeAll();
         this.lobbyService.createLobby(data);
