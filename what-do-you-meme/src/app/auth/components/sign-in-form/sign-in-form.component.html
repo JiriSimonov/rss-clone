@@ -1,0 +1,24 @@
+<div class="form">
+  <form
+    class="form__form"
+    (ngSubmit)="onSubmit(authForm.value)"
+    [formGroup]="authForm"
+  >
+  <mat-form-field appearance="fill">
+    <mat-label >Введите логин:</mat-label>
+    <input matInput placeholder="логин" formControlName="username">
+  </mat-form-field>
+  <mat-form-field appearance="fill">
+    <mat-label >Введите пароль:</mat-label>
+    <input matInput placeholder="пароль" type="password" formControlName="password">
+  </mat-form-field>
+    <span class="form__error" *ngIf="(loginControl?.invalid && loginControl?.dirty )|| (serverError$ | async)">Неправильный логин или пароль</span>
+    <button
+      class="btn"
+      [disabled]="authForm.invalid || disabled || (loading$ | async)"
+    >
+      Войти
+    </button>
+    <a class="form__link" routerLink="/auth/signup">Зарегистрироваться</a>
+  </form>
+</div>

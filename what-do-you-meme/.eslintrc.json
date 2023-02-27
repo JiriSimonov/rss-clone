@@ -1,0 +1,15 @@
+{
+    "env": {
+        "browser": true,
+        "ES2021": true
+    },
+    "extends": "airbnb-angular",
+    "overrides": [
+    ],
+    "parserOptions": {
+        "ecmaVersion": "latest",
+        "sourceType": "module"
+    },
+    "rules": {
+    }
+}

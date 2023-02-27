@@ -1,0 +1,10 @@
+<div class="form modal__container">
+  <form class="form__form" (ngSubmit)="onSubmit()" [formGroup]="joinForm">
+    <mat-form-field>
+      <mat-label>Введите пароль</mat-label>
+      <input matInput type="password" formControlName="password">
+    </mat-form-field>
+    <span class="form__error" *ngIf="passwordControl?.errors?.['isPasswordValid']">Неверный пароль</span>
+    <button class="btn" [disabled]="joinForm.invalid || joinForm.pending">Войти</button>
+  </form>
+</div>

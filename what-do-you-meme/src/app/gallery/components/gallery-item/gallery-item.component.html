@@ -1,0 +1,5 @@
+<li class="gallery__item">
+  <div class="gallery__card"  [appImage]="item"></div>
+  <button class="gallery__btn" mat-raised-button color="accent" *ngIf="!(isAdded$ | async)" (click)="addToDownloadList()">Добавить</button>
+  <button class="gallery__btn" mat-raised-button color="warn" *ngIf="isAdded$ | async" (click)="addToDownloadList()">Удалить</button>
+</li>

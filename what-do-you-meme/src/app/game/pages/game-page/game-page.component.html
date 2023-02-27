@@ -1,0 +1,9 @@
+<div class="game">
+  <app-game-joined-users [gameId]="gameId" class="game-players" />
+  <div class="game__wrapper" [ngSwitch]="this.gameService.phase$ | async">
+    <app-game-prepare-phase *ngSwitchCase="'prepare'" />
+    <app-game-ending-phase *ngSwitchCase="'end'" [gameId]="gameId" />
+    <app-game-playground *ngSwitchCase="'situation'" class="game-playground" />
+  </div>
+  <app-game-chat class="game-chat" />
+</div>

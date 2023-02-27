@@ -1,0 +1,251 @@
+*,
+::after,
+::before {
+  box-sizing: border-box;
+}
+
+*:focus {
+  outline: none;
+}
+
+body {
+  margin: 0;
+  padding: 0;
+  font-size: 16px;
+ background-color: #1b1a20;
+}
+
+h1,
+h2,
+h3,
+h4,
+h5,
+h6{
+  margin: 0;
+}
+
+p, .mat-typography p {
+  margin: 0;
+}
+ul,
+ol {
+  margin: 0;
+  padding: 0;
+  list-style: none;
+}
+
+button {
+  cursor: pointer;
+  border: none;
+}
+
+.container {
+  margin: 0 auto;
+  padding: 0 30px;
+  width: 100%;
+  max-width: 1600px;
+}
+
+.form {
+  margin: 0 auto;
+  padding: 20px;
+  border: 2px solid #382756;
+  border-radius: 13px;
+  max-width: 600px;
+  background-color: #1b1a20;
+  &__form {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 20px;
+    user-select: none;
+
+    &_top {
+      margin-bottom: 20px;
+    }
+  }
+
+  &__label {
+    display: flex;
+    flex-direction: column;
+    row-gap: 10px;
+    font-size: 18px;
+    font-weight: 400;
+    color: #fff;
+  }
+
+  &__input {
+    all: unset;
+    padding: 5px;
+    border: 1px solid #fff;
+    border-radius: 5px;
+    transition: 0.3s linear;
+
+    &:focus {
+      border-color: #382756;
+    }
+  }
+
+  &__link {
+    margin-left: auto;
+    font-size: 18px;
+    font-weight: 400;
+    color: #fff;
+    text-decoration: none;
+    transition: 0.3s linear;
+
+    &:hover,
+    &:focus {
+      text-decoration: underline;
+    }
+  }
+
+  &__error {
+    color: #bf437a;
+  }
+}
+
+.form__btn,
+.btn,
+.form__delete {
+  display: block;
+  margin: 0 auto;
+  padding: 8px 16px;
+  border: 2px solid transparent;
+  border-radius: 5px;
+  background-color: #382756;
+  font-size: 18px;
+  font-weight: 400;
+  color: #fff;
+  transition: 0.3s linear;
+
+  &:hover,
+  &:focus {
+    border-color: #fff;
+    cursor: pointer;
+    outline: none;
+  }
+
+  &:disabled {
+    opacity: 0.5;
+    pointer-events: none;
+  }
+}
+
+.user {
+  position: relative;
+  gap: 5px;
+  cursor: pointer;
+
+  &__avatar {
+    margin-left: 15px;
+    border-radius: 50%;
+    width: 50px;
+    aspect-ratio: 1/1;
+    background-size: cover;
+    background-repeat: no-repeat;
+    background-position: center;
+    overflow: hidden;
+  }
+
+  &__text {
+    text-align: center;
+    color: #fff;
+    font-size: 18px;
+    user-select: none;
+  }
+
+  &__logout {
+    position: absolute;
+    top: 0;
+    border: none;
+    right: -20px;
+    width: 20px;
+    aspect-ratio: 1/1;
+    background-color: transparent;
+    background-image: url("../src/assets/icons/logout.svg");
+    background-repeat: no-repeat;
+    background-position: center;
+    cursor: pointer;
+  }
+}
+
+.modal__container {
+  padding: 15px;
+  background-color: #1b1a20;
+}
+
+
+// Здесь насрано
+.game-aside {
+  height: 100%;
+  transition: 1s;
+  &__title {
+    font-size: 24px;
+    color: #fff;
+  }
+}
+
+.game-aside__closed {
+  transform: translateX(-100%);
+
+  & .game-aside__close-btn {
+    border-top: 2px solid #fff;
+    border-left: 2px solid #fff;
+    transform: translateX(150%) rotate(135deg);
+
+    &::after {
+      content: "";
+      display: block;
+      width: 2px;
+      height: 45px;
+      transform: rotate(-45deg) translate(15px, 4px);
+      left: 0;
+      top: 0;
+    }
+
+    &::before {
+      display: none;
+    }
+  }
+}
+
+.game-aside__inner {
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+  align-items: center;
+  gap: 10px;
+  padding: 20px;
+  background-color: #1b1a20;
+  height: 100%;
+}
+
+.game-aside__top {
+  width: 100%;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+}
+
+.game-aside__close-btn {
+  transition: all 0.25s ease-out;
+  width: 50px;
+  height: 50px;
+  background-color: transparent;
+  position: relative;
+  &:before,
+  &:after {
+    content: "";
+    position: absolute;
+    display: block;
+    width: 35px;
+    height: 5px;
+    transform: rotate(-45deg);
+    background-color: #fff;
+  }
+
+  &:after {
+    transform: rotate(-135deg);
+  }
+}

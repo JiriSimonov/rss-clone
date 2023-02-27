@@ -1,0 +1,19 @@
+.nav {
+  &__list {
+    display: flex;
+    gap: 20px;
+    align-items: center;
+    user-select: none;
+  }
+
+  &__link {
+    font-size: 18px;
+    font-weight: 400;
+    color: #fff;
+    text-decoration: none;
+
+    &_active {
+      color: #69f0ae;
+    }
+  }
+}

@@ -1,0 +1,4 @@
+<div class="user">
+  <div class="user__image" [appImage]="avatar$ | async"></div>
+  <button class="user__reload" type="button" aria-label="обновить" (click)="changeAvatar()"></button>
+</div>

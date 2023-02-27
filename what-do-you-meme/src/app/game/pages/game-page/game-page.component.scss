@@ -1,0 +1,13 @@
+:host {
+  flex-grow: 1;
+  display: flex;
+  height: 100%;
+}
+
+.game {
+  display: flex;
+  justify-content: space-between;
+  width: 100%;
+  position: relative;
+  overflow: hidden;
+}

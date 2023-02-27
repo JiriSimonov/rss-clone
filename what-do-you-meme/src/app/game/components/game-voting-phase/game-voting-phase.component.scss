@@ -1,0 +1,13 @@
+.vote-modal {
+  &__container {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 20px;
+  }
+
+  &__meme {
+    display: flex;
+    flex-direction: column;
+    gap: 10px;
+  }
+}

@@ -1,0 +1,37 @@
+<div class="modal__container">
+  <form (ngSubmit)="onSubmit(LobbyOption)" [formGroup]="modalForm" class="form__form modal__form">
+    <mat-form-field>
+      <mat-label>Введите имя лобби:</mat-label>
+      <input class="form__input modal__form-input" formControlName="title" matInput />
+      <span *ngIf="titleControl?.errors?.['maxlength']" class="form__error">Максимальная длина - 18</span>
+      <span *ngIf="titleControl?.errors?.['minlength']" class="form__error">Mинимальная длина - 3</span>
+      <span *ngIf="titleControl?.errors?.['isLobbyNameUnique']" class="form__errror">Такое лобби уже существует</span>
+    </mat-form-field>
+    <label class="modal__label form__label">
+      Количество игрoков - {{ maxPlayersControlValue }}
+      <input class="modal__form-input form__input" formControlName="maxPlayers" max="8" min="2" type="range" />
+    </label>
+    <label class="modal__label form__label">
+      Количество раундов - {{ maxRoundsControlValue }}
+      <input class="form__input modal__form-input" formControlName="maxRounds" max="12" min="1" type="range" />
+    </label>
+    <label class="modal__label form__label">
+      Время раунда - {{ timerDelayControlValue }} секунд
+      <input class="form__input modal__form-input" formControlName="timerDelay" max="80" min="10" step="10"
+        type="range" />
+    </label>
+    <mat-checkbox formControlName="private">Приватная игра:</mat-checkbox>
+    <mat-radio-group formControlName="mode">
+      <mat-radio-button value="default">Обычный</mat-radio-button>
+    </mat-radio-group>
+    <mat-form-field *ngIf="privateControl?.value" appearance="fill">
+      <mat-label>Введите пароль:</mat-label>
+      <input class="form__input" formControlName="password" matInput type="password" />
+      <span *ngIf="passwordControl?.errors?.['minlength']" class="form__error">Минимальная длина 4 символа</span>
+      <span *ngIf="passwordControl?.errors?.['maxlength']" class="form__error">Максимальная длина 10 символов</span>
+    </mat-form-field>
+    <button [disabled]="!modalForm.valid" class="form__btn modal__btn">
+      Создать
+    </button>
+  </form>
+</div>

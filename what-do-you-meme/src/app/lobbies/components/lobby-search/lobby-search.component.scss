@@ -1,0 +1,23 @@
+.lobbies__controls {
+  display: flex;
+  justify-content: space-between;
+  align-items: flex-start;
+  margin-bottom: 20px;
+}
+
+.lobbies__search {
+  display: flex;
+  align-items: flex-start;
+  gap: 20px;
+}
+
+.lobbies__btn { // replace 
+  padding: 8px 16px;
+  border: 2px solid transparent;
+  border-radius: 5px;
+  background-color: #382756;
+  font-size: 18px;
+  font-weight: 400;
+  color: #fff;
+  transition: 0.3s linear;
+}

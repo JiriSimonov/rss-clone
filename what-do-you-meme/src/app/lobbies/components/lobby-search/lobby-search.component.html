@@ -1,0 +1,14 @@
+<div class="lobbies__controls">
+  <form class="lobbies__search" [formGroup]="searchForm">
+    <mat-form-field>
+      <mat-label>Введите имя лобби</mat-label>
+      <input matInput type="search" placeholder="Pepe" formControlName="search"/>
+    </mat-form-field>
+    <mat-radio-group formControlName="private">
+      <mat-radio-button value="all">Все</mat-radio-button>
+      <mat-radio-button value="private">Только приватные</mat-radio-button>
+      <mat-radio-button value="public">Только открытые</mat-radio-button>
+    </mat-radio-group>
+    <button class="lobbies__btn" (click)="getLobbies()">Найти</button>
+  </form>
+</div>

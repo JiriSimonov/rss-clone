@@ -1,0 +1,64 @@
+<div class="form">
+  <form
+    (ngSubmit)="onSubmit()"
+    [formGroup]="signUpForm"
+    class="form__form"
+  >
+  <app-set-picture></app-set-picture>
+  <mat-form-field appearance="fill">
+    <mat-label >Введите логин:</mat-label>
+    <input matInput placeholder="medoed" formControlName="username">
+    <span class="form__error" *ngIf="usernameControl?.errors?.['minlength']"
+      >Минимальная длина 4 символа</span
+    >
+    <span class="form__error" *ngIf="usernameControl?.errors?.['isUserExist']"
+      >Такой пользователь уже существует</span
+    >
+  </mat-form-field>
+  <mat-form-field appearance="fill">
+    <mat-label>Введите пароль:</mat-label>
+    <input matInput type="password" formControlName="password" class="form__input" />
+    <span class="form__error" *ngIf="passwordControl?.errors?.['minlength']"
+      >Минимальная длина 8 символов</span
+    >
+    <span class="form__error" *ngIf="passwordControl?.errors?.['maxlength']"
+      >Максимальная длина 20 символов</span
+    >
+  </mat-form-field>
+  <mat-form-field>
+    <mat-label>Повторите пароль:</mat-label>
+    <input
+      matInput
+      type="password"
+      formControlName="confirmPassword"
+      class="form__input"
+    />
+    <span
+      class="form__error"
+      *ngIf="
+        !isPasswordEqual &&
+        passwordControl?.dirty &&
+        passwordConfirmControl?.dirty
+      "
+      >Пароли не совпадают!</span
+    >
+    <span
+      class="form__error"
+      *ngIf="passwordConfirmControl?.errors?.['minlength']"
+      >Минимальная длина 8 символов</span
+    >
+    <span
+      class="form__error"
+      *ngIf="passwordConfirmControl?.errors?.['maxlength']"
+      >Максимальная длина 20 символов</span
+    >
+  </mat-form-field>
+    <button
+      type="submit"
+      [disabled]="!(isPasswordEqual && isFormValid) || signUpForm.pending"
+      class="form__btn"
+    >
+      Зарегестрироваться
+    </button>
+  </form>
+</div>

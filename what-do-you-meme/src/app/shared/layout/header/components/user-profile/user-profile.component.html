@@ -1,0 +1,5 @@
+<div class="user" [routerLink]="'/user/dashboard'">
+  <div class="user__avatar" appImage="{{path}}"></div>
+  <div class="user__text">{{ userName | lowercase }}</div>
+  <button class="user__logout" aria-label="Выйти" [routerLink]="'/auth'" *ngIf="isNotDefaultUsername" (click)="signOut()"></button>
+</div>

@@ -1,0 +1,19 @@
+<aside class="game-aside players" [class.game-aside__closed]="isClosed">
+  <div class="game-aside__inner players__inner">
+    <div class="game-aside__top players__top">
+      <h2 class="game-aside__title players__title">Score?</h2>
+      <button class="game-aside__close-btn players__close-btn" (click)="togglePlayers()"></button>
+    </div>
+    <ul class="players__list">
+      <li class="players__list-item" *ngFor="let player of players$ | async">
+        <div class="user__avatar players__list-item-avatar" appImage="{{player.image}}"></div>
+        <p class="players__list-item-name">{{player.username}}</p>
+        <span class="players__list-item-score">{{player.score}}</span>
+      </li>
+    </ul>
+    <div class="players__buttons">
+      <button class="form__btn players__btn" (click)="leaveLobby()">Покинуть</button>
+      <button class="form__btn players__btn" (click)="destroyLobby()" *ngIf="(isOwner$ | async)">Удалить лобби</button>
+    </div>
+  </div>
+</aside>

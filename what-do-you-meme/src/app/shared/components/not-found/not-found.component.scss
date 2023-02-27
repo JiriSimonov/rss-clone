@@ -1,0 +1,14 @@
+.not-found {
+  margin: 0 auto;
+  text-align: center;
+  color: #69f0ae;
+  user-select: none;
+
+  &__title {
+    font-size: 28px;
+
+    &_sub {
+      font-size: 24px;
+    }
+  }
+}

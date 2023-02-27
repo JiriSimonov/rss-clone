@@ -1,0 +1,11 @@
+<ul
+  class="gallery__list"
+  infinite-scroll
+  [infiniteScrollDistance]="scrollOptions.scrollDistance"
+  [infiniteScrollUpDistance]="scrollOptions.scrollUpDistance"
+  [infiniteScrollThrottle]="scrollOptions.throttle"
+  (scrolled)="onScrollDown()"
+  (scrolledUp)="onScrollUp()">
+  <app-gallery-item *ngFor="let item of galleryCards$ | async" [item]="item">
+  </app-gallery-item>
+</ul>

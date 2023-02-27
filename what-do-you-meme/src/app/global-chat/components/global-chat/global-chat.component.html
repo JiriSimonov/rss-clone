@@ -1,0 +1,28 @@
+<div class="chat">
+  <div class="chat__window">
+    <div class="chat__field" *ngFor="let message of (messageList$ | async)">
+      <div class="user__avatar" appImage="{{message.image}}"></div>
+      <div class="chat__message">
+        <span class="span">{{message.username}}</span>
+        <span class="span chat__text">{{message.message}}</span>
+        <time class="span">{{message.timestamp | date:'HH:mm:ss'}}</time>
+      </div>
+    </div>
+  </div>
+  <div class="chat__controls">
+    <form class="chat__form" (ngSubmit)="onSubmit()" [formGroup]="sendMessageForm">
+      <div class="chat__control">
+        <mat-form-field class="chat__textarea_mat">
+          <textarea matInput name="text" placeholder="Текст сообщения" class="chat__textarea" formControlName="messageControl"></textarea>
+        </mat-form-field>
+        <span class="form__error" *ngIf="messageControl?.errors?.['maxLength']">Макисмальная длина 308 символов</span>
+      </div>
+      <button class="btn chat__btn" type="submit" [disabled]="sendMessageForm.invalid">Отправить</button>
+    </form>
+    <ul class="rules">
+      Правила чата:
+      <li class="rules__item">Будь вежлив!</li>
+      <li class="rules__item">Не используй магические числа!</li>
+    </ul>
+  </div>
+</div>

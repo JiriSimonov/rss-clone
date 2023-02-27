@@ -1,0 +1,19 @@
+.vote-results-modal {
+  &__container {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 20px;
+  }
+
+  &__meme {
+    display: flex;
+    flex-direction: column;
+    gap: 10px;
+  }
+
+  &__results {
+    color: #fff;
+    text-align: center;
+    font-size: 32px;
+  }
+}

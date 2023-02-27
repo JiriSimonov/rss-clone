@@ -1,0 +1,21 @@
+<aside class="game-aside chat" [class.game-aside__closed]="isClosed">
+  <div class="game-aside__inner chat__inner">
+    <div class="game-aside__top chat__top">
+      <button class="game-aside__close-btn chat__close-btn" (click)="toggleChat()"></button>
+      <h2 class="game-aside__title chat__title">Chat?</h2>
+    </div>
+    <ul class="chat__field">
+      <li class="chat__message" *ngFor="let message of chatMessages$ | async">
+        <span class="chat__username">{{ message.username }}</span>
+        <span class="chat__text">{{ message.message }}</span>
+        <time class="chat__time">{{ message.timestamp | date:'HH:mm:ss' }}</time>
+      </li>
+    </ul>
+    <form (ngSubmit)="onSubmit()" [formGroup]="chatForm" class="form__form chat__form">
+      <label class="form__label chat__label">
+        <input type="text" placeholder="Введите сообщение" class="form__input chat__input" formControlName="chat">
+      </label>
+      <button class="form__btn chat__btn" type="submit" [disabled]="chatControl?.invalid">Отправить</button>
+    </form>
+  </div>
+</aside>

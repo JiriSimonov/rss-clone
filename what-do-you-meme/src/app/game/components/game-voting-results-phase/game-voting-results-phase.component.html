@@ -1,0 +1,8 @@
+<div class="vote-results-modal">
+  <div class="vote-results-modal__container">
+    <div class="vote-results-modal__meme" *ngFor="let vote of (votes$ | async | keyvalue)">
+      <app-meme-card [memeImage]="vote.key" />
+      <p class="vote-results-modal__results">{{ getVoteResults(vote.value.length) }}</p>
+    </div>
+  </div>
+</div>

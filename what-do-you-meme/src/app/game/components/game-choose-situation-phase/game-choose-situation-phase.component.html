@@ -1,0 +1,16 @@
+<div class="situation-vote">
+  <div class="situation-vote__container">
+    <div class="situation-vote__item" *ngFor="let situationOption of (situationOptions$ | async)">
+      <p class="situation-vote__item-text">{{ situationOption }}</p>
+      <button class="form__btn situation-vote__item-btn"
+        (click)="pickSituation(uuid, situationOption)">Голосовать</button>
+      <ul class="situation-vote__item-votes">
+        <li class="situation-vote__item-vote"
+          *ngFor="let player of (situations$ | async)?.[situationOption]">
+          <img src="{{ player.image }}" class="user__avatar">
+          <p>{{player.username}}</p>
+        </li>
+      </ul>
+    </div>
+  </div>
+</div>

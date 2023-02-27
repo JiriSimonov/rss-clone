@@ -1,0 +1,5 @@
+<div class="end">
+  <p class="end__descr">Конец игры</p>
+  <button class="end__btn form__btn" (click)="playAgain()" [disabled]="!(isOwner$ | async)" >Играть заново</button>
+  <button class="end__btn form__btn" (click)="leaveLobby()">Покинуть игру</button>
+</div>

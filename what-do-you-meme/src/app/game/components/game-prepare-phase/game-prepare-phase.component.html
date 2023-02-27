@@ -1,0 +1,4 @@
+<div class="prepare">
+  <p class="prepare__descr">Фаза подготовки, подождите пока создатель нажмет кнопку "Cтарт"</p>
+  <button class="prepare__button form__btn" [disabled]="!(isOwner$ | async)" (click)="startGame()">Старт</button>
+</div>

@@ -1,0 +1,69 @@
+<div class="form">
+  <form class="form__form form__form_top" [formGroup]="changeUserDataForm">
+    <app-set-picture></app-set-picture>
+    <button class="btn" (click)="changeUserAvatar()">Сменить аватар</button>
+    <mat-form-field>
+      <mat-label>Новый логин:</mat-label>
+      <input matInput type="text" class="form__input" formControlName="login" />
+      <span class="form__error" *ngIf="usernameControl?.errors?.['minlength']"
+        >Минимальная длина 4 символа</span
+      >
+      <span class="form__error" *ngIf="usernameControl?.errors?.['maxlength']"
+        >Максимальная длина 12 символов</span
+      >
+      <span class="form__error" *ngIf="usernameControl?.errors?.['isUserExist']"
+        >Такой пользователь уже существует</span
+      >
+    </mat-form-field>
+    <mat-form-field>
+      <mat-label> Введите пароль:</mat-label>
+      <input
+        matInput
+        type="password"
+        class="form__input"
+        formControlName="password"
+      />
+      <span
+        class="form__error"
+        *ngIf="passwordControl?.errors?.['isPasswordValid']"
+        >Неверный пароль</span
+      >
+    </mat-form-field>
+    <mat-form-field>
+      <mat-label> Введите новый пароль:</mat-label>
+      <input
+        matInput
+        type="password"
+        class="form__input"
+        formControlName="confirmPassword"
+      />
+      <span
+        class="form__error"
+        *ngIf="confirmPasswordControl?.errors?.['minlength']"
+        >Минимальная длина 8 символов</span
+      >
+      <span
+        class="form__error"
+        *ngIf="confirmPasswordControl?.errors?.['maxlength']"
+        >Максимальная длина 20 символов</span
+      >
+    </mat-form-field>
+    <button
+      class="form__btn"
+      type="submit"
+      (click)="changeUserData()"
+      [disabled]="
+      changeUserDataForm.invalid ||
+      changeUserDataForm.pending ||
+      !changeUserDataForm.touched ||
+      confirmPasswordControl?.errors?.['minlength'] ||
+      usernameControl?.errors?.['minlength'] ||
+      isFormValid()"
+    >
+      Подтвердить
+    </button>
+    <button mat-raised-button color="warn" (click)="deleteUser()">
+      Удалить свой аккаунт
+    </button>
+  </form>
+</div>

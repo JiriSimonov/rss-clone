@@ -1,0 +1,42 @@
+.header {
+  padding: 10px 0;
+  border-bottom: 2px solid #382756;
+  background-color: #1b1a20;
+  &__wrapper {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+  }
+
+  &__btn {
+    margin-left: auto;
+  }
+}
+
+.logo {
+  user-select: none;
+  transition: 0.3s linear;
+  &__text {
+    font-size: 24px;
+    color: #58c2bd;
+    text-transform: uppercase;
+
+    &_purple,
+    &_red {
+      text-transform: none;
+    }
+
+    &_purple {
+      color: #382756;
+    }
+
+    &_red {
+      color: #bf437a;
+    }
+  }
+
+  &:hover,
+  &:focus {
+    opacity: 0.7;
+  }
+}
