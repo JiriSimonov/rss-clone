@@ -14,9 +14,9 @@ export class GameJoinedUsersComponent implements OnInit, OnDestroy {
   isClosed: boolean = false;
   players$ = this.gameService.players$;
   isOwner$ = this.gameService.isOwner$;
-  @Input() gameId: string = '';
   private leaveSubs = new Subscription();
   private joinSubs = new Subscription();
+  @Input() gameId: string = '';
 
   constructor(
     private gameService: GameService,

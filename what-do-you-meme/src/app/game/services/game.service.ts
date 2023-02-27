@@ -93,7 +93,9 @@ export class GameService {
   )
 
   private playerCards$$ = new BehaviorSubject<string[]>([])
-  public playerCards$ = this.playerCards$$.asObservable();
+  public playerCards$ = this.playerCards$$.asObservable().pipe(
+    distinctUntilChanged(),
+  )
   constructor(private http: HttpClient, private socket: Socket, private authService: AuthService) { }
 
   changeGameData(newData: GameCurrentData) {

@@ -22,7 +22,8 @@ export class GamePageComponent implements OnInit, OnDestroy {
   private errorSubs = new Subscription();
   private changeSubs = new Subscription();
   private ownerSubs = new Subscription();
-  gameData$ = this.gameService.gameData$;
+  private connectSubs = new Subscription();
+  public gameData$ = this.gameService.gameData$;
 
   constructor(
     public gameService: GameService,
@@ -42,9 +43,12 @@ export class GamePageComponent implements OnInit, OnDestroy {
     }
 
     this.lobbyRequests.joinLobbyRequest(this.gameId);
-    this.socket.fromEvent('connect').subscribe(() => {
-      this.lobbyRequests.joinLobbyRequest(this.gameId);
-    });
+
+    this.connectSubs.add(
+      this.socket.fromEvent('connect').subscribe(() => {
+        this.lobbyRequests.joinLobbyRequest(this.gameId);
+      })
+    )
 
     this.ownerSubs.add(
       this.gameService.isUserOwner(this.gameId)
@@ -113,5 +117,6 @@ export class GamePageComponent implements OnInit, OnDestroy {
     this.changeSubs.unsubscribe();
     this.errorSubs.unsubscribe();
     this.ownerSubs.unsubscribe();
+    this.connectSubs.unsubscribe();
   }
 }

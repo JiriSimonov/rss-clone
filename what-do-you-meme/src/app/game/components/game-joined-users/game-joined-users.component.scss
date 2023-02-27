@@ -4,6 +4,12 @@
 
 .players {
   padding: 30px 0;
+
+  &__buttons {
+    display: flex;
+    flex-direction: column;
+    gap: 15px;
+  }
 }
 
 .players__list-item {
