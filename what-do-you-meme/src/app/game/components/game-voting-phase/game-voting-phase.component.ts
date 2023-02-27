@@ -19,7 +19,6 @@ export class GameVotingPhaseComponent {
   }
 
   sendVote(uuid: string, vote: string) {
-    console.log(uuid);
     this.gameService.sendVote(uuid, vote);
   }
 }

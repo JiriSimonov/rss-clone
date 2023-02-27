@@ -5,6 +5,12 @@
 .players {
   padding: 30px 0;
 
+  &__list {
+    display: flex;
+    flex-direction: column;
+    gap: 5px;
+  }
+
   &__buttons {
     display: flex;
     flex-direction: column;

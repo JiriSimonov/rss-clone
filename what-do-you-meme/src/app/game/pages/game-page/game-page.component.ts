@@ -77,7 +77,6 @@ export class GamePageComponent implements OnInit, OnDestroy {
   }
 
   loadPhase(gameData: GameCurrentData) {
-    console.log(gameData.phase, gameData);
     this.modal.closeAll();
     this.gameService.changeGameData(gameData);
 

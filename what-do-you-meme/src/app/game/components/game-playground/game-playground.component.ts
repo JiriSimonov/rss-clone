@@ -71,7 +71,6 @@ export class GamePlaygroundComponent implements OnDestroy {
   }
 
   ngOnDestroy() {
-    console.log(0);
     this.rotateSubs.unsubscribe();
   }
 }

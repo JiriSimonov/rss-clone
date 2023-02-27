@@ -76,7 +76,6 @@ export class LobbyService {
   }
 
   createLobby(options: createLobby) {
-    console.log(options);
     this.socket.emit(
       IoInput.createLobbyRequest,
       {lobby: options},

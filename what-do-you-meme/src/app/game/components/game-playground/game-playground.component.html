@@ -46,8 +46,8 @@
         [RotationDegree]="rotateMemeCard(i)"
         [distance]="calcDistance(i, (playerCards$ | async))"
         cdkDrag
-        [cdkDragDisabled]="usedMemes.length !== 0"
         (cdkDragExited)="onDragExited(i, playerCards, usedMemes)"
+        [cdkDragDisabled]="usedMemes.length !== 0"
       />
     </div>
   </div>

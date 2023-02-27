@@ -11,7 +11,6 @@ type ChoiceList = {
   [choiceOption: string]: string[];
 }
 
-
 export interface Player {
   username: string;
   score: number;

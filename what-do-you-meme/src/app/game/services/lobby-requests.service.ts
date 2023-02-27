@@ -35,13 +35,11 @@ export class LobbyRequestsService {
   }
 
   leaveLobbyRequest(uuid: string) {
-    return this.socket.emit(IoInput.leaveLobbyRequest, { uuid }, (data: any) => {
-      console.log(data);
-    });
+    return this.socket.emit(IoInput.leaveLobbyRequest, { uuid });
   }
 
   destroyLobbyRequest(uuid: string) {
-    return this.socket.emit(IoInput.destroyLobbyRequest, { uuid }, console.log);
+    return this.socket.emit(IoInput.destroyLobbyRequest, { uuid });
   }
 
   deleteLobbyEvent() {
