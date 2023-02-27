@@ -5,7 +5,7 @@ import { BehaviorSubject, distinctUntilChanged } from 'rxjs';
 import { IoInput, IoOutput } from 'src/app/shared/model/sockets-events';
 import { GameCurrentData } from '../models/game.model';
 import { ConfigService } from "../../shared/services/config/config.service";
-import { map } from "rxjs/operators";
+import { map, tap } from "rxjs/operators";
 import { AuthService } from 'src/app/auth/services/auth.service';
 
 const initialGameState: GameCurrentData = {
@@ -29,11 +29,13 @@ const initialGameState: GameCurrentData = {
 export class GameService {
   private readonly URL = ConfigService.SERVER_URL;
   usedMeme: string[] = [];
-  isOwner$$ = new BehaviorSubject<boolean>(false);
+  isOwner$$ = new BehaviorSubject(false);
   isOwner$ = this.isOwner$$.asObservable();
 
   private gameData$$ = new BehaviorSubject<GameCurrentData>(initialGameState);
-  public gameData$ = this.gameData$$.asObservable();
+  public gameData$ = this.gameData$$.asObservable().pipe(
+    distinctUntilChanged(),
+  );
   public players$ = this.gameData$.pipe(
     map((gameData: GameCurrentData) => {
       return gameData.players
@@ -65,7 +67,8 @@ export class GameService {
   public situation$ = this.gameData$.pipe(
     map((gameData: GameCurrentData) => {
       return gameData.situation;
-    })
+    }),
+    distinctUntilChanged(),
   );
 
   public phase$ = this.gameData$.pipe(
@@ -79,16 +82,20 @@ export class GameService {
     map((gameData: GameCurrentData) => {
       return gameData.situationOptions;
     }),
+    distinctUntilChanged(),
   )
 
   public situations$ = this.gameData$.pipe(
     map((gameData: GameCurrentData) => {
       return gameData.situations;
     }),
+    distinctUntilChanged(),
   )
 
   private playerCards$$ = new BehaviorSubject<string[]>([])
-  public playerCards$ = this.playerCards$$.asObservable();
+  public playerCards$ = this.playerCards$$.asObservable().pipe(
+    distinctUntilChanged(),
+  )
   constructor(private http: HttpClient, private socket: Socket, private authService: AuthService) { }
 
   changeGameData(newData: GameCurrentData) {
@@ -128,12 +135,13 @@ export class GameService {
   }
 
   isUserOwner(uuid: string) {
-    this.authService.username$.subscribe((username) => {
+    return this.authService.username$.subscribe(((username) => {
       if (username) {
         this.isLobbyOwner(username, uuid).subscribe((value) => {
           this.isOwner$$.next(value);
         })
       }
     })
+    )
   }
 }

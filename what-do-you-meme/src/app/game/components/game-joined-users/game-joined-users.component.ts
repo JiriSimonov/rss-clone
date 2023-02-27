@@ -13,14 +13,16 @@ import { LobbyRequestsService } from "../../services/lobby-requests.service";
 export class GameJoinedUsersComponent implements OnInit, OnDestroy {
   isClosed: boolean = false;
   players$ = this.gameService.players$;
-  @Input() uuid: string = '';
+  isOwner$ = this.gameService.isOwner$;
   private leaveSubs = new Subscription();
   private joinSubs = new Subscription();
+  private deleteLobbySubs = new Subscription();
+  @Input() gameId: string = '';
 
   constructor(
     private gameService: GameService,
     private lobbyRequests: LobbyRequestsService,
-    private router: Router
+    private router: Router,
   ) { }
 
   ngOnInit() {
@@ -35,19 +37,32 @@ export class GameJoinedUsersComponent implements OnInit, OnDestroy {
         this.gameService.changeGameData(gameData);
       })
     );
+
+    this.deleteLobbySubs.add(
+      this.lobbyRequests.deleteLobbyEvent().subscribe((uuid: string) => {
+        if (uuid === this.gameId) {
+          this.leaveLobby();
+        }
+      })
+    );
   }
 
   togglePlayers() {
     this.isClosed = !this.isClosed;
   }
 
+  destroyLobby() {
+    this.lobbyRequests.destroyLobbyRequest(this.gameId);
+  }
+
   leaveLobby() {
-    this.lobbyRequests.leaveLobbyRequest(this.uuid);
+    this.lobbyRequests.leaveLobbyRequest(this.gameId);
     this.router.navigate(['lobbies'], { replaceUrl: true }).catch();
   }
 
-  ngOnDestroy(): void {
+  ngOnDestroy() {
     this.leaveSubs.unsubscribe();
     this.joinSubs.unsubscribe();
+    this.deleteLobbySubs.unsubscribe();
   }
 }

@@ -7,8 +7,9 @@ import { LobbyRequestsService } from "../../services/lobby-requests.service";
 import { MatDialog } from '@angular/material/dialog';
 import { GameVotingPhaseComponent } from '../../components/game-voting-phase/game-voting-phase.component';
 import { GameVotingResultsPhaseComponent } from '../../components/game-voting-results-phase/game-voting-results-phase.component';
-import { distinctUntilChanged, map, Subscription } from 'rxjs';
+import { distinctUntilChanged, first, map, Subscription, take } from 'rxjs';
 import { GameChooseSituationPhaseComponent } from '../../components/game-choose-situation-phase/game-choose-situation-phase.component';
+import { Socket } from 'ngx-socket-io';
 
 @Component({
   selector: 'app-game-page',
@@ -20,6 +21,9 @@ export class GamePageComponent implements OnInit, OnDestroy {
   private gameSubs = new Subscription();
   private errorSubs = new Subscription();
   private changeSubs = new Subscription();
+  private ownerSubs = new Subscription();
+  private connectSubs = new Subscription();
+  public gameData$ = this.gameService.gameData$;
 
   constructor(
     public gameService: GameService,
@@ -28,26 +32,35 @@ export class GamePageComponent implements OnInit, OnDestroy {
     private sessionStorage: SessionStorageService,
     private lobbyRequests: LobbyRequestsService,
     private modal: MatDialog,
+    private socket: Socket,
   ) {
     this.gameId = this.activateRoute.snapshot.params['id'];
   }
 
   ngOnInit() {
-    this.lobbyRequests.leaveLobbyRequest(this.gameId);
-    this.lobbyRequests.joinLobbyRequest(this.gameId);
-    this.sessionStorage.setItem('url', this.router.url.replace('/game/', ''));
+    if (!SessionStorageService.previousGameUrl) {
+      this.lobbyRequests.leaveLobbyRequest(this.gameId);
+    }
 
-    const gameData$ = this.gameService.gameData$.pipe(
-      map((gameData: GameCurrentData) => {
-        return gameData;
-      }),
-      distinctUntilChanged(),
+    this.lobbyRequests.joinLobbyRequest(this.gameId);
+
+    this.connectSubs.add(
+      this.socket.fromEvent('connect').subscribe(() => {
+        this.lobbyRequests.joinLobbyRequest(this.gameId);
+      })
+    )
+
+    this.ownerSubs.add(
+      this.gameService.isUserOwner(this.gameId)
     );
 
     this.gameSubs.add(
-      gameData$.subscribe((data) => this.loadPhase(data))
+      this.gameData$.subscribe((data) => {
+        this.loadPhase(data);
+      }),
     );
 
+    this.sessionStorage.setItem('url', this.router.url.replace('/game/', ''));
     this.errorSubs.add(
       this.lobbyRequests.errorSocketEvent().subscribe((err) => {
         console.log(err);
@@ -56,13 +69,14 @@ export class GamePageComponent implements OnInit, OnDestroy {
 
     this.changeSubs.add(
       this.lobbyRequests.changePhaseEvent().subscribe((gameData: GameCurrentData) => {
+        this.connectSubs.unsubscribe();
+        this.gameSubs.unsubscribe();
         this.loadPhase(gameData);
       })
     );
   }
 
   loadPhase(gameData: GameCurrentData) {
-    console.log(gameData.phase, gameData);
     this.modal.closeAll();
     this.gameService.changeGameData(gameData);
 
@@ -92,6 +106,9 @@ export class GamePageComponent implements OnInit, OnDestroy {
           minHeight: '300px',
         });
         break
+
+      case GameStatus.End:
+        this.modal.closeAll();
     }
   }
 
@@ -99,5 +116,7 @@ export class GamePageComponent implements OnInit, OnDestroy {
     this.gameSubs.unsubscribe();
     this.changeSubs.unsubscribe();
     this.errorSubs.unsubscribe();
+    this.ownerSubs.unsubscribe();
+    this.connectSubs.unsubscribe();
   }
 }

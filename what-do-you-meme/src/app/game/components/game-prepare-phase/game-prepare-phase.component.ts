@@ -1,6 +1,5 @@
-import { Component, OnDestroy, OnInit } from '@angular/core';
+import { Component } from '@angular/core';
 import { ActivatedRoute } from '@angular/router';
-import { Observable, Subscription } from 'rxjs';
 import { GameService } from '../../services/game.service';
 import { LobbyRequestsService } from '../../services/lobby-requests.service';
 
@@ -9,10 +8,9 @@ import { LobbyRequestsService } from '../../services/lobby-requests.service';
   templateUrl: './game-prepare-phase.component.html',
   styleUrls: ['./game-prepare-phase.component.scss']
 })
-export class GamePreparePhaseComponent implements OnInit, OnDestroy {
+export class GamePreparePhaseComponent {
   gameId: string;
-  isOwner$: Observable<boolean> = this.gameService.isOwner$;
-  private ownerSubs = new Subscription();
+  isOwner$ = this.gameService.isOwner$;
 
   constructor(
     private lobbyService: LobbyRequestsService,
@@ -22,18 +20,7 @@ export class GamePreparePhaseComponent implements OnInit, OnDestroy {
     this.gameId = activatedRoute.snapshot.params['id'];
   }
 
-  ngOnInit() {
-    this.ownerSubs.add(
-      this.gameService.isUserOwner(this.gameId)
-    )
-
-  }
-
   startGame() {
     this.lobbyService.changePhaseRequest(this.gameId);
-  }
-
-  ngOnDestroy(): void {
-    this.ownerSubs.unsubscribe();
   }
 }

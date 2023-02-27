@@ -1,10 +1,10 @@
 import { Injectable } from '@angular/core';
-import {Socket} from "ngx-socket-io";
-import {IoInput, IoOutput} from "../../shared/model/sockets-events";
-import {Observable} from "rxjs";
-import {GameCurrentData} from "../models/game.model";
-import {GameService} from "./game.service";
-import {SessionStorageService} from "../../shared/storage/services/session-storage.service";
+import { Socket } from "ngx-socket-io";
+import { IoInput, IoOutput } from "../../shared/model/sockets-events";
+import { Observable } from "rxjs";
+import { GameCurrentData } from "../models/game.model";
+import { GameService } from "./game.service";
+import { SessionStorageService } from "../../shared/storage/services/session-storage.service";
 
 @Injectable({
   providedIn: 'root'
@@ -36,6 +36,14 @@ export class LobbyRequestsService {
 
   leaveLobbyRequest(uuid: string) {
     return this.socket.emit(IoInput.leaveLobbyRequest, { uuid });
+  }
+
+  destroyLobbyRequest(uuid: string) {
+    return this.socket.emit(IoInput.destroyLobbyRequest, { uuid });
+  }
+
+  deleteLobbyEvent() {
+    return this.socket.fromEvent<string>(IoOutput.deleteLobby);
   }
 
   changePhaseEvent(): Observable<GameCurrentData> {

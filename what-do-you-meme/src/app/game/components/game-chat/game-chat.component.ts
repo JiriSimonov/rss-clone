@@ -34,7 +34,9 @@ export class GameChatComponent implements OnInit, OnDestroy {
 
     this.getMessageSubs.add(
       this.chatService.getMessage().subscribe((message) => {
-        this.chatMessages$$.next([...this.chatMessages$$.value, message]);
+        if (message.room === this.gameId) {
+          this.chatMessages$$.next([...this.chatMessages$$.value, message]);
+        }
       }),
     )
   }
@@ -46,7 +48,7 @@ export class GameChatComponent implements OnInit, OnDestroy {
   onSubmit() {
     this.chatService.sendMessage({
       message: this.chatControl?.value,
-      roomName: this.gameId,
+      room: this.gameId,
     });
     this.chatControl?.setValue('');
   }

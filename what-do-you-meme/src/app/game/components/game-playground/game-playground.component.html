@@ -6,6 +6,7 @@
       <div class="playground__info-rounds">Pаунд {{currentRound$ | async}}</div>
         <button class="form__btn playground__info-btn"
           (click)="ready()"
+          [disabled]="!this.usedMemes.length"
           >Готов</button>
       </div>
 
@@ -19,23 +20,23 @@
     <div class="playground__chosen"
       cdkDropList
       #usedMeme="cdkDropList"
-      [cdkDropListData]="gameService.usedMeme"
+      [cdkDropListData]="usedMemes"
       [cdkDropListConnectedTo]="[memesCardsList]"
       >
 
       <app-meme-card
-        *ngFor='let memeImage of gameService.usedMeme; index as i'
+        *ngFor='let memeImage of usedMemes; index as i'
         [memeImage]="memeImage"
         cdkDrag
         (cdkDragExited)="onDragExited(
-        i, gameService.usedMeme, playerCards)"
+        i, usedMemes, playerCards)"
         />
     </div>
 
     <div class="meme-cards"
       cdkDropList
       #memesCardsList="cdkDropList"
-      [cdkDropListData]="playerCards"
+      [cdkDropListData]="playerCards$ | async"
       [cdkDropListConnectedTo]="[usedMeme]"
       >
 
@@ -43,11 +44,10 @@
         *ngFor='let playerCard of (playerCards$ | async); index as i'
         [memeImage]="playerCard"
         [RotationDegree]="rotateMemeCard(i)"
-        [distance]="calcDistance(i, playerCards)"
+        [distance]="calcDistance(i, (playerCards$ | async))"
         cdkDrag
-        [cdkDragDisabled]="gameService.usedMeme.length !== 0"
-        (cdkDragExited)="onDragExited(
-        i, playerCards, gameService.usedMeme)"
+        (cdkDragExited)="onDragExited(i, playerCards, usedMemes)"
+        [cdkDragDisabled]="usedMemes.length !== 0"
       />
     </div>
   </div>

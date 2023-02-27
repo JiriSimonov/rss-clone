@@ -11,6 +11,9 @@
         <span class="players__list-item-score">{{player.score}}</span>
       </li>
     </ul>
-    <button class="form__btn players__btn" (click)="leaveLobby()">Покинуть</button>
+    <div class="players__buttons">
+      <button class="form__btn players__btn" (click)="leaveLobby()">Покинуть</button>
+      <button class="form__btn players__btn" (click)="destroyLobby()" *ngIf="(isOwner$ | async)">Удалить лобби</button>
+    </div>
   </div>
 </aside>

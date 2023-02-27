@@ -1,6 +1,5 @@
 import { Component, Input, OnDestroy, OnInit } from '@angular/core';
 import { Router } from '@angular/router';
-import { Observable, Subscription } from 'rxjs';
 import { GameService } from '../../services/game.service';
 import { LobbyRequestsService } from '../../services/lobby-requests.service';
 
@@ -9,22 +8,15 @@ import { LobbyRequestsService } from '../../services/lobby-requests.service';
   templateUrl: './game-ending-phase.component.html',
   styleUrls: ['./game-ending-phase.component.scss']
 })
-export class GameEndingPhaseComponent implements OnInit, OnDestroy {
+export class GameEndingPhaseComponent {
   @Input() gameId: string = '';
-  isOwner$: Observable<boolean> = this.gameService.isOwner$;
-  private ownerSubs = new Subscription();
+  isOwner$ = this.gameService.isOwner$;
 
   constructor(
     private lobbyRequestService: LobbyRequestsService,
     private router: Router,
     private gameService: GameService,
   ) { }
-
-  ngOnInit(): void {
-    this.ownerSubs.add(
-      this.gameService.isUserOwner(this.gameId)
-    )
-  }
 
   leaveLobby() {
     this.lobbyRequestService.leaveLobbyRequest(this.gameId);
@@ -33,9 +25,5 @@ export class GameEndingPhaseComponent implements OnInit, OnDestroy {
 
   playAgain() {
     this.lobbyRequestService.changePhaseRequest(this.gameId);
-  }
-
-  ngOnDestroy(): void {
-    this.ownerSubs.unsubscribe();
   }
 }

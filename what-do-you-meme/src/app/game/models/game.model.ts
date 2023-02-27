@@ -19,13 +19,20 @@ export interface Player {
   vote: string;
 }
 
+type SituationChoice = {
+  [situationOpion: string]: {
+    username: string;
+    image: string;
+  }[];
+}
+
 export interface GameCurrentData {
   mode: string;
   phase: string;
   currentRound: number;
   situation: string;
   situationOptions: string[];
-  situations: ChoiceList;
+  situations: SituationChoice;
   players: Player[];
   changePhaseDate: number;
   memes: ChoiceList;
