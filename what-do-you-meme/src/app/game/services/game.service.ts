@@ -5,9 +5,8 @@ import { BehaviorSubject, distinctUntilChanged } from 'rxjs';
 import { IoInput, IoOutput } from 'src/app/shared/model/sockets-events';
 import { GameCurrentData } from '../models/game.model';
 import { ConfigService } from "../../shared/services/config/config.service";
-import { distinct, map } from "rxjs/operators";
+import { map, tap } from "rxjs/operators";
 import { AuthService } from 'src/app/auth/services/auth.service';
-import { discardPeriodicTasks } from '@angular/core/testing';
 
 const initialGameState: GameCurrentData = {
   changePhaseDate: 0,
@@ -30,11 +29,13 @@ const initialGameState: GameCurrentData = {
 export class GameService {
   private readonly URL = ConfigService.SERVER_URL;
   usedMeme: string[] = [];
-  isOwner$$ = new BehaviorSubject<boolean>(false);
+  isOwner$$ = new BehaviorSubject(false);
   isOwner$ = this.isOwner$$.asObservable();
 
   private gameData$$ = new BehaviorSubject<GameCurrentData>(initialGameState);
-  public gameData$ = this.gameData$$.asObservable();
+  public gameData$ = this.gameData$$.asObservable().pipe(
+    distinctUntilChanged(),
+  );
   public players$ = this.gameData$.pipe(
     map((gameData: GameCurrentData) => {
       return gameData.players
@@ -132,12 +133,13 @@ export class GameService {
   }
 
   isUserOwner(uuid: string) {
-    this.authService.username$.subscribe((username) => {
+    return this.authService.username$.subscribe(((username) => {
       if (username) {
         this.isLobbyOwner(username, uuid).subscribe((value) => {
           this.isOwner$$.next(value);
         })
       }
     })
+    )
   }
 }

@@ -9,6 +9,7 @@ import { GameVotingPhaseComponent } from '../../components/game-voting-phase/gam
 import { GameVotingResultsPhaseComponent } from '../../components/game-voting-results-phase/game-voting-results-phase.component';
 import { distinctUntilChanged, first, map, Subscription, take } from 'rxjs';
 import { GameChooseSituationPhaseComponent } from '../../components/game-choose-situation-phase/game-choose-situation-phase.component';
+import { Socket } from 'ngx-socket-io';
 
 @Component({
   selector: 'app-game-page',
@@ -20,6 +21,8 @@ export class GamePageComponent implements OnInit, OnDestroy {
   private gameSubs = new Subscription();
   private errorSubs = new Subscription();
   private changeSubs = new Subscription();
+  private ownerSubs = new Subscription();
+  gameData$ = this.gameService.gameData$;
 
   constructor(
     public gameService: GameService,
@@ -28,6 +31,7 @@ export class GamePageComponent implements OnInit, OnDestroy {
     private sessionStorage: SessionStorageService,
     private lobbyRequests: LobbyRequestsService,
     private modal: MatDialog,
+    private socket: Socket,
   ) {
     this.gameId = this.activateRoute.snapshot.params['id'];
   }
@@ -38,21 +42,21 @@ export class GamePageComponent implements OnInit, OnDestroy {
     }
 
     this.lobbyRequests.joinLobbyRequest(this.gameId);
-    this.sessionStorage.setItem('url', this.router.url.replace('/game/', ''));
+    this.socket.fromEvent('connect').subscribe(() => {
+      this.lobbyRequests.joinLobbyRequest(this.gameId);
+    });
 
-    const gameData$ = this.gameService.gameData$.pipe(
-      map((gameData: GameCurrentData) => {
-        return gameData;
-      }),
-      distinctUntilChanged(),
+    this.ownerSubs.add(
+      this.gameService.isUserOwner(this.gameId)
     );
+
     this.gameSubs.add(
-      gameData$.subscribe((data) => {
-        console.log('load after init subs');
+      this.gameData$.subscribe((data) => {
         this.loadPhase(data);
       }),
     );
 
+    this.sessionStorage.setItem('url', this.router.url.replace('/game/', ''));
     this.errorSubs.add(
       this.lobbyRequests.errorSocketEvent().subscribe((err) => {
         console.log(err);
@@ -98,6 +102,9 @@ export class GamePageComponent implements OnInit, OnDestroy {
           minHeight: '300px',
         });
         break
+
+      case GameStatus.End:
+        this.modal.closeAll();
     }
   }
 
@@ -105,5 +112,6 @@ export class GamePageComponent implements OnInit, OnDestroy {
     this.gameSubs.unsubscribe();
     this.changeSubs.unsubscribe();
     this.errorSubs.unsubscribe();
+    this.ownerSubs.unsubscribe();
   }
 }
