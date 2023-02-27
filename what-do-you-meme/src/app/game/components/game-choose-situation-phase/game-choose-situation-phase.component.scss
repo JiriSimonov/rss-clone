@@ -19,11 +19,17 @@
 
     &-votes {
       margin-top: 10px;
+      display: flex;
+      flex-direction: column;
+      gap: 10px;
     }
 
     &-vote {
       color: #fff;
       font-size: 18px;
+      display: flex;
+      gap: 10px;
+      align-items: center;
     }
   }
 }
