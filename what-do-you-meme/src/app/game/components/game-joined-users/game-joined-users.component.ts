@@ -16,6 +16,7 @@ export class GameJoinedUsersComponent implements OnInit, OnDestroy {
   isOwner$ = this.gameService.isOwner$;
   private leaveSubs = new Subscription();
   private joinSubs = new Subscription();
+  private deleteLobbySubs = new Subscription();
   @Input() gameId: string = '';
 
   constructor(
@@ -30,9 +31,18 @@ export class GameJoinedUsersComponent implements OnInit, OnDestroy {
         this.gameService.changeGameData(gameData);
       })
     );
+
     this.joinSubs.add(
       this.lobbyRequests.joinLobbyEvent().subscribe((gameData: GameCurrentData) => {
         this.gameService.changeGameData(gameData);
+      })
+    );
+
+    this.deleteLobbySubs.add(
+      this.lobbyRequests.deleteLobbyEvent().subscribe((uuid: string) => {
+        if (uuid === this.gameId) {
+          this.leaveLobby();
+        }
       })
     );
   }
@@ -53,5 +63,6 @@ export class GameJoinedUsersComponent implements OnInit, OnDestroy {
   ngOnDestroy() {
     this.leaveSubs.unsubscribe();
     this.joinSubs.unsubscribe();
+    this.deleteLobbySubs.unsubscribe();
   }
 }

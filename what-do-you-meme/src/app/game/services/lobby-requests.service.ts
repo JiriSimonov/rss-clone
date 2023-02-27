@@ -44,10 +44,13 @@ export class LobbyRequestsService {
     return this.socket.emit(IoInput.destroyLobbyRequest, { uuid }, console.log);
   }
 
+  deleteLobbyEvent() {
+    return this.socket.fromEvent<string>(IoOutput.deleteLobby);
+  }
+
   changePhaseEvent(): Observable<GameCurrentData> {
     return this.socket.fromEvent<GameCurrentData>(IoOutput.changePhase);
   }
-
 
   errorSocketEvent() {
     return this.socket.fromEvent('error');

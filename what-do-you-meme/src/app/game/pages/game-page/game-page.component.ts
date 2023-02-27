@@ -69,6 +69,7 @@ export class GamePageComponent implements OnInit, OnDestroy {
 
     this.changeSubs.add(
       this.lobbyRequests.changePhaseEvent().subscribe((gameData: GameCurrentData) => {
+        this.connectSubs.unsubscribe();
         this.gameSubs.unsubscribe();
         this.loadPhase(gameData);
       })
